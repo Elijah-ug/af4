@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
+  // output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -8,42 +8,48 @@ datasource db {
 }
 
 model Admin {
-  id         Int       @id @default(autoincrement())
-  name       String?
-  username   String    @unique
-  email      String    @unique
-  password   String
-  bio        String?
-  profilePic String?
-  location   String?
-  status     String    @default("inactive")
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  verifiedAt DateTime?
-  users      User[]
-  updates    Update[]
+  id          Int           @id @default(autoincrement())
+  name        String?
+  username    String        @unique
+  email       String        @unique
+  role        String        @default("ordinary")
+  password    String
+  bio         String?
+  profilePic  String?
+  location    String?
+  status      String        @default("inactive")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  verifiedAt  DateTime?
+  users       User[]
+  updates     Update[]
+  messages    Message[]
+  userQueries UserQueries[]
 }
 
 model User {
-  id          Int        @id @default(autoincrement())
-  name        String?
-  username    String     @unique
-  email       String     @unique
-  password    String
-  gender      String?
-  dateOfBirth DateTime?
-  bio         String?
-  profilePic  String?
-  galary      UserPic[]
-  location    String?
-  interests   String[] // Prisma supports arrays in Postgres
-  status      String     @default("inactive")
-  admin       Admin      @relation(fields: [adminId], references: [id])
-  adminId     Int
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  verifiedAt  DateTime?
-  posts       UserPost[]
+  id               Int           @id @default(autoincrement())
+  name             String?
+  username         String        @unique
+  email            String        @unique
+  password         String
+  gender           String?
+  dateOfBirth      DateTime?
+  bio              String?
+  profilePic       String?
+  galary           UserPic[]
+  location         String?
+  interests        String[] // Prisma supports arrays in Postgres
+  status           String        @default("inactive")
+  admin            Admin         @relation(fields: [adminId], references: [id])
+  adminId          Int
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  verifiedAt       DateTime?
+  posts            UserPost[]
+  sentMessages     Message[]     @relation("SentMessages")
+  receivedMessages Message[]     @relation("ReceivedMessages")
+  userQueries      UserQueries[]
 }
 
 model Update {
@@ -73,4 +79,27 @@ model UserPost {
   info      String
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+}
+
+model Message {
+  id            Int    @id @default(autoincrement())
+  content       String
+  sender        User   @relation("SentMessages", fields: [senderId], references: [id])
+  senderId      Int
+  receiver      User   @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId    Int
+  adminSender   Admin  @relation(fields: [adminSenderId], references: [id])
+  adminSenderId Int
+}
+
+model UserQueries {
+  id            Int     @id @default(autoincrement())
+  name          String
+  email         String
+  subject       String?
+  message       String
+  sender        User    @relation(fields: [senderId], references: [id])
+  senderId      Int
+  receiverAdmin Admin   @relation(fields: [adminId], references: [id])
+  adminId       Int
 }

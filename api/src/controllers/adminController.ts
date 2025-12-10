@@ -1,8 +1,12 @@
 import type { Request, Response } from "express";
+import { prisma } from "../config/db.js";
 
 export const store = async (req: Request, res: Response) => {
   try {
     console.log("connected store admin");
+    const { name, username, email, role, password } = req.body;
+    const admin = await prisma
+    // console.log("Created here==>", admin);
     return res.status(200).json({ message: "store Admin" });
   } catch (error) {
     if (error instanceof Error) {
@@ -17,7 +21,7 @@ export const store = async (req: Request, res: Response) => {
 export const index = async (req: Request, res: Response) => {
   try {
     console.log("connected index admin");
-    return res.status(200).json({ message: "index Admin" });
+    return res.status(200).json({ message: "index Admin (all)" });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
@@ -31,7 +35,7 @@ export const index = async (req: Request, res: Response) => {
 export const show = async (req: Request, res: Response) => {
   try {
     console.log("connected show admin");
-    return res.status(200).json({ message: "show Admin" });
+    return res.status(200).json({ message: "show single Admin" });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
