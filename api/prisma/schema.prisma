@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -8,41 +7,37 @@ datasource db {
 }
 
 model Admin {
-  id          Int           @id @default(autoincrement())
-  name        String?
-  username    String        @unique
-  email       String        @unique
-  role        String        @default("ordinary")
-  password    String
-  bio         String?
-  profilePic  String?
-  location    String?
-  status      String        @default("inactive")
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  verifiedAt  DateTime?
-  users       User[]
-  updates     Update[]
-  messages    Message[]
-  userQueries UserQueries[]
+  id         Int       @id @default(autoincrement())
+  name       String
+  username   String?   @unique
+  email      String    @unique
+  role       String    @default("ordinary")
+  password   String
+  profilePic String?
+  location   String?
+  status     String    @default("inactive")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  verifiedAt DateTime?
+  isDeleted  Boolean   @default(false)
+  deletedAt  DateTime?
 }
 
 model User {
   id               Int           @id @default(autoincrement())
-  name             String?
-  username         String        @unique
+  name             String
+  username         String?       @unique
   email            String        @unique
   password         String
-  gender           String?
-  dateOfBirth      DateTime?
+  gender           String
+  dateOfBirth      String
+  age              Int?
   bio              String?
   profilePic       String?
   galary           UserPic[]
   location         String?
   interests        String[] // Prisma supports arrays in Postgres
   status           String        @default("inactive")
-  admin            Admin         @relation(fields: [adminId], references: [id])
-  adminId          Int
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   verifiedAt       DateTime?
@@ -50,16 +45,18 @@ model User {
   sentMessages     Message[]     @relation("SentMessages")
   receivedMessages Message[]     @relation("ReceivedMessages")
   userQueries      UserQueries[]
+  isDeleted        Boolean       @default(false)
+  deletedAt        DateTime?
 }
 
 model Update {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
   tag       String
   info      String
-  admin     Admin    @relation(fields: [adminId], references: [id])
-  adminId   Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 model UserPic {
@@ -72,34 +69,36 @@ model UserPic {
 }
 
 model UserPost {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   tag       String
   info      String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   userId    Int
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 model Message {
-  id            Int    @id @default(autoincrement())
-  content       String
-  sender        User   @relation("SentMessages", fields: [senderId], references: [id])
-  senderId      Int
-  receiver      User   @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  receiverId    Int
-  adminSender   Admin  @relation(fields: [adminSenderId], references: [id])
-  adminSenderId Int
+  id         Int       @id @default(autoincrement())
+  content    String
+  sender     User      @relation("SentMessages", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId Int
+  isDeleted  Boolean   @default(false)
+  deletedAt  DateTime?
 }
 
 model UserQueries {
-  id            Int     @id @default(autoincrement())
-  name          String
-  email         String
-  subject       String?
-  message       String
-  sender        User    @relation(fields: [senderId], references: [id])
-  senderId      Int
-  receiverAdmin Admin   @relation(fields: [adminId], references: [id])
-  adminId       Int
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  sender    User      @relation(fields: [senderId], references: [id])
+  senderId  Int
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }

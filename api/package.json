@@ -4,26 +4,31 @@
   "description": "d-app",
   "license": "ISC",
   "author": "AfroBlocks",
-  "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemone index.ts"
+    "dev": "nodemone --exc ts-node --files ./src/index.ts"
   },
   "devDependencies": {
+    "@prisma/client": "^7.1.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.1",
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@prisma/client": "^7.1.0",
+    "@prisma/adapter-pg": "^7.1.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "prisma": "^7.1.0"
+    "pg": "^8.16.3",
+    "zod": "^4.1.13"
   }
 }

@@ -1,12 +1,28 @@
 import type { Request, Response } from "express";
+import { validateUserOnReg } from "../utils/validate";
+import { getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
+import { prisma } from "../config/db";
 
 export const store = async (req: Request, res: Response) => {
   try {
-    console.log("connected store user");
-    return res.status(200).json({ message: "store user" });
+    const parsed = validateUserOnReg.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
+    const { password, dateOfBirth } = parsed.data;
+    const userAge = getAge(dateOfBirth);
+    if (userAge <= 18) return res.status(400).json({ message: "Under age" });
+    const pwd = await hashpwd(password);
+    console.log(pwd, typeof pwd);
+    const user = await prisma.user.create({
+      data: { ...parsed.data, password: pwd, age: userAge },
+    });
+    const newUser = safeUser(user);
+    const payload = { id: newUser.id, email: newUser.email };
+    const token = jwtToken(payload);
+    console.log("Created user==>", newUser);
+    return res.status(200).json({ message: "store user", newUser, token });
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error);
+      console.log(error.message);
       res.status(500).json({ error: error.message });
     } else {
       res.status(500).json({ error: "Unknown error" });

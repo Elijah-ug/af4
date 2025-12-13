@@ -1,5 +1,5 @@
 import express from "express";
-import { destroy, index, show, store, update } from "../controllers/userController.js";
+import { destroy, index, show, store, update } from "../controllers/userController";
 
 const userRouter = express.Router();
 userRouter.post("/", store);
