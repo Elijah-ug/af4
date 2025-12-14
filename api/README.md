@@ -3,3 +3,34 @@ IP=https://api.aruljohn.com/ip/json
 location=http://ip-api.com/json
 locaa=https://ipinfo.io/json
 gooood=https://get.geojs.io/v1/ip/geo.json
+
+# Progress
+
+## Admin
+* ✔️ CRUD done
+* ✔️ login && authentication and authorization with jwt
+* ✔️ password hashing and salting with bcrypto
+
+## Admin
+* CRUD
+* login && authentication and authorization with jwt
+* password hashing and salting with bcrypto
+
+## Messages (socket.io combo)
+* CRUD
+* send
+* receive
+* typing flag
+* block user
+* report user
+
+
+## Posts
+* CRUD
+
+## Application & friendship
+* online mark
+* last seen time
+* nearby users
+
+

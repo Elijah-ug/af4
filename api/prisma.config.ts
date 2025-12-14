@@ -3,6 +3,7 @@
 import dotenv from "dotenv";
 import { defineConfig, env } from "prisma/config";
 dotenv.config();
+console.log("env('DATABASE_URL')", env("DATABASE_URL"));
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -10,6 +11,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    url: "postgresql://elicom:elicom256@localhost:5432/chat",
   },
 });
