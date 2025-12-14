@@ -32,8 +32,15 @@ export const store = async (req: Request, res: Response) => {
 
 export const index = async (req: Request, res: Response) => {
   try {
-    console.log("connected index user");
-    return res.status(200).json({ message: "index user" });
+    const users = await prisma.user.findMany();
+    const totalUsers = await prisma.user.count();
+    // the following are gonna be worked upon later
+    //  -->1️⃣ filter online users
+    //  -->2️⃣ pagination of online users
+    //  -->3️⃣ get users from the nearby
+
+    console.log("Users==>", users);
+    return res.status(200).json({ message: "index user", users, totalUsers });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
@@ -46,8 +53,12 @@ export const index = async (req: Request, res: Response) => {
 
 export const show = async (req: Request, res: Response) => {
   try {
-    console.log("connected show user");
-    return res.status(200).json({ message: "show user" });
+    const id = req.user.id;
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    const safe = await safeUser(user);
+    console.log("User==>", safe);
+    return res.status(200).json({ message: "show user", safe });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
@@ -60,8 +71,12 @@ export const show = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    console.log("connected update user");
-    return res.status(200).json({ message: "update user" });
+    const id = req.user.id;
+    const parsed = validateUserOnReg.safeParse(req.body);
+    if (!parsed.success) return res.status(401).json({ message: "Bad request, validation failed" });
+    const user = await prisma.user.update({ where: { id }, data: parsed.data });
+    console.log("updated user==>", user);
+    return res.status(200).json({ message: "update user", user });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
@@ -74,8 +89,13 @@ export const update = async (req: Request, res: Response) => {
 
 export const destroy = async (req: Request, res: Response) => {
   try {
-    console.log("connected destroy user");
-    return res.status(200).json({ message: "destroy user" });
+    const id = req.user.id;
+    const user = await prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date(), isDeleted: true },
+    });
+    console.log("Destroyed user==>", user);
+    return res.status(200).json({ message: "destroy user", user });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);

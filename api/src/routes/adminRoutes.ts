@@ -9,5 +9,5 @@ adminRouter.post("/login", login);
 adminRouter.get("/", index);
 adminRouter.get("/:admin", authenticateUser, show);
 adminRouter.put("/:admin", authenticateUser, update);
-adminRouter.delete("/:admin", authenticateUser, destroy);
+adminRouter.put("/:admin", authenticateUser, destroy);
 export default adminRouter;

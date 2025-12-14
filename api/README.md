@@ -7,30 +7,33 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 # Progress
 
 ## Admin
-* ✔️ CRUD done
-* ✔️ login && authentication and authorization with jwt
-* ✔️ password hashing and salting with bcrypto
+
+- ✔️ CRUD done
+- ✔️ login && authentication and authorization with jwt
+- ✔️ password hashing and salting with bcrypto
+  3️⃣
 
 ## Admin
-* CRUD
-* login && authentication and authorization with jwt
-* password hashing and salting with bcrypto
+
+- ✔️ CRUD
+- ✔️ ogin && authentication and authorization with jwt
+- ✔️ password hashing and salting with bcrypto
 
 ## Messages (socket.io combo)
-* CRUD
-* send
-* receive
-* typing flag
-* block user
-* report user
 
+- CRUD
+- send
+- receive
+- typing flag
+- block user
+- report user
 
 ## Posts
-* CRUD
+
+- CRUD
 
 ## Application & friendship
-* online mark
-* last seen time
-* nearby users
-
-
+- uploading user pics
+- online mark
+- last seen time
+- nearby users
