@@ -12,17 +12,23 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       return res.status(400).json({ message: "Login Error", error: parsed.error });
     }
     const { email, password } = parsed.data;
-    const user = await prisma.admin.findUnique({ where: { email } });
-    if (!user) {
+    const admin = await prisma.admin.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!admin && !user) {
       return res.status(401).json({ message: "User doesn't exist" });
     }
-    const pwdMatch = bcrypt.compare(password, user.password);
+    const account = admin ?? user;
+    if (!account) return res.status(400).json({ message: "No matching account found" });
+
+    const pwdMatch = await bcrypt.compare(password, account.password);
     if (!pwdMatch) {
       return res.status(401).json({ message: "Invalid password" });
     }
-    const payload = { id: user.id, email: user.email };
+    const payload = { id: account.id, email: account.email };
     const token = jwtToken(payload);
-    return res.status(200).json({ message: "User logged in", user, token });
+
+    return res.status(200).json({ message: "admin logged in", account, token });
     // const token =  jwt.sign()
   } catch (error) {
     next(error);
