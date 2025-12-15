@@ -31,3 +31,9 @@ export const loginValidator = z.object({
   email: z.email(),
   password: z.string().min(6),
 });
+
+export const validateMessage = z.object({
+  content: z.string().max(255),
+  senderId: z.int(),
+  receiverId: z.int(),
+});

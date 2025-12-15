@@ -11,7 +11,6 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 - ✔️ CRUD done
 - ✔️ login && authentication and authorization with jwt
 - ✔️ password hashing and salting with bcrypto
-  3️⃣
 
 ## Admin
 
@@ -22,8 +21,9 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 ## Messages (socket.io combo)
 
 - CRUD
-- send
-- receive
+- send from current user to receiver
+- receive from sender
+- show unread messages grouped by senderId
 - typing flag
 - block user
 - report user

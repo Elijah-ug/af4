@@ -21,6 +21,7 @@ model Admin {
   verifiedAt DateTime?
   isDeleted  Boolean   @default(false)
   deletedAt  DateTime?
+  updates    Update[]
 }
 
 model User {
@@ -57,6 +58,8 @@ model Update {
   updatedAt DateTime  @updatedAt
   isDeleted Boolean   @default(false)
   deletedAt DateTime?
+  admin     Admin     @relation(fields: [adminId], references: [id])
+  adminId   Int
 }
 
 model UserPic {
@@ -81,14 +84,17 @@ model UserPost {
 }
 
 model Message {
-  id         Int       @id @default(autoincrement())
-  content    String
-  sender     User      @relation("SentMessages", fields: [senderId], references: [id])
-  senderId   Int
-  receiver   User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  receiverId Int
-  isDeleted  Boolean   @default(false)
-  deletedAt  DateTime?
+  id                Int       @id @default(autoincrement())
+  content           String
+  sender            User      @relation("SentMessages", fields: [senderId], references: [id])
+  senderId          Int
+  receiver          User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId        Int
+  createdAt         DateTime  @default(now())
+  readAt            DateTime?
+  deletedAt         DateTime?
+  senderDeletedAt   DateTime?
+  receiverDeletedAt DateTime?
 }
 
 model UserQueries {
