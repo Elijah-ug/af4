@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="heartGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff4f87"/>
+      <stop offset="100%" stop-color="#e0005a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Main heart -->
+  <path
+    d="M512 820
+       C300 650 160 520 160 360
+       C160 240 260 160 380 160
+       C460 160 510 210 512 230
+       C514 210 564 160 644 160
+       C764 160 864 240 864 360
+       C864 520 724 650 512 820 Z"
+    fill="url(#heartGrad)"
+    stroke="#4a0c3a"
+    stroke-width="30"
+    stroke-linejoin="round"/>
+
+  <!-- Small heart -->
+  <path
+    d="M740 260
+       C700 230 670 210 670 180
+       C670 150 695 130 725 130
+       C745 130 758 143 760 150
+       C762 143 775 130 795 130
+       C825 130 850 150 850 180
+       C850 210 820 230 780 260 Z"
+    fill="#a65acb"
+    stroke="#4a0c3a"
+    stroke-width="18"/>
+
+  <!-- Arrow -->
+  <path
+    d="M340 640 L520 500"
+    stroke="#4a0c3a"
+    stroke-width="28"
+    stroke-linecap="round"/>
+
+  <polygon
+    points="520,500 500,540 560,520"
+    fill="#4a0c3a"/>
+
+  <polygon
+    points="300,680 240,720 280,760 340,720"
+    fill="#a65acb"
+    stroke="#4a0c3a"
+    stroke-width="20"/>
+
+  <!-- AF4 text (EXTRA BOLD) -->
+  <text x="512" y="530"
+        text-anchor="middle"
+        font-size="230"
+        font-weight="900"
+        fill="#fff4d6"
+        font-family="Poppins, Montserrat, Arial Black, sans-serif">
+    AF4
+  </text>
+
+</svg>
