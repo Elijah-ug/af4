@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { SignupPayload } from "../../../types/types";
+import type { LoginFormValues, SignupPayload } from "../../../types/types";
 
 export const userMutations = createApi({
   reducerPath: "userMutates",
@@ -12,6 +12,13 @@ export const userMutations = createApi({
         body,
       }),
     }),
+    loginUser: builder.mutation<LoginFormValues, any>({
+      query: (body) => ({
+        url: "login",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
-export const { useRegisterUserMutation } = userMutations;
+export const { useRegisterUserMutation, useLoginUserMutation } = userMutations;

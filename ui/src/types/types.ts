@@ -9,3 +9,8 @@ export type SignupFormValues = {
   date: string;
 };
 export type SignupPayload = Omit<SignupFormValues, "year" | "month" | "date"> & { dateOfBirth: string };
+
+export type LoginFormValues = {
+  email: string;
+  password: string;
+};

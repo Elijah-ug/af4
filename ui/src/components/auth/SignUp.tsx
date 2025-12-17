@@ -1,6 +1,6 @@
 import { Button, Card, Group, Select, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
+import React, { useState } from "react";
 import { dates, months, signupSchema, years } from "../../utils/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import type { SignupFormValues, SignupPayload } from "../../types/types";
@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 
 export const SignUp: React.FC = () => {
   const [registerUser, { isLoading, error }] = useRegisterUserMutation();
+  const [err, setErr] = useState<string | null>(null);
+
   const form = useForm<SignupFormValues>({
     mode: "uncontrolled",
     initialValues: {
@@ -32,7 +34,14 @@ export const SignUp: React.FC = () => {
       const { year, month, date, ...payload } = values;
       const newvals: SignupPayload = { ...payload, dateOfBirth };
       const res = await registerUser(newvals);
-      toast.success("Signup successful!");
+      if (res.error && "data" in res.error) {
+        const msg = (res.error.data as any)?.message || "Signup failed";
+        setErr(msg);
+      } else {
+        toast.success("Signup successful!");
+      }
+      console.log("Res==>", res);
+
       return res;
     } catch (error) {
       console.log("Dev errors==>", error);
@@ -99,14 +108,14 @@ export const SignUp: React.FC = () => {
                 <TextInput label="password" key={form.key("password")} {...form.getInputProps("password")} required />
 
                 <Button type="submit" mt="sm">
-                  Submit
+                  Sign up
                 </Button>
               </div>
+              <div className="mt-2 text-center">{err && <p className="text-red-400 text-sm">{`${err}!`}</p>}</div>
             </form>
           </div>
         )}
       </Card>
-      {error && `Error: ${error}`}
     </div>
   );
 };
