@@ -8,7 +8,7 @@ import { useRegisterUserMutation } from "../../state/queries/user/userMutations"
 import { toast } from "react-toastify";
 
 export const SignUp: React.FC = () => {
-  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const [err, setErr] = useState<string | null>(null);
 
   const form = useForm<SignupFormValues>({

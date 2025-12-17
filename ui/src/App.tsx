@@ -16,39 +16,44 @@ import type React from "react";
 import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
 import { ToastContainer } from "react-toastify";
+import { Button, ColorSchemeScript, MantineProvider, useMantineColorScheme } from "@mantine/core";
 export const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen text-gray-600 bg-gray-200">
-      <div className="flex-1">
-        <NavBar />
-        <div className="mt-23 px-3 lg:px-10">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="discover" element={<Discover />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="chat" element={<Chat />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="settings" element={<Settings />} />
-          </Routes>
+    <MantineProvider defaultColorScheme="dark">
+      {/* <ColorSchemeScript /> */}
+      <div className="flex flex-col min-h-screen text-gray-600 ">
+        <div className="flex-1">
+          <NavBar  />
+          <div className="mt-21 px-3 lg:px-10">
+            {/* <Button onClick={toggleColorScheme}>Toggge {colorScheme === "dark" ? "light" : "dark"} schem</Button> */}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="discover" element={<Discover />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="chat" element={<Chat />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="settings" element={<Settings />} />
+            </Routes>
+          </div>
+          {/* <LandingPage /> */}
         </div>
-        {/* <LandingPage /> */}
-      </div>
-      <Footer />
+        <Footer />
 
-      <ToastContainer
-        position="top-right"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="colored"
-      />
-    </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="colored"
+        />
+      </div>
+    </MantineProvider>
   );
 };

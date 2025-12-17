@@ -14,3 +14,6 @@ export type LoginFormValues = {
   email: string;
   password: string;
 };
+export type User = { id: number; name: string; email: string, age:number, bio:string, };
+
+
