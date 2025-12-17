@@ -11,7 +11,6 @@ export const store = async (req: Request, res: Response) => {
     const userAge = getAge(dateOfBirth);
     if (userAge <= 18) return res.status(400).json({ message: "Under age" });
     const pwd = await hashpwd(password);
-    console.log(pwd, typeof pwd);
     const user = await prisma.user.create({
       data: { ...parsed.data, password: pwd, age: userAge },
     });
@@ -39,7 +38,7 @@ export const index = async (req: Request, res: Response) => {
     //  -->2️⃣ pagination of online users
     //  -->3️⃣ get users from the nearby
 
-    console.log("Users==>", users);
+    // console.log("Users==>", users);
     return res.status(200).json({ message: "index user", users, totalUsers });
   } catch (error) {
     if (error instanceof Error) {
@@ -57,7 +56,7 @@ export const show = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
     const safe = await safeUser(user);
-    console.log("User==>", safe);
+    // console.log("User==>", safe);
     return res.status(200).json({ message: "show user", safe });
   } catch (error) {
     if (error instanceof Error) {

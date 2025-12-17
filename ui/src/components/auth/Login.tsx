@@ -2,24 +2,21 @@ import React from "react";
 import { useForm } from "@mantine/form";
 import { TextInput, Button } from "@mantine/core";
 import { Link } from "react-router-dom";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { loginSchema } from "../../utils/form";
 export const Login: React.FC = () => {
   const form = useForm({
     mode: "uncontrolled",
-    initialValues: { name: "", email: "", age: 0 },
+    initialValues: { email: "", password: "" },
 
     // functions will be used to validate values at corresponding key
-    validate: {
-      name: (value) => (value.length < 2 ? "Name must have at least 2 letters" : null),
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      age: (value) => (value < 18 ? "You must be at least 18 to register" : null),
-    },
+    validate: zodResolver(loginSchema),
   });
 
   return (
-    <div className="flex items-center justify-center py-10">
-      <form onSubmit={form.onSubmit(console.log)} className="w-lg">
+    <div className="flex items-center justify-center py-10 ">
+      <form onSubmit={form.onSubmit(console.log)} className="w-lg bg-white shadow-xl p-7 rounded-lg">
         <div className="">
-          <TextInput label="Name" placeholder="Name" key={form.key("name")} {...form.getInputProps("name")} />
           <TextInput
             mt="sm"
             label="Email"
@@ -27,7 +24,12 @@ export const Login: React.FC = () => {
             key={form.key("email")}
             {...form.getInputProps("email")}
           />
-         
+          <TextInput
+            label="Password"
+            placeholder="password"
+            key={form.key("password")}
+            {...form.getInputProps("password")}
+          />
           <Button type="submit" mt="sm">
             Submit
           </Button>

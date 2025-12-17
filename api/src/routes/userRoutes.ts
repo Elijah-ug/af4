@@ -4,7 +4,7 @@ import { authenticateUser } from "../middleware/auth";
 import { login } from "../controllers/login";
 
 const userRouter = express.Router();
-userRouter.post("/", store);
+userRouter.post("/signup", store);
 userRouter.post("/login", login);
 userRouter.get("/", index);
 userRouter.get("/:user", authenticateUser, show);

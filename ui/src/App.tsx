@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 // import { LandingPage } from "./components/app/LandingPage";
 import { Footer } from "./components/ui/Footer";
 import { NavBar } from "./components/ui/NavBar";
@@ -12,9 +14,11 @@ import { Settings } from "./components/app/Settings";
 import { Messages } from "./components/app/Messages";
 import type React from "react";
 import { Login } from "./components/auth/Login";
+import { SignUp } from "./components/auth/SignUp";
+import { ToastContainer } from "react-toastify";
 export const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen text-gray-600">
+    <div className="flex flex-col min-h-screen text-gray-600 bg-gray-200">
       <div className="flex-1">
         <NavBar />
         <div className="mt-23 px-3 lg:px-10">
@@ -26,13 +30,25 @@ export const App: React.FC = () => {
             <Route path="notifications" element={<Notifications />} />
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<Login />} />
-            {/* <Route path="profile" element={<Profile />} /> */}
+            <Route path="signup" element={<SignUp />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="settings" element={<Settings />} />
           </Routes>
         </div>
         {/* <LandingPage /> */}
       </div>
       <Footer />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </div>
   );
 };
