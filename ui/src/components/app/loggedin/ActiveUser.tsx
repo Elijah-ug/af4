@@ -10,7 +10,7 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
 
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>
-      <Card.Section component="a" href="https://mantine.dev/">
+      <Card.Section >
         <Indicator position="bottom-end" offset={6}>
           <Image src={placeholder} height={20} alt="Norway" />
         </Indicator>

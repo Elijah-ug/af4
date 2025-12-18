@@ -12,7 +12,7 @@ export const NavBar: React.FC = () => {
       className={
         colorScheme === "dark"
           ? "fixed sm:bottom-0 left-0 right-0  shadow-md bg-gray-800 text-white border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3"
-          : "fixed sm:bottom-0 left-0 right-0  shadow-md  border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3 bg-white"
+          : "fixed sm:bottom-0 left-0 right-0  shadow-md  border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3 bg-gray-200 "
       }
     >
       <div className="flex items-center justify-between gap-5 ">
@@ -60,11 +60,12 @@ export const NavBar: React.FC = () => {
             <Settings size={19} strokeWidth={2.5} />
           </NavLink>
         </div>
-        <div
-          className="lg:w-full lg:flex lg:items-center lg:justify-end transition-transform duration-300 "
-          onClick={toggleColorScheme}
-        >
-          {colorScheme === "light" ? <Sun size={17} className="" /> : <Moon size={17} />}
+        <div className="lg:w-full lg:flex lg:items-center lg:justify-end cursor-pointer" onClick={toggleColorScheme}>
+          {colorScheme === "light" ? (
+            <Sun size={17} className="text-amber-500" />
+          ) : (
+            <Moon size={17} className="text-gray-300" />
+          )}
         </div>
       </div>
     </nav>

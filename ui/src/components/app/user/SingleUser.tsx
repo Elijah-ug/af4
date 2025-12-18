@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Image, Text, Group, Indicator, Divider } from "@mantine/core";
+import { Card, Image, Indicator, Divider } from "@mantine/core";
 
 import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
 import { Link, useParams } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Button, Group, Indicator, Divider } from "@mantine/core";
+import { Card, Image, Text, Group, Indicator, Divider } from "@mantine/core";
 import type React from "react";
 import { useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
 import { placeholder } from "../../utils/global";

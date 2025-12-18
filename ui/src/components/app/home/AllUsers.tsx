@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useGetAllUsersQuery } from "../../../state/queries/user/userQuery";
 import { LoadingOverlay } from "@mantine/core";
 import { User } from "./User";
 
 export const AllUsers: React.FC = () => {
   const { data, isLoading } = useGetAllUsersQuery();
-  const [total, setTotal] = useState<number>(0);
-  useEffect(() => {
-    if (data) {
-      setTotal(data?.totalUsers);
-    }
-  }, [data]);
+ 
   return (
     <div>
       <div className="flex items-center gap-5">
