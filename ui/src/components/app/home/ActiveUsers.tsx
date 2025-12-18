@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllUsersQuery } from "../../../state/queries/user/userQuery";
 import { LoadingOverlay } from "@mantine/core";
-import { User } from "./User";
+import { ActiveUser } from "./ActiveUser";
 
-export const AllUsers: React.FC = () => {
+export const ActiveUsers: React.FC = () => {
   const { data, isLoading } = useGetAllUsersQuery();
   const [total, setTotal] = useState<number>(0);
   useEffect(() => {
@@ -14,8 +14,8 @@ export const AllUsers: React.FC = () => {
   return (
     <div>
       <div className="flex items-center gap-5">
-        <span>All Users</span>
-        <span>35215</span>
+        <span>Users online</span>
+        <span>{total}</span>
       </div>
       <div className="">
         {isLoading ? (
@@ -25,7 +25,7 @@ export const AllUsers: React.FC = () => {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-1 my-7">
             {data?.users.map((user) => (
-              <User key={user.id} newUser={user} />
+              <ActiveUser key={user.id} newUser={user} />
             ))}
           </div>
         )}

@@ -17,31 +17,43 @@ import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
 import { ToastContainer } from "react-toastify";
 import { Button, ColorSchemeScript, MantineProvider, useMantineColorScheme } from "@mantine/core";
+import { ActiveUsers } from "./components/app/home/ActiveUsers";
+import { useState } from "react";
+import { LandingPage } from "./components/app/LandingPage";
 export const App: React.FC = () => {
+  const [fakeauth, setFakeAuth] = useState<boolean>(false);
   return (
     <MantineProvider defaultColorScheme="dark">
       {/* <ColorSchemeScript /> */}
       <div className="flex flex-col min-h-screen text-gray-600 ">
         <div className="flex-1">
-          <NavBar  />
-          <div className="mt-21 px-3 lg:px-10">
+          <NavBar />
+          <div className="mt-21">
             {/* <Button onClick={toggleColorScheme}>Toggge {colorScheme === "dark" ? "light" : "dark"} schem</Button> */}
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="discover" element={<Discover />} />
-              <Route path="messages" element={<Messages />} />
-              <Route path="chat" element={<Chat />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<SignUp />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="settings" element={<Settings />} />
+              {fakeauth ? (
+                <>
+                  <Route path="/" element={<LandingPage />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="discover" element={<Discover />} />
+                  <Route path="messages" element={<Messages />} />
+                  <Route path="chat" element={<Chat />} />
+                  <Route path="notifications" element={<Notifications />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<SignUp />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="active-users" element={<ActiveUsers />} />
+                </>
+              )}
             </Routes>
           </div>
           {/* <LandingPage /> */}
         </div>
-        <Footer />
 
         <ToastContainer
           position="top-right"

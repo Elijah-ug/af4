@@ -1,5 +1,5 @@
 import React from "react";
 
 export const NearbyUsers: React.FC = () => {
-  return <div>NearbyUsers</div>;
+  return <div className="min-h-screen">NearbyUsers</div>;
 };

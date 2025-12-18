@@ -14,6 +14,29 @@ export type LoginFormValues = {
   email: string;
   password: string;
 };
-export type User = { id: number; name: string; email: string, age:number, bio:string, };
+export type UserType = {
+  id: number;
+  age: number;
+  name: string;
+  username: string;
+  gender: string;
+  dateOfBirth: string;
+  email: string;
+  bio: string;
+  profilePic: string;
+  location: string;
+  interests: string[]; // <-- fix here
+  status: string;
+  createdAt: Date; // better than object
+  updatedAt: Date;
+  verifiedAt: Date | null;
+  isDeleted: boolean;
+  deletedAt: Date | null;
+};
+export type UserResponse = {
+  message: string;
+  totalUsers: number;
+  users: string[] | any[];
+};
 
-
+export type MessageData = { text: string };

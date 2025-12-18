@@ -3,7 +3,7 @@ import type React from "react";
 
 export const Profile: React.FC = () => {
   return (
-    <div className="flex  justify-center gap-10 py-17">
+    <div className="flex  justify-center min-h-screen gap-10 py-17">
       <Card shadow="sm" padding="lg" radius="md" withBorder className="w-lg">
       <Card.Section>
         <Image

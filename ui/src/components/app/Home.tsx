@@ -4,7 +4,7 @@ import { AllUsers } from "./home/AllUsers";
 
 export const Home: React.FC = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="">
         <LoggedinUser />
       </div>

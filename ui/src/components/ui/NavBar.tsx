@@ -8,7 +8,13 @@ export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white shadow-md  border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3">
+    <nav
+      className={
+        colorScheme === "dark"
+          ? "fixed lg:bottom-0 left-0 right-0  shadow-md bg-gray-700 text-white border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3"
+          : "fixed lg:bottom-0 left-0 right-0  shadow-md  border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3 bg-white"
+      }
+    >
       <div className="flex items-center justify-between gap-5 ">
         <div className="flex justify-between w-full lg:gap-7 items-center pr-3  py-2">
           {/* Home */}
@@ -16,7 +22,7 @@ export const NavBar: React.FC = () => {
             <Home size={19} strokeWidth={2.5} />
           </NavLink>
 
-          <NavLink to="users" className=" hover:text-pink-600 transition">
+          <NavLink to="active-users" className=" hover:text-pink-600 transition">
             <UsersRound size={19} strokeWidth={2.5} />
           </NavLink>
 
@@ -54,9 +60,11 @@ export const NavBar: React.FC = () => {
             <Settings size={19} strokeWidth={2.5} />
           </NavLink>
         </div>
-        <div className="lg:w-full lg:flex lg:items-center lg:justify-end transition-transform duration-300 " onClick={toggleColorScheme}>
-          {colorScheme === "light" ? <Sun size={17} className=""/> : <Moon size={17}  />}
-          
+        <div
+          className="lg:w-full lg:flex lg:items-center lg:justify-end transition-transform duration-300 "
+          onClick={toggleColorScheme}
+        >
+          {colorScheme === "light" ? <Sun size={17} className="" /> : <Moon size={17} />}
         </div>
       </div>
     </nav>
