@@ -14,7 +14,7 @@ export const AllMessages: React.FC = () => {
   };
   console.log("Arr==>", staticSender);
   return (
-    <div className="grid sm:grid-cols-2 gap-13">
+    <div className="grid sm:grid-cols-2 gap-13 mb-20">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 w-full">
         {staticSender.map((user, i) => (

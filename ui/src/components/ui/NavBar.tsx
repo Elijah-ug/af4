@@ -11,8 +11,8 @@ export const NavBar: React.FC = () => {
     <nav
       className={
         colorScheme === "dark"
-          ? "fixed lg:bottom-0 left-0 right-0  shadow-md bg-gray-700 text-white border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3"
-          : "fixed lg:bottom-0 left-0 right-0  shadow-md  border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3 bg-white"
+          ? "fixed sm:bottom-0 left-0 right-0  shadow-md bg-gray-800 text-white border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3"
+          : "fixed sm:bottom-0 left-0 right-0  shadow-md  border-gray-200 z-50 font-semibold px-3 lg:px-10 py-3 bg-white"
       }
     >
       <div className="flex items-center justify-between gap-5 ">

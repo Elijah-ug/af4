@@ -19,6 +19,7 @@ export const userMutations = createApi({
         body,
       }),
     }),
+
   }),
 });
 export const { useRegisterUserMutation, useLoginUserMutation } = userMutations;

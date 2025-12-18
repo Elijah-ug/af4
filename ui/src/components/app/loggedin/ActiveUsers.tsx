@@ -12,8 +12,8 @@ export const ActiveUsers: React.FC = () => {
     }
   }, [data]);
   return (
-    <div>
-      <div className="flex items-center gap-5">
+    <div className="px-3 lg:px-10 ">
+      <div className="flex items-center gap-5 ">
         <span>Users online</span>
         <span>{total}</span>
       </div>

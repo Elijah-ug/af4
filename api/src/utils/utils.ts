@@ -20,3 +20,12 @@ export const safeUser = (user: any) => {
 export const hashpwd = (password: string) => {
   return bcrypt.hash(password, 10);
 };
+
+export const formatUserName = (username: string | any) => {
+  const symbol = "@";
+  let standard = "";
+  if (username[0] !== "@") {
+    standard.concat(symbol, username);
+  }
+  return standard;
+};

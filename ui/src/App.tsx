@@ -3,7 +3,6 @@ import "./App.css";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 // import { LandingPage } from "./components/app/LandingPage";
-import { Footer } from "./components/ui/Footer";
 import { NavBar } from "./components/ui/NavBar";
 import { Home } from "./components/app/Home";
 import { Discover } from "./components/app/Discover";
@@ -16,19 +15,21 @@ import type React from "react";
 import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
 import { ToastContainer } from "react-toastify";
-import { Button, ColorSchemeScript, MantineProvider, useMantineColorScheme } from "@mantine/core";
-import { ActiveUsers } from "./components/app/home/ActiveUsers";
+import { MantineProvider } from "@mantine/core";
+import { ActiveUsers } from "./components/app/loggedin/ActiveUsers";
 import { useState } from "react";
 import { LandingPage } from "./components/app/LandingPage";
+import { SingleUser } from "./components/app/user/SingleUser";
 export const App: React.FC = () => {
   const [fakeauth, setFakeAuth] = useState<boolean>(false);
+  
   return (
     <MantineProvider defaultColorScheme="dark">
       {/* <ColorSchemeScript /> */}
-      <div className="flex flex-col min-h-screen text-gray-600 ">
+      <div className={("flex flex-col min-h-screen")}>
         <div className="flex-1">
           <NavBar />
-          <div className="mt-21">
+          <div className="mt-19 sm:mt-3 mb-3 sm:mb-21">
             {/* <Button onClick={toggleColorScheme}>Toggge {colorScheme === "dark" ? "light" : "dark"} schem</Button> */}
             <Routes>
               {fakeauth ? (
@@ -38,6 +39,8 @@ export const App: React.FC = () => {
               ) : (
                 <>
                   <Route path="/" element={<Home />} />
+                  <Route path="/:user" element={<SingleUser />} />
+                  {/* </Route> */}
                   <Route path="discover" element={<Discover />} />
                   <Route path="messages" element={<Messages />} />
                   <Route path="chat" element={<Chat />} />
@@ -48,6 +51,8 @@ export const App: React.FC = () => {
                   <Route path="profile" element={<Profile />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="active-users" element={<ActiveUsers />} />
+
+                  {/* single components */}
                 </>
               )}
             </Routes>

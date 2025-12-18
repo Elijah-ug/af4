@@ -13,6 +13,7 @@ export type SignupPayload = Omit<SignupFormValues, "year" | "month" | "date"> & 
 export type LoginFormValues = {
   email: string;
   password: string;
+  // token: string;
 };
 export type UserType = {
   id: number;

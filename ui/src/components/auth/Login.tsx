@@ -20,12 +20,16 @@ export const Login: React.FC = () => {
   const handleLogin = async (values: LoginFormValues) => {
     try {
       const payload = await loginUser(values);
-      console.log("payload==>", payload);
+
       if (payload.error && "data" in payload.error) {
         const msg = (payload.error.data as any)?.message || "Login failed";
         console.log("payload==>", msg);
         setErr(msg);
       }
+
+      const token:string = (payload?.data as any)?.token || "No token";
+      localStorage.setItem("token", token);
+      console.log("token==>", token);
       return payload;
     } catch (error) {
       console.log("Validation errors=>", error);
@@ -37,7 +41,7 @@ export const Login: React.FC = () => {
     <div className="flex items-center justify-center py-10 ">
       <Card shadow="sm" padding="lg" radius="md" withBorder className="w-lg bg-white shadow-xl p-7 rounded-lg">
         {isLoading ? (
-          <div className="">
+          <div className="text-center">
             <Loader color="blue" />
           </div>
         ) : (

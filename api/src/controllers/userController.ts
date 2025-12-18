@@ -1,13 +1,14 @@
 import type { Request, Response } from "express";
 import { validateUserOnReg } from "../utils/validate";
-import { getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
+import { formatUserName, getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
 import { prisma } from "../config/db";
 
 export const store = async (req: Request, res: Response) => {
   try {
     const parsed = validateUserOnReg.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
-    const { password, dateOfBirth } = parsed.data;
+    const { password, dateOfBirth, username } = parsed.data;
+    const format = formatUserName(username);
     const userAge = getAge(dateOfBirth);
     if (userAge <= 18) return res.status(400).json({ message: "Under age" });
     const pwd = await hashpwd(password);
@@ -33,6 +34,7 @@ export const index = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany();
     const totalUsers = await prisma.user.count();
+    const pwd = users.map((user) => user.password);
     // the following are gonna be worked upon later
     //  -->1️⃣ filter online users
     //  -->2️⃣ pagination of online users
@@ -52,11 +54,11 @@ export const index = async (req: Request, res: Response) => {
 
 export const show = async (req: Request, res: Response) => {
   try {
-    const id = req.user.id;
+    const id = parseInt(req.params.user);
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
     const safe = await safeUser(user);
-    // console.log("User==>", safe);
+    console.log("User==>", safe);
     return res.status(200).json({ message: "show user", safe });
   } catch (error) {
     if (error instanceof Error) {
