@@ -1,12 +1,21 @@
 import type { Request, Response } from "express";
 import { validateUserOnReg } from "../utils/validate";
-import { formatUserName, getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
+import {
+  formatUserName,
+  getAge,
+  hashpwd,
+  jwtToken,
+  safeUser,
+} from "../utils/utils";
 import { prisma } from "../config/db";
 
 export const store = async (req: Request, res: Response) => {
   try {
     const parsed = validateUserOnReg.safeParse(req.body);
-    if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
+    if (!parsed.success)
+      return res
+        .status(400)
+        .json({ message: "Bad request", error: parsed.error.message });
     const { password, dateOfBirth, username } = parsed.data;
     const format = formatUserName(username);
     const userAge = getAge(dateOfBirth);
@@ -54,7 +63,37 @@ export const index = async (req: Request, res: Response) => {
 
 export const show = async (req: Request, res: Response) => {
   try {
+    console.log("Params here=>", req.params.user);
     const id = parseInt(req.params.user);
+    if (!id || Number.isNaN(id)) {
+      console.log("No id parsed in show", id, typeof id);
+      return res.status(400).json({ message: "Invalid or missing user id" });
+    }
+    console.log("Parsedin id✅ ==>", id);
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    const safe = await safeUser(user);
+    console.log("User==>", safe);
+    return res.status(200).json({ message: "show user", safe });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "Unknown error" });
+    }
+  }
+};
+
+export const getMe = async (req: Request, res: Response) => {
+  console.log("id here ==>", req.user);
+  try {
+    const id = req.user.id;
+
+    if (!id) {
+      console.log("No id in my route");
+      return res.status(400).json({ message: "Invalid or missing user id" });
+    }
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
     const safe = await safeUser(user);
@@ -74,7 +113,10 @@ export const update = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
     const parsed = validateUserOnReg.safeParse(req.body);
-    if (!parsed.success) return res.status(401).json({ message: "Bad request, validation failed" });
+    if (!parsed.success)
+      return res
+        .status(401)
+        .json({ message: "Bad request, validation failed" });
     const user = await prisma.user.update({ where: { id }, data: parsed.data });
     console.log("updated user==>", user);
     return res.status(200).json({ message: "update user", user });

@@ -17,16 +17,15 @@ import { SignUp } from "./components/auth/SignUp";
 import { ToastContainer } from "react-toastify";
 import { MantineProvider } from "@mantine/core";
 import { ActiveUsers } from "./components/app/loggedin/ActiveUsers";
-import { useState } from "react";
 import { LandingPage } from "./components/app/LandingPage";
 import { SingleUser } from "./components/app/user/SingleUser";
 export const App: React.FC = () => {
-  const [fakeauth, setFakeAuth] = useState<boolean>(false);
-  
+  const fakeauth: boolean = false;
+
   return (
     <MantineProvider defaultColorScheme="dark">
       {/* <ColorSchemeScript /> */}
-      <div className={("flex flex-col min-h-screen")}>
+      <div className={"flex flex-col min-h-screen"}>
         <div className="flex-1">
           <NavBar />
           <div className="mt-19 sm:mt-3 mb-3 sm:mb-21">

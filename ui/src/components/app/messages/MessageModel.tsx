@@ -1,9 +1,8 @@
-import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { SendHorizontal } from "lucide-react";
 import React from "react";
 
-export const MessageModel = () => {
+export const MessageModel:React.FC = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { text: "" },

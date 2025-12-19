@@ -7,10 +7,9 @@ import { placeholder } from "../../../utils/global";
 import { Heart, ThumbsDown } from "lucide-react";
 
 export const SingleUser: React.FC = () => {
-  const { user } = useParams<{ user: string }>();
-  const id = Number(user);
-  const { data } = useGetSingleUserQuery(id, { skip: !user });
-
+  const { user } = useParams<{ user: string | any }>();
+  const { data } = useGetSingleUserQuery(Number(user), { skip: !user });
+  console.log("ID here", user);
   console.log("test route data", (data as any)?.safe);
   const newUser = (data as any)?.safe;
   return (
@@ -26,7 +25,7 @@ export const SingleUser: React.FC = () => {
                 <div className="flex flex-col">
                   {/* {newUser.name} */}
                   <span className="font-semibold">Mugisha Talent Elijah</span>
-                  <span className="text-sm">{newUser.username}</span>
+                  <span className="text-sm">{newUser?.username}</span>
                 </div>
 
                 <div className="flex items-center justify-center gap-7">

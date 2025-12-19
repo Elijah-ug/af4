@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery, type RootState } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { UserResponse, UserType } from "../../../types/types";
 
 export const fetchUserQueries = createApi({
@@ -23,15 +23,15 @@ export const fetchUserQueries = createApi({
     }),
 
     getLoggedinUser: builder.query<UserType, void>({
-      query: (id) => ({
-        url: `/:${id}`,
+      query: () => ({
+        url: "/me",
         method: "GET",
         headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
       }),
     }),
     getSingleUser: builder.query<UserType, number>({
-      query: (id) => ({
-        url: `/${id}`,
+      query: (user) => ({
+        url: `/${user}`,
         method: "GET",
       }),
     }),

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { hasLength, isEmail, useForm } from "@mantine/form";
 import { TextInput, Button, Card, Loader } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { LoginFormValues } from "../../types/types";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../../state/queries/user/userMutations";
 export const Login: React.FC = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
-  const [err, setErr] = useState<string | null>(null);
+  const navigate = useNavigate();
   const form = useForm<LoginFormValues>({
     mode: "uncontrolled",
     initialValues: { email: "", password: "" },
@@ -23,13 +23,16 @@ export const Login: React.FC = () => {
 
       if (payload.error && "data" in payload.error) {
         const msg = (payload.error.data as any)?.message || "Login failed";
-        console.log("payload==>", msg);
-        setErr(msg);
+        return toast.error(msg);
       }
-
-      const token:string = (payload?.data as any)?.token || "No token";
+      const token: string | undefined = (payload?.data as any)?.token || "No token";
+      if (!token) {
+        console.log("No token provided");
+        return;
+      }
       localStorage.setItem("token", token);
-      console.log("token==>", token);
+      navigate("/");
+      console.log("payload==>", payload);
       return payload;
     } catch (error) {
       console.log("Validation errors=>", error);
@@ -65,7 +68,7 @@ export const Login: React.FC = () => {
                   Submit
                 </Button>
               </div>
-              <div className="mt-2 text-center">{err && <p className="text-red-400 text-sm">{`${err}!`}</p>}</div>
+              {/* <div className="mt-2 text-center">{err && <p className="text-red-400 text-sm">{`${err}!`}</p>}</div> */}
               <div className="flex flex-col gap-5 items-center mt-3 ">
                 <p className="">Don't have an account?</p>
                 <Link to="/signup" className="underline">

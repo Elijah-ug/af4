@@ -6,7 +6,7 @@ import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
 
 export const LoggedinUser: React.FC = () => {
   const { data } = useGetLoggedinUserQuery();
-  console.log("Loggedin user==>", (data as any)?.safe);
+  console.log("Loggedin User==>", data);
   return (
     <div className="px-3 sm:px-5 lg:px-10 pb-5">
       <div className=" flex items-center lg:justify-between gap-10 pb-5 ">
@@ -14,7 +14,7 @@ export const LoggedinUser: React.FC = () => {
           {data ? (
             <Link to="profile" className="">
               <Avatar src="image.png" className="cursor-pointer" />
-            </Link> 
+            </Link>
           ) : (
             <Link to="login" className="">
               <Avatar src="image.png" className="cursor-pointer" />

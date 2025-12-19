@@ -3,7 +3,16 @@ import type { LoginFormValues, SignupPayload } from "../../../types/types";
 
 export const userMutations = createApi({
   reducerPath: "userMutates",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_ALL_USERS }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_ALL_USERS,
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     registerUser: builder.mutation<SignupPayload, SignupPayload>({
       query: (body) => ({
@@ -14,12 +23,11 @@ export const userMutations = createApi({
     }),
     loginUser: builder.mutation<LoginFormValues, any>({
       query: (body) => ({
-        url: "login",
+        url: "/login",
         method: "POST",
         body,
       }),
     }),
-
   }),
 });
 export const { useRegisterUserMutation, useLoginUserMutation } = userMutations;
