@@ -21,8 +21,14 @@ export const signupSchema = z
   );
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email" }),
+  email: z.email({ message: "Invalid email" }),
   password: z.string().min(6, { message: "Password has to be atleast 6 characters" }),
+});
+export const messageValidator = z.object({
+  message: z
+    .string()
+    .trim()
+    .transform((v) => v.replace(/\s+/g, " ")),
 });
 
 export const years = () => {

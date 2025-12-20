@@ -11,6 +11,7 @@ export const Message: React.FC<Options> = ({ nuser, openModel }) => {
   //   if()
   return (
     <div>
+      
       <div className="flex items-center gap-7 p-2" onClick={openModel}>
         <div className="">
           <Image

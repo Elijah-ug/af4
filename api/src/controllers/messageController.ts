@@ -4,9 +4,12 @@ import { prisma } from "../config/db";
 
 export const store = async (req: Request, res: Response) => {
   try {
+    const senderId = req.user.id;
+    if (!senderId) return res.status(404).json({ message: "404, user not found" });
     const parsed = validateMessage.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ message: "400 validation error", error: parsed.error });
-    const msg = await prisma.message.create({ data: parsed.data });
+    const msg = await prisma.message.create({ data: { ...parsed.data, senderId } });
+    console.log("Message created==>", msg);
     return res.status(200).json({ message: "Message sent", msg });
   } catch (error) {
     if (error instanceof Error) {
@@ -22,7 +25,9 @@ export const index = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
     if (!id) return res.status(404).json({ message: "404 User not found" });
-    const messages = await prisma.message.findMany({ where: { senderId: id, deletedAt: null } });
+    const messages = await prisma.message.findMany({
+      where: { senderId: id, deletedAt: null, OR: [{ senderId: id }, { receiverId: id }] },
+    });
     const check = { id, readAt: null, receiverDeletedAt: null };
     const totalNewMsgs = await prisma.message.count({ where: check });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
@@ -39,6 +44,7 @@ export const index = async (req: Request, res: Response) => {
 export const show = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.message);
+
     const userId = req.user.id;
     if (!id) return res.status(404).json({ message: "404 Message not found" });
     if (!userId) return res.status(404).json({ message: "404 User not found" });
@@ -100,7 +106,10 @@ export const destroy = async (req: Request, res: Response) => {
     } else {
       return res.status(403).json({ message: "Not authorized to delete this message" });
     }
-    const newMsg = await prisma.message.update({ where: { id }, data: updateData });
+    const newMsg = await prisma.message.update({
+      where: { id },
+      data: updateData,
+    });
     return res.status(200).json({ message: "Message deleted", newMsg });
   } catch (error) {
     if (error instanceof Error) {
@@ -120,9 +129,16 @@ export const unread = async (req: Request, res: Response) => {
     if (!id && !userId) res.status(404).json({ message: "404 not found" });
 
     const check = { id, readAt: null, receiverDeletedAt: null };
-    const msg = await prisma.message.groupBy({ by: ["senderId"], where: check, _count: { _all: true } });
+    const msg = await prisma.message.groupBy({
+      by: ["senderId"],
+      where: check,
+      _count: { _all: true },
+    });
     if (!msg) return res.status(404).json({ message: "No new message found!" });
-    const newMsg = await prisma.message.update({ where: check, data: { readAt: new Date() } });
+    const newMsg = await prisma.message.update({
+      where: check,
+      data: { readAt: new Date() },
+    });
     const totalNewMsgs = await prisma.message.count({ where: check });
     return res.status(200).json({ message: "New message", newMsg, totalNewMsgs });
   } catch (error) {

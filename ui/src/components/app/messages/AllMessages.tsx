@@ -14,11 +14,11 @@ export const AllMessages: React.FC = () => {
   };
   console.log("Arr==>", staticSender);
   return (
-    <div className="grid sm:grid-cols-2 gap-13 mb-20">
+    <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20">
       {/* show senders side bar */}
-      <div className="grid gap-2  p-3 w-full">
+      <div className="grid gap-2  p-3 ">
         {staticSender.map((user, i) => (
-          <Message nuser={user} openModel={() => openModel(i)} />
+          <Message key={user} nuser={user} openModel={() => openModel(i)} />
         ))}
       </div>
       {/* messaging area for large screens */}

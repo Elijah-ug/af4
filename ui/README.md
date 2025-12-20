@@ -2,7 +2,12 @@
 
 ## Day 1
 - Spinned a react + typescript app
-- Added flowbite react 
+- Added mantine ui library
 
 ## Next Step
+Register user
+Login Useer
+Logout user
+Render all users
+Reder user by id
 - To save logged in user in rtk global state for easy access

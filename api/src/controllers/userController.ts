@@ -1,21 +1,12 @@
 import type { Request, Response } from "express";
 import { validateUserOnReg } from "../utils/validate";
-import {
-  formatUserName,
-  getAge,
-  hashpwd,
-  jwtToken,
-  safeUser,
-} from "../utils/utils";
+import { formatUserName, getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
 import { prisma } from "../config/db";
 
 export const store = async (req: Request, res: Response) => {
   try {
     const parsed = validateUserOnReg.safeParse(req.body);
-    if (!parsed.success)
-      return res
-        .status(400)
-        .json({ message: "Bad request", error: parsed.error.message });
+    if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
     const { password, dateOfBirth, username } = parsed.data;
     const format = formatUserName(username);
     const userAge = getAge(dateOfBirth);
@@ -66,7 +57,7 @@ export const show = async (req: Request, res: Response) => {
     console.log("Params here=>", req.params.user);
     const id = parseInt(req.params.user);
     if (!id || Number.isNaN(id)) {
-      console.log("No id parsed in show", id, typeof id);
+      console.log("No user id", id, typeof id);
       return res.status(400).json({ message: "Invalid or missing user id" });
     }
     console.log("Parsedin id✅ ==>", id);
@@ -89,9 +80,9 @@ export const getMe = async (req: Request, res: Response) => {
   console.log("id here ==>", req.user);
   try {
     const id = req.user.id;
-
+    console.log(id);
     if (!id) {
-      console.log("No id in my route");
+      console.log("my id not passed");
       return res.status(400).json({ message: "Invalid or missing user id" });
     }
     const user = await prisma.user.findUnique({ where: { id } });
@@ -113,10 +104,7 @@ export const update = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
     const parsed = validateUserOnReg.safeParse(req.body);
-    if (!parsed.success)
-      return res
-        .status(401)
-        .json({ message: "Bad request, validation failed" });
+    if (!parsed.success) return res.status(401).json({ message: "Bad request, validation failed" });
     const user = await prisma.user.update({ where: { id }, data: parsed.data });
     console.log("updated user==>", user);
     return res.status(200).json({ message: "update user", user });

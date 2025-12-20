@@ -2,14 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userMutations } from "../queries/user/userMutations";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { fetchUserQueries } from "../queries/user/userQuery";
+import { messageQueries } from "../queries/user/messages/messageMutations";
 
 export const store = configureStore({
   reducer: {
     [userMutations.reducerPath]: userMutations.reducer,
     [fetchUserQueries.reducerPath]: fetchUserQueries.reducer,
+    [messageQueries.reducerPath]: messageQueries.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userMutations.middleware, fetchUserQueries.middleware),
+    getDefaultMiddleware().concat(userMutations.middleware, fetchUserQueries.middleware, messageQueries.middleware),
 });
 setupListeners(store.dispatch);
 // infer the rootState and appDispatch from the store

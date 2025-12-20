@@ -23,6 +23,7 @@ export const Login: React.FC = () => {
 
       if (payload.error && "data" in payload.error) {
         const msg = (payload.error.data as any)?.message || "Login failed";
+        console.log("Error in login==>", msg);
         return toast.error(msg);
       }
       const token: string | undefined = (payload?.data as any)?.token || "No token";

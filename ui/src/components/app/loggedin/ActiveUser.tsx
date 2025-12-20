@@ -2,6 +2,7 @@ import { Card, Image, Text, Button, Indicator } from "@mantine/core";
 import type React from "react";
 import type { UserType } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
+import { Link } from "react-router-dom";
 type UserProps = {
   newUser: UserType;
 };
@@ -10,7 +11,7 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
 
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>
-      <Card.Section >
+      <Card.Section>
         <Indicator position="bottom-end" offset={6}>
           <Image src={placeholder} height={20} alt="Norway" />
         </Indicator>
@@ -23,10 +24,9 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
         <span>Location:</span>
         <span>Nakawa</span>
       </Text>
-
-      <Button color="green" fullWidth mt="md" radius="md">
+      <Link to="/messages" className="bg-blue-500 p-1 text-center rounded text-sm">
         Send Message
-      </Button>
+      </Link>
     </Card>
   );
 };

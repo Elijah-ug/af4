@@ -7,7 +7,6 @@ type UserProps = {
   newUser: UserType;
 };
 export const User: React.FC<UserProps> = ({ newUser }) => {
-
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>
       <div className="grid gap-1">
@@ -19,7 +18,7 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
           </Link>
         </Card.Section>
 
-        <div className="">
+        <div className="grid gap-1">
           <Text size="sm" c="dimmed">
             hyet
             {newUser.username || "@johndoe"}
@@ -29,10 +28,9 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
             <span>Location:</span>
             <span>Kisaasi</span>
           </Text>
-
-          <Button color="green" fullWidth mt="md" radius="md">
+          <Link to="/messages" className="bg-blue-500 p-1 text-center rounded text-sm">
             Send Message
-          </Button>
+          </Link>
         </div>
       </div>
     </Card>
