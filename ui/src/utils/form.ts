@@ -29,6 +29,7 @@ export const messageValidator = z.object({
     .string()
     .trim()
     .transform((v) => v.replace(/\s+/g, " ")),
+  receiverId: z.number().default(0),
 });
 
 export const years = () => {

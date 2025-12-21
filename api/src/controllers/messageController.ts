@@ -13,6 +13,35 @@ export const store = async (req: Request, res: Response) => {
     return res.status(200).json({ message: "Message sent", msg });
   } catch (error) {
     if (error instanceof Error) {
+      console.log("Error ==>", error);
+      return res.status(500).json({ message: "Internal sever error", error: error });
+    } else {
+      return res.status(500).json({ message: "Unknown error" });
+    }
+  }
+};
+
+export const chatIndex = async (req: Request, res: Response) => {
+  try {
+    const me = req.user.id;
+    const them = Number(req.query.with as string);
+
+    if (!me) return res.status(404).json({ message: "404 User not found" });
+    if (!them) return res.status(404).json({ message: "404 Receiver not found" });
+    const messages = await prisma.message.findMany({
+      where: {
+        deletedAt: null,
+        OR: [
+          { senderId: me, receiverId: them },
+          { senderId: them, receiverId: me },
+        ],
+      },
+    });
+    const check = { senderId: me, receiverId: them, readAt: null, deletedAt: null };
+    const totalNewMsgs = await prisma.message.count({ where: check });
+    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
+  } catch (error) {
+    if (error instanceof Error) {
       console.log("Error ==>", error.message);
       return res.status(500).json({ message: "Internal sever error", error: error.message });
     } else {
@@ -21,14 +50,20 @@ export const store = async (req: Request, res: Response) => {
   }
 };
 
+// all messages
 export const index = async (req: Request, res: Response) => {
   try {
-    const id = req.user.id;
-    if (!id) return res.status(404).json({ message: "404 User not found" });
+    const senderId = req.user.id;
+
+    if (!senderId) return res.status(404).json({ message: "404 User not found" });
     const messages = await prisma.message.findMany({
-      where: { senderId: id, deletedAt: null, OR: [{ senderId: id }, { receiverId: id }] },
+      where: {
+        deletedAt: null,
+        senderId,
+      },
+      orderBy: { createdAt: "asc" },
     });
-    const check = { id, readAt: null, receiverDeletedAt: null };
+    const check = { senderId, deletedAt: null };
     const totalNewMsgs = await prisma.message.count({ where: check });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
   } catch (error) {

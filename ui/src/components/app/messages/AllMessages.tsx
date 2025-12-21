@@ -3,13 +3,19 @@ import { Message } from "./Message";
 import { MessageModel } from "./MessageModel";
 import { useParams } from "react-router-dom";
 import { Image } from "@mantine/core";
+import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
+import { useGetAllMessagesQuery } from "../../../state/queries/user/messages/messageQueries";
 
 export const AllMessages: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { user } = useParams<{ user: string | any }>();
   const id = Number(user);
-  console.log("receiver id==>", user);
+  const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
+  const { data: allMessages } = useGetAllMessagesQuery() as any;
+  const receiverId = selectedUser?.safe?.id;
+  const messagesReceived = allMessages?.messages;
 
+  console.log("messagesReceived==>", messagesReceived);
   let staticSender: number[] = [];
   for (let i = 0; i <= 15; i++) {
     staticSender.push(i);
@@ -26,9 +32,9 @@ export const AllMessages: React.FC = () => {
         ))}
       </div>
       {/* messaging area for large screens */}
-      <div className="hidden sm:flex sm:col-span-3 bg-amber-400">
+      <div className="hidden sm:flex sm:col-span-2 lg:col-span-3 ">
         <div className="flex flex-col items-center justify-between w-full">
-          <div className="flex items-center ">
+          <div className="flex items-center bg-gray-400">
             <div className="pt-3 flex items-center gap-5">
               <Image
                 radius="50%"
@@ -37,12 +43,12 @@ export const AllMessages: React.FC = () => {
                 fit="cover"
                 src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png"
               />
-              <p>{user.username || "no user selected"}</p>
+              <p>{selectedUser?.safe?.username || "no user selected"}</p>
             </div>
           </div>
 
-          <div className="w-full">
-            <MessageModel id={id} />
+          <div className="w-full h-full bg-amber-400 mt-3">
+            <MessageModel id={id} receiverId={receiverId} />
           </div>
         </div>
       </div>

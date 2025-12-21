@@ -11,15 +11,15 @@ export const LoggedinUser: React.FC = () => {
     <div className="px-3 sm:px-5 lg:px-10 pb-5">
       <div className=" flex items-center lg:justify-between gap-10 pb-5 ">
         <div className="">
-          {/* {!data ? ( */}
+          {data ? (
             <Link to="profile" className="">
               <Avatar src="image.png" className="cursor-pointer" />
             </Link>
-          {/* ) : ( */}
-            {/* <Link to="login" className="">
+          ) : (
+            <Link to="login" className="">
               <Avatar src="image.png" className="cursor-pointer" />
-            </Link> */}
-          {/* )} */}
+            </Link>
+          )}
         </div>
         <div className="flex items-center relative w-full">
           <TextInput placeholder="Search Users" className="w-full" />
