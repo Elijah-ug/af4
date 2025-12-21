@@ -10,7 +10,6 @@ import { Chat } from "./components/app/Chat";
 import { Notifications } from "./components/app/Notifications";
 import { Profile } from "./components/app/Profile";
 import { Settings } from "./components/app/Settings";
-import { Messages } from "./components/app/Messages";
 import type React from "react";
 import { Login } from "./components/auth/Login";
 import { SignUp } from "./components/auth/SignUp";
@@ -19,6 +18,7 @@ import { MantineProvider } from "@mantine/core";
 import { ActiveUsers } from "./components/app/loggedin/ActiveUsers";
 import { LandingPage } from "./components/app/LandingPage";
 import { SingleUser } from "./components/app/user/SingleUser";
+import { AllMessages } from "./components/app/messages/AllMessages";
 export const App: React.FC = () => {
   const fakeauth: boolean = false;
 
@@ -41,7 +41,8 @@ export const App: React.FC = () => {
                   <Route path="/:user" element={<SingleUser />} />
                   {/* </Route> */}
                   <Route path="discover" element={<Discover />} />
-                  <Route path="messages" element={<Messages />} />
+                  <Route path="messages" element={<AllMessages />} />
+                  <Route path="messages/:user" element={<AllMessages />} />
                   <Route path="chat" element={<Chat />} />
                   <Route path="notifications" element={<Notifications />} />
                   <Route path="profile" element={<Profile />} />

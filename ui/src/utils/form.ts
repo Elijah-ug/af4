@@ -25,7 +25,7 @@ export const loginSchema = z.object({
   password: z.string().min(6, { message: "Password has to be atleast 6 characters" }),
 });
 export const messageValidator = z.object({
-  message: z
+  content: z
     .string()
     .trim()
     .transform((v) => v.replace(/\s+/g, " ")),

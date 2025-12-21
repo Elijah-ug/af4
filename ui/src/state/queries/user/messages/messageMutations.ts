@@ -15,7 +15,7 @@ export const messageQueries = createApi({
     },
   }),
   endpoints: (builder) => ({
-    sendMessage: builder.mutation<MessageToSend, void>({
+    sendMessage: builder.mutation<MessageToSend, any>({
       query: (body) => ({
         url: "/send",
         method: "POST",

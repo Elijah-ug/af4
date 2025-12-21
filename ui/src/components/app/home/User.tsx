@@ -1,4 +1,4 @@
-import { Card, Image, Text, Button, Indicator } from "@mantine/core";
+import { Card, Image, Text, Indicator } from "@mantine/core";
 import type React from "react";
 import type { UserType } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
@@ -28,7 +28,7 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
             <span>Location:</span>
             <span>Kisaasi</span>
           </Text>
-          <Link to="/messages" className="bg-blue-500 p-1 text-center rounded text-sm">
+          <Link to={`/messages/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
             Send Message
           </Link>
         </div>
