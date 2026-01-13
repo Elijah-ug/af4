@@ -8,7 +8,9 @@ export const store = async (req: Request, res: Response) => {
     if (!senderId) return res.status(404).json({ message: "404, user not found" });
     const parsed = validateMessage.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ message: "400 validation error", error: parsed.error });
-    const msg = await prisma.message.create({ data: { ...parsed.data, senderId } });
+    const msg = await prisma.message.create({
+      data: { ...parsed.data, senderId },
+    });
     console.log("Message created==>", msg);
     return res.status(200).json({ message: "Message sent", msg });
   } catch (error) {
@@ -37,7 +39,12 @@ export const chatIndex = async (req: Request, res: Response) => {
         ],
       },
     });
-    const check = { senderId: me, receiverId: them, readAt: null, deletedAt: null };
+    const check = {
+      senderId: me,
+      receiverId: them,
+      readAt: null,
+      deletedAt: null,
+    };
     const totalNewMsgs = await prisma.message.count({ where: check });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
   } catch (error) {
@@ -53,17 +60,17 @@ export const chatIndex = async (req: Request, res: Response) => {
 // all messages
 export const index = async (req: Request, res: Response) => {
   try {
-    const senderId = req.user.id;
+    const id = req.user.id;
 
-    if (!senderId) return res.status(404).json({ message: "404 User not found" });
+    if (!id) return res.status(404).json({ message: "404 User not found" });
     const messages = await prisma.message.findMany({
       where: {
         deletedAt: null,
-        senderId,
+        OR: [{ senderId: id }, { receiverId: id }],
       },
       orderBy: { createdAt: "asc" },
     });
-    const check = { senderId, deletedAt: null };
+    const check = { senderId: id, deletedAt: null };
     const totalNewMsgs = await prisma.message.count({ where: check });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
   } catch (error) {

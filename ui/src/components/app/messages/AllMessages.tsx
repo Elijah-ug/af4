@@ -5,17 +5,25 @@ import { useParams } from "react-router-dom";
 import { Image } from "@mantine/core";
 import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
 import { useGetAllMessagesQuery } from "../../../state/queries/user/messages/messageQueries";
+// import { useGetAllMessagesQuery } from "../../../state/queries/user/messages/messageQueries";
 
 export const AllMessages: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { user } = useParams<{ user: string | any }>();
   const id = Number(user);
   const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
-  const { data: allMessages } = useGetAllMessagesQuery() as any;
+  const { data: allMessages } = useGetAllMessagesQuery();
   const receiverId = selectedUser?.safe?.id;
-  const messagesReceived = allMessages?.messages;
+  const chat = allMessages?.messages.reduce((acc, msg) => {
+    const senderId = acc.senderId;
+    if (!acc.senderId) {
+      console.log("No sender here");
+    }
+    const show = acc.senderId
+    console.log("showshow==>", show);
+  });
+  console.log("all messages==>", allMessages);
 
-  console.log("messagesReceived==>", messagesReceived);
   let staticSender: number[] = [];
   for (let i = 0; i <= 15; i++) {
     staticSender.push(i);
@@ -27,8 +35,8 @@ export const AllMessages: React.FC = () => {
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">
-        {staticSender.map((user, i) => (
-          <Message key={user} nuser={user} openModel={() => openModel(i)} />
+        {allMessages?.messages.map((msg) => (
+          <Message key={msg.id} msg={msg} openModel={() => openModel()} />
         ))}
       </div>
       {/* messaging area for large screens */}
@@ -46,7 +54,6 @@ export const AllMessages: React.FC = () => {
               <p>{selectedUser?.safe?.username || "no user selected"}</p>
             </div>
           </div>
-
           <div className="w-full h-full bg-amber-400 mt-3">
             <MessageModel id={id} receiverId={receiverId} />
           </div>

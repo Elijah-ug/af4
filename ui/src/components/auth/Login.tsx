@@ -61,6 +61,7 @@ export const Login: React.FC = () => {
                 />
                 <TextInput
                   label="Password"
+                  type="password"
                   placeholder="password"
                   key={form.key("password")}
                   {...form.getInputProps("password")}

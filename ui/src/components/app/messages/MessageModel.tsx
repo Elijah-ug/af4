@@ -7,7 +7,7 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { messageValidator } from "../../../utils/form";
 import { useSendMessageMutation } from "../../../state/queries/user/messages/messageMutations";
 import { messages } from "../../../utils/global";
-import {  useGetAllMessagesWithUserQuery } from "../../../state/queries/user/messages/messageQueries";
+import { useGetAllMessagesWithUserQuery } from "../../../state/queries/user/messages/messageQueries";
 
 type Options = {
   id: number;
@@ -34,6 +34,7 @@ export const MessageModel: React.FC<Options> = ({ receiverId }) => {
       const parsed = messageValidator.safeParse(values);
       console.log("receiver is==>", parsed.data);
       const res = await sendMessage(parsed.data);
+      console.log("Response==>", res);
       if (res.error && "data" in res.error) {
         const errMsg = (res.error.data as any)?.message;
         console.log("Err message==>", errMsg);

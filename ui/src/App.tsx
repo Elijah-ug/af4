@@ -19,6 +19,7 @@ import { ActiveUsers } from "./components/app/loggedin/ActiveUsers";
 import { LandingPage } from "./components/app/LandingPage";
 import { SingleUser } from "./components/app/user/SingleUser";
 import { AllMessages } from "./components/app/messages/AllMessages";
+import { Friend } from "./components/app/messages/Friend";
 export const App: React.FC = () => {
   const fakeauth: boolean = false;
 
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
                   <Route path="profile" element={<Profile />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="active-users" element={<ActiveUsers />} />
+                   <Route path="friend" element={<Friend />} />
 
                   {/* single components */}
                 </>

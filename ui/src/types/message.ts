@@ -3,7 +3,7 @@ export type MessageToSend = {
   receiverId: number;
 };
 
-export type UserMessages = {
+export type MessageRequest = {
   content: string;
   id: number;
   receiverId: number;
@@ -13,4 +13,9 @@ export type UserMessages = {
   deletedAt: Date | null;
   senderDeletedAt: Date | null;
   receiverDeletedAt: Date | null;
+};
+export type UserMessages = {
+  message: string;
+  messages: MessageRequest[];
+  totalNewMsgs: number;
 };

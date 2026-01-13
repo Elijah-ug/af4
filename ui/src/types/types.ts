@@ -15,7 +15,7 @@ export type LoginFormValues = {
   password: string;
   // token: string;
 };
-export type UserType = {
+export type SafeUser = {
   id: number;
   age: number;
   name: string;
@@ -33,6 +33,10 @@ export type UserType = {
   verifiedAt: Date | null;
   isDeleted: boolean;
   deletedAt: Date | null;
+};
+export type UserType = {
+  message: string;
+  safe: SafeUser;
 };
 export type UserResponse = {
   message: string;

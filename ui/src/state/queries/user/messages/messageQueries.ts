@@ -15,7 +15,7 @@ export const messageQueries = createApi({
   }),
   endpoints: (builder) => ({
     // endpoints here
-    getAllMessages: builder.query<UserMessages, any>({
+    getAllMessages: builder.query<UserMessages, void>({
       query: () => ({
         url: "/",
         method: "GET",
@@ -23,14 +23,13 @@ export const messageQueries = createApi({
       }),
     }),
 
-     getAllMessagesWithUser: builder.query<UserMessages, any>({
+    getAllMessagesWithUser: builder.query<UserMessages, void>({
       query: (receiverId) => ({
         url: `/chat?with=${receiverId}`,
         method: "GET",
         headers: { authorization: `Bearer ${token}` },
       }),
     }),
-    
   }),
 });
 export const { useGetAllMessagesQuery, useGetAllMessagesWithUserQuery } = messageQueries;

@@ -6,10 +6,12 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import type { SignupFormValues, SignupPayload } from "../../types/types";
 import { useRegisterUserMutation } from "../../state/queries/user/userMutations";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp: React.FC = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation();
   const [err, setErr] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const form = useForm<SignupFormValues>({
     mode: "uncontrolled",
@@ -34,14 +36,8 @@ export const SignUp: React.FC = () => {
       const { year, month, date, ...payload } = values;
       const newvals: SignupPayload = { ...payload, dateOfBirth };
       const res = await registerUser(newvals);
-      if (res.error && "data" in res.error) {
-        const msg = (res.error.data as any)?.message || "Signup failed";
-        setErr(msg);
-      } else {
-        toast.success("Signup successful!");
-      }
       console.log("Res==>", res);
-
+      navigate("/");
       return res;
     } catch (error) {
       console.log("Dev errors==>", error);
@@ -105,7 +101,13 @@ export const SignUp: React.FC = () => {
                   </Group>
                 </div>
 
-                <TextInput label="password" key={form.key("password")} {...form.getInputProps("password")} required />
+                <TextInput
+                  label="password"
+                  type="password"
+                  key={form.key("password")}
+                  {...form.getInputProps("password")}
+                  required
+                />
 
                 <Button type="submit" mt="sm">
                   Sign up

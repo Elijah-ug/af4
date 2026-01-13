@@ -1,6 +1,14 @@
 import express from "express";
 import { authenticateUser } from "../middleware/auth";
-import { destroy, index, chatIndex, show, store, unread, update } from "../controllers/messageController";
+import {
+    destroy,
+    index,
+    chatIndex,
+    show,
+    store,
+    unread,
+    update,
+} from "../controllers/messageController";
 
 const messageRouter = express.Router();
 messageRouter.post("/send", authenticateUser, store);

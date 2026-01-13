@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const payload = { id: account.id, email: account.email };
     const token = jwtToken(payload);
     console.log("login payload==>", account);
-    return res.status(200).json({ message: "admin logged in", account, token });
+    return res.status(200).json({ message: "user   logged in", account, token });
     // const token =  jwt.sign()
   } catch (error) {
     next(error);
