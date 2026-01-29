@@ -1,14 +1,12 @@
-import { Card, Image, Text, Button, Indicator } from "@mantine/core";
+import { Card, Image, Text, Indicator } from "@mantine/core";
 import type React from "react";
-import type { UserType } from "../../../types/types";
+import type { SafeUser } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
 import { Link } from "react-router-dom";
 type UserProps = {
-  newUser: UserType;
+  newUser: SafeUser;
 };
 export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
-  console.log("profilePic==>", newUser.profilePic);
-
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>
       <Card.Section>

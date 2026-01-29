@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 export const Home: React.FC = () => {
   return (
-    <div className="min-h-screen px-3 lg:px-10 ">
+    <div className="min-h-screen px-5 lg:px-10 py-18">
       <div className="">
         <LoggedinUser />
       </div>

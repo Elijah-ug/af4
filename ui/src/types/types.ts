@@ -34,14 +34,20 @@ export type SafeUser = {
   isDeleted: boolean;
   deletedAt: Date | null;
 };
+
 export type UserType = {
   message: string;
-  safe: SafeUser;
+  newUser: SafeUser;
 };
 export type UserResponse = {
   message: string;
   totalUsers: number;
-  users: string[] | any[];
+  users: SafeUser[];
 };
+
+// export type SingleUser={
+//   message:string
+//   safe:
+// }
 
 export type MessageData = { text: string };

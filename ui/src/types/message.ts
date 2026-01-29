@@ -18,4 +18,5 @@ export type UserMessages = {
   message: string;
   messages: MessageRequest[];
   totalNewMsgs: number;
+  them: number;
 };

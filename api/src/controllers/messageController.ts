@@ -46,7 +46,7 @@ export const chatIndex = async (req: Request, res: Response) => {
       deletedAt: null,
     };
     const totalNewMsgs = await prisma.message.count({ where: check });
-    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
+    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs, them });
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error ==>", error.message);
@@ -66,12 +66,20 @@ export const index = async (req: Request, res: Response) => {
     const messages = await prisma.message.findMany({
       where: {
         deletedAt: null,
-        OR: [{ senderId: id }, { receiverId: id }],
+        OR: [{ receiverId: id }, { senderId: id }],
       },
-      orderBy: { createdAt: "asc" },
+      distinct: ["receiverId"],
+      orderBy: { createdAt: "desc" },
     });
-    const check = { senderId: id, deletedAt: null };
-    const totalNewMsgs = await prisma.message.count({ where: check });
+    // count by sender
+    const totalNewMsgs = await prisma.message.groupBy({
+      by: ["senderId"],
+      _count: { id: true },
+      where: {
+        deletedAt: null,
+        OR: [{ receiverId: id }, { senderId: id }],
+      },
+    });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
   } catch (error) {
     if (error instanceof Error) {

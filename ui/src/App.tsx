@@ -29,7 +29,7 @@ export const App: React.FC = () => {
       <div className={"flex flex-col min-h-screen"}>
         <div className="flex-1">
           <NavBar />
-          <div className="mt-19 sm:mt-3 mb-3 sm:mb-21">
+          <div className="px-5">
             {/* <Button onClick={toggleColorScheme}>Toggge {colorScheme === "dark" ? "light" : "dark"} schem</Button> */}
             <Routes>
               {fakeauth ? (
@@ -52,7 +52,7 @@ export const App: React.FC = () => {
                   <Route path="profile" element={<Profile />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="active-users" element={<ActiveUsers />} />
-                   <Route path="friend" element={<Friend />} />
+                  <Route path="friend/:user" element={<Friend />} />
 
                   {/* single components */}
                 </>

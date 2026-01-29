@@ -1,12 +1,15 @@
 import { Card, Image, Text, Indicator } from "@mantine/core";
 import type React from "react";
-import type { UserType } from "../../../types/types";
+import type { SafeUser } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
 import { Link } from "react-router-dom";
 type UserProps = {
-  newUser: UserType;
+  newUser: SafeUser;
 };
 export const User: React.FC<UserProps> = ({ newUser }) => {
+  // const { data, isLoading } = useGetAllMessagesQuery();
+  console.log("user messages==>", newUser);
+
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>
       <div className="grid gap-1">
@@ -28,7 +31,7 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
             <span>Location:</span>
             <span>Kisaasi</span>
           </Text>
-          <Link to={`/messages/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
+          <Link to={`/friend/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
             Send Message
           </Link>
         </div>

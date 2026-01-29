@@ -90,7 +90,7 @@ model Message {
   senderId          Int
   receiver          User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
   receiverId        Int
-  createdAt         DateTime  @default(now())
+  createdAt         DateTime? @default(now())
   readAt            DateTime?
   deletedAt         DateTime?
   senderDeletedAt   DateTime?
@@ -99,7 +99,7 @@ model Message {
 
 model UserQueries {
   id        Int       @id @default(autoincrement())
-  name      String
+  name      String?
   email     String
   subject   String?
   message   String

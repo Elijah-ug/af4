@@ -42,8 +42,8 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center py-10 ">
-      <Card shadow="sm" padding="lg" radius="md" withBorder className="w-lg bg-white shadow-xl p-7 rounded-lg">
+    <div className="flex items-center justify-center py-24 ">
+      <Card shadow="sm" padding="lg" radius="md" withBorder className="w-xs sm:w-lg  shadow-lg ">
         {isLoading ? (
           <div className="text-center">
             <Loader color="blue" />
@@ -51,7 +51,7 @@ export const Login: React.FC = () => {
         ) : (
           <div className="">
             <form onSubmit={form.onSubmit(handleLogin)} className="">
-              <div className="">
+              <div className="grid gap-5">
                 <TextInput
                   mt="sm"
                   label="Email"

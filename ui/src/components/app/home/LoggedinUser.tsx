@@ -8,7 +8,7 @@ export const LoggedinUser: React.FC = () => {
   const { data } = useGetLoggedinUserQuery();
   console.log("Loggedin User==>", data);
   return (
-    <div className="px-3 sm:px-5 lg:px-10 pb-5">
+    <div className="px-3 sm:px-5 lg:px-10 pb-5 ">
       <div className=" flex items-center lg:justify-between gap-10 pb-5 ">
         <div className="">
           {data ? (

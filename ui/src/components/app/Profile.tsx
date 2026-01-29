@@ -2,15 +2,15 @@ import { Card, Image, Indicator, Divider } from "@mantine/core";
 import type React from "react";
 import { useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
 import { placeholder } from "../../utils/global";
-import { Edit } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Pencil } from "lucide-react";
 
 export const Profile: React.FC = () => {
   const { data } = useGetLoggedinUserQuery();
   console.log("Loggedin user==>", (data as any)?.safe);
   const profile = (data as any)?.safe;
   return (
-    <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-3">
+    <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-18">
       {data ? (
         <div className="grid gap-5">
           <Card shadow="sm" padding="lg" radius="md" withBorder className="sm">
@@ -25,8 +25,8 @@ export const Profile: React.FC = () => {
                   <span className="text-sm">{profile?.username}</span>
                 </div>
 
-                  <Link to="edit" className="flex items-center gap-7 w-[55%] bg-purple-400 p-1 rounded">
-                    <Edit />
+                  <Link to="edit" className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
+                    <Pencil className="text-white" />
                     <span>Edit</span>
                   </Link>
               </div>

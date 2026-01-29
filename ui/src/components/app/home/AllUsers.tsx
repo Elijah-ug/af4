@@ -5,9 +5,9 @@ import { User } from "./User";
 
 export const AllUsers: React.FC = () => {
   const { data, isLoading } = useGetAllUsersQuery();
- 
+
   return (
-    <div>
+    <div className="">
       <div className="flex items-center gap-5">
         <span>All Users</span>
         <span>35215</span>

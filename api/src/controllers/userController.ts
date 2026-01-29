@@ -63,9 +63,9 @@ export const show = async (req: Request, res: Response) => {
     console.log("Parsedin id✅ ==>", id);
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
-    const safe = await safeUser(user);
-    console.log("User==>", safe);
-    return res.status(200).json({ message: "show user", safe });
+    const newUser = await safeUser(user);
+    console.log("User==>", newUser);
+    return res.status(200).json({ message: "show user", newUser });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);
@@ -87,9 +87,9 @@ export const getMe = async (req: Request, res: Response) => {
     }
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
-    const safe = await safeUser(user);
-    console.log("User==>", safe);
-    return res.status(200).json({ message: "show user", safe });
+    const newUser = await safeUser(user);
+    console.log("User==>", newUser);
+    return res.status(200).json({ message: "show user", newUser });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);

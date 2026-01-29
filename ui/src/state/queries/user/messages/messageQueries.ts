@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { token } from "../../../../utils/global";
-import type { UserMessages } from "../../../../types/message";
+import type { MessageRequest, MessageToSend, UserMessages } from "../../../../types/message";
 
 export const messageQueries = createApi({
   reducerPath: "messageQ",
@@ -13,23 +13,34 @@ export const messageQueries = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Messages"],
   endpoints: (builder) => ({
     // endpoints here
     getAllMessages: builder.query<UserMessages, void>({
       query: () => ({
         url: "/",
         method: "GET",
-        headers: { authorization: `Bearer ${token}` },
       }),
+      providesTags: ["Messages"],
     }),
 
-    getAllMessagesWithUser: builder.query<UserMessages, void>({
+    getAllMessagesWithUser: builder.query<UserMessages, number | any>({
       query: (receiverId) => ({
         url: `/chat?with=${receiverId}`,
         method: "GET",
         headers: { authorization: `Bearer ${token}` },
       }),
+      providesTags: ["Messages"],
+    }),
+    sendMessage: builder.mutation<MessageRequest, MessageToSend>({
+      query: (body) => ({
+        url: "/send",
+        method: "POST",
+        headers: { authorization: `Bearer ${token}` },
+        body,
+      }),
+      invalidatesTags: ["Messages"],
     }),
   }),
 });
-export const { useGetAllMessagesQuery, useGetAllMessagesWithUserQuery } = messageQueries;
+export const { useGetAllMessagesQuery, useGetAllMessagesWithUserQuery, useSendMessageMutation } = messageQueries;

@@ -1,6 +1,6 @@
 import { Button, Card, Group, Select, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useState } from "react";
+import React from "react";
 import { dates, months, signupSchema, years } from "../../utils/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import type { SignupFormValues, SignupPayload } from "../../types/types";
@@ -9,8 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export const SignUp: React.FC = () => {
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
-  const [err, setErr] = useState<string | null>(null);
+  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
   const navigate = useNavigate();
 
   const form = useForm<SignupFormValues>({
@@ -46,9 +45,9 @@ export const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-7 items-center justify-center py-5">
+    <div className="flex flex-col gap-7 items-center justify-center py-18">
       <h3>Create An Account</h3>
-      <Card shadow="sm" padding="lg" radius="md" withBorder className="w-lg">
+      <Card shadow="sm" padding="lg" radius="md" withBorder className="w-xs sm:w-lg">
         {isLoading ? (
           <div className="">Loading...</div>
         ) : (
@@ -113,7 +112,7 @@ export const SignUp: React.FC = () => {
                   Sign up
                 </Button>
               </div>
-              <div className="mt-2 text-center">{err && <p className="text-red-400 text-sm">{`${err}!`}</p>}</div>
+              <div className="mt-2 text-center">{error && <p className="text-red-400 text-sm">{`${error}!`}</p>}</div>
             </form>
           </div>
         )}

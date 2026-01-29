@@ -1,29 +1,22 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { MessageToSend } from "../../../../types/message";
-import { token } from "../../../../utils/global";
+// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// import type { MessageRequest, MessageToSend } from "../../../../types/message";
+// import { token } from "../../../../utils/global";
 
-export const messageMutations = createApi({
-  reducerPath: "messageM",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_USER_MESSAGES,
-    prepareHeaders: (headers) => {
-      // const token = localStorage.getItem("token")
-      console.log("Token hereeee=>", token);
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-  endpoints: (builder) => ({
-    sendMessage: builder.mutation<MessageToSend, any>({
-      query: (body) => ({
-        url: "/send",
-        method: "POST",
-        headers: { authorization: `Bearer ${token}` },
-        body,
-      }),
-    }),
-  }),
-});
-export const { useSendMessageMutation } = messageMutations;
+// export const messageMutations = createApi({
+//   reducerPath: "messageM",
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: import.meta.env.VITE_USER_MESSAGES,
+//     prepareHeaders: (headers) => {
+//       // const token = localStorage.getItem("token")
+//       console.log("Token hereeee=>", token);
+//       if (token) {
+//         headers.set("authorization", `Bearer ${token}`);
+//       }
+//       return headers;
+//     },
+//   }),
+//   endpoints: (builder) => ({
+    
+//   }),
+// });
+// export const { useSendMessageMutation } = messageMutations;

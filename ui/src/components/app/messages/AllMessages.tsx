@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { Image } from "@mantine/core";
 import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
 import { useGetAllMessagesQuery } from "../../../state/queries/user/messages/messageQueries";
-// import { useGetAllMessagesQuery } from "../../../state/queries/user/messages/messageQueries";
 
 export const AllMessages: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -13,15 +12,9 @@ export const AllMessages: React.FC = () => {
   const id = Number(user);
   const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
   const { data: allMessages } = useGetAllMessagesQuery();
+  console.log("selected user id==>", selectedUser);
   const receiverId = selectedUser?.safe?.id;
-  const chat = allMessages?.messages.reduce((acc, msg) => {
-    const senderId = acc.senderId;
-    if (!acc.senderId) {
-      console.log("No sender here");
-    }
-    const show = acc.senderId
-    console.log("showshow==>", show);
-  });
+
   console.log("all messages==>", allMessages);
 
   let staticSender: number[] = [];
@@ -30,9 +23,10 @@ export const AllMessages: React.FC = () => {
   }
   const openModel = () => {
     setIsOpen(true);
+    console.log(isOpen);
   };
   return (
-    <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20">
+    <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20 py-13">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">
         {allMessages?.messages.map((msg) => (
