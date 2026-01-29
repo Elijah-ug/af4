@@ -19,28 +19,24 @@ export const Login: React.FC = () => {
   });
   const handleLogin = async (values: LoginFormValues) => {
     try {
+      if (localStorage.getItem("token")) {
+        localStorage.removeItem("token");
+      }
       const payload = await loginUser(values);
 
-      if (payload.error && "data" in payload.error) {
-        const msg = (payload.error.data as any)?.message || "Login failed";
-        console.log("Error in login==>", msg);
-        return toast.error(msg);
-      }
       const token: string | undefined = (payload?.data as any)?.token || "No token";
       if (!token) {
-        console.log("No token provided");
-        return;
+        return console.log("No token");
       }
       localStorage.setItem("token", token);
       navigate("/");
-      console.log("payload==>", payload);
       return payload;
     } catch (error) {
       console.log("Validation errors=>", error);
       return toast.error("Login failed");
     }
   };
-
+  console.log("token here==>");
   return (
     <div className="flex items-center justify-center py-24 ">
       <Card shadow="sm" padding="lg" radius="md" withBorder className="w-xs sm:w-lg  shadow-lg ">

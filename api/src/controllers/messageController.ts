@@ -73,12 +73,13 @@ export const index = async (req: Request, res: Response) => {
     });
     // count by sender
     const totalNewMsgs = await prisma.message.groupBy({
-      by: ["senderId"],
+      by: ["senderId", "createdAt"],
       _count: { id: true },
       where: {
         deletedAt: null,
         OR: [{ receiverId: id }, { senderId: id }],
       },
+      orderBy: { createdAt: "desc" },
     });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
   } catch (error) {

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type {  UserResponse, UserType } from "../../../types/types";
+import type { UserResponse, UserType } from "../../../types/types";
 
 export const fetchUserQueries = createApi({
   reducerPath: "userQuery",
@@ -9,7 +9,6 @@ export const fetchUserQueries = createApi({
       const token = localStorage.getItem("token");
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
-        console.log("Token in query==>", token);
       }
       return headers;
     },

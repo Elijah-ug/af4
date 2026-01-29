@@ -22,7 +22,7 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
         <span>Location:</span>
         <span>Nakawa</span>
       </Text>
-      <Link to="/messages" className="bg-blue-500 p-1 text-center rounded text-sm">
+      <Link to={`/friend/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
         Send Message
       </Link>
     </Card>

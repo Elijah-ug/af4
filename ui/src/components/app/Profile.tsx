@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { Pencil } from "lucide-react";
 
 export const Profile: React.FC = () => {
-  const { data } = useGetLoggedinUserQuery();
-  console.log("Loggedin user==>", (data as any)?.safe);
-  const profile = (data as any)?.safe;
+  const { data, isLoading, error } = useGetLoggedinUserQuery();
+  console.log("Loggedin user==>", data);
+  // const data = (data as any)?.safe;
   return (
     <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-18">
       {data ? (
@@ -20,27 +20,27 @@ export const Profile: React.FC = () => {
                   <Image src={placeholder} radius="50%" fit="cover" width={20} alt="Norway" />
                 </Indicator>
                 <div className="flex flex-col">
-                  {/* {profile.name} */}
+                  {/* {data.name} */}
                   <span className="font-semibold">Mugisha Talent Elijah</span>
-                  <span className="text-sm">{profile?.username}</span>
+                  <span className="text-sm">{data?.newUser.username}</span>
                 </div>
 
-                  <Link to="edit" className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
-                    <Pencil className="text-white" />
-                    <span>Edit</span>
-                  </Link>
+                <Link to="edit" className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
+                  <Pencil className="text-white" />
+                  <span>Edit</span>
+                </Link>
               </div>
               {/*  */}
               <div className="lg:w-full text-sm">
                 <div className="grid gap-5 text-sm">
                   <div className="flex items-center gap-2">
                     <span>Age:</span>
-                    <span>{profile.age}</span>
+                    <span>{data.newUser.age}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <span>Gender:</span>
-                    <span>{profile.gender}</span>
+                    <span>{data.newUser.gender}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -50,12 +50,12 @@ export const Profile: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                     <span>Account:</span>
-                    <span>{profile.status}</span>
+                    <span>{data.newUser.status}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <span>D.O.B</span>
-                    <span>{profile.dateOfBirth}</span>
+                    <span>{data.newUser.dateOfBirth}</span>
                     <Divider size="" />
                   </div>
                 </div>
@@ -66,7 +66,7 @@ export const Profile: React.FC = () => {
           <div className="grid gap-3">
             {/* bio */}
             <div className="border p-2">
-              <h3 className="font-semibold">{profile.username && `${profile.username}'s`} bio</h3>
+              <h3 className="font-semibold">{data.newUser.username && `${data.newUser.username}'s`} bio</h3>
               <p className="text-sm font-light">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil impedit illo ducimus ab dicta nisi illum
                 quas mollitia ullam vitae?

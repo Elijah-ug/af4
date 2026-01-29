@@ -1,4 +1,4 @@
-import { Button, Input, Loader } from "@mantine/core";
+import { Avatar, Button, Input, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { SendHorizontal } from "lucide-react";
 import React from "react";
@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 
 export const Friend: React.FC = () => {
   const form = useForm({
-    mode: "uncontrolled",
+    mode: "controlled",
     initialValues: { content: "", receiverId: 0 },
     validate: zodResolver(messageValidator),
   });
@@ -24,7 +24,7 @@ export const Friend: React.FC = () => {
   const { data: friend, isLoading: loadFriennd } = useGetAllMessagesWithUserQuery(data?.newUser.id, { skip: !data });
   const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
 
-  console.log("currentUser friend==>", friend?.them);
+  console.log("currentUser friend==>", data);
 
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
 
@@ -34,6 +34,7 @@ export const Friend: React.FC = () => {
       const parsed = messageValidator.safeParse({ ...values, receiverId: friend?.them });
       const res = await sendMessage(parsed.data);
       console.log("Response==>", res);
+      form.setFieldValue("content", "");
       return toast.success(res.data.message);
     } catch (error) {
       console.log("Error here==>", error);
@@ -41,34 +42,40 @@ export const Friend: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-7 pt-18 h-screen  sm:px-10">
+    <div className="flex flex-col gap-7 pt-18 h-screen  sm:px-10 text-sm">
       {loadUser || loadFriennd || loadCurrentUser ? (
         <Loader />
       ) : (
-        <div className=" flex flex-col gap-3 py-3 flex-1 overflow-y-auto px-3 text-white">
-          {friend ? (
-            friend.messages.map((msg) => (
-              <div className="">
-                {/* <p>{msg.senderId}</p> */}
-                <div
-                  key={msg.id}
-                  className={`flex  ${msg.senderId === currentUser?.newUser.id ? "justify-end " : "justify-start "}`}
-                >
-                  <span
-                    className={`p-2 w-[40%]  ${
-                      msg.senderId === currentUser?.newUser.id
-                        ? "bg-gray-400 rounded-tl-2xl rounded-br-2xl"
-                        : "bg-gray-500 rounded-tr-2xl rounded-bl-2xl"
-                    } `}
+        <div className="flex-1 overflow-y-auto px-3 text-white">
+          <div className="flex items-center text-xs gap-1 ">
+            <Avatar color="blue" alt="it's me" />
+            <span>{data?.newUser.username}</span>
+          </div>
+          <div className=" flex flex-col gap-3 py-3 ">
+            {friend ? (
+              friend.messages.map((msg) => (
+                <div key={msg.id} className="">
+                  {/* <p>{msg.senderId}</p> */}
+                  <div
+                    key={msg.id}
+                    className={`flex  ${msg.senderId === currentUser?.newUser.id ? "justify-end " : "justify-start "}`}
                   >
-                    {msg.content}
-                  </span>
+                    <span
+                      className={`p-2 min-w-[40%] max-w-[72%]  ${
+                        msg.senderId === currentUser?.newUser.id
+                          ? "bg-gray-500 rounded-tl-2xl rounded-br-2xl"
+                          : "bg-gray-600 rounded-tr-2xl rounded-bl-2xl"
+                      } `}
+                    >
+                      {msg.content}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <h3>No Messages yet!</h3>
-          )}
+              ))
+            ) : (
+              <h3>No Messages yet!</h3>
+            )}
+          </div>
         </div>
       )}
       <form onSubmit={form.onSubmit(handleSendMessage)} className="flex items-center gap-7 pb-3 ">

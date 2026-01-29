@@ -28,7 +28,6 @@ export const messageQueries = createApi({
       query: (receiverId) => ({
         url: `/chat?with=${receiverId}`,
         method: "GET",
-        headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ["Messages"],
     }),
@@ -36,7 +35,6 @@ export const messageQueries = createApi({
       query: (body) => ({
         url: "/send",
         method: "POST",
-        headers: { authorization: `Bearer ${token}` },
         body,
       }),
       invalidatesTags: ["Messages"],
