@@ -1,17 +1,30 @@
-import { Card, Image, Indicator, Divider } from "@mantine/core";
+import { Card, Image, Indicator, Divider, Loader, Button } from "@mantine/core";
 import type React from "react";
 import { useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
-import { placeholder } from "../../utils/global";
-import { Link } from "react-router-dom";
+import { placeholder, token } from "../../utils/global";
+import { Link, useNavigate } from "react-router-dom";
 import { Pencil } from "lucide-react";
+import { disconnectSocket } from "../../utils/handlesockets";
 
 export const Profile: React.FC = () => {
-  const { data, isLoading, error } = useGetLoggedinUserQuery();
-  console.log("Loggedin user==>", data);
+  const { data, isLoading } = useGetLoggedinUserQuery();
+  const navigate = useNavigate();
+  // console.log("Loggedin user==>", data);
+
+  const handleLogOut = () => {
+    
+      localStorage.removeItem("token");
+      // disconnect the socket connection
+      disconnectSocket();
+      return navigate("/");
+    
+  };
   // const data = (data as any)?.safe;
   return (
     <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-18">
-      {data ? (
+      {isLoading ? (
+        <Loader />
+      ) : data ? (
         <div className="grid gap-5">
           <Card shadow="sm" padding="lg" radius="md" withBorder className="sm">
             <div className="flex justify-center gap-9">
@@ -25,10 +38,12 @@ export const Profile: React.FC = () => {
                   <span className="text-sm">{data?.newUser.username}</span>
                 </div>
 
-                <Link to="edit" className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
-                  <Pencil className="text-white" />
-                  <span>Edit</span>
-                </Link>
+                <div className="">
+                  <Link to="edit" className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
+                    <Pencil className="text-white" />
+                    <span>Edit</span>
+                  </Link>
+                </div>
               </div>
               {/*  */}
               <div className="lg:w-full text-sm">
@@ -80,6 +95,12 @@ export const Profile: React.FC = () => {
                 <li>One night stand</li>
                 <li>Hookup with someone</li>
               </ul>
+            </div>
+
+            <div className="flex items-center justify-end">
+              <Button onClick={handleLogOut} className="">
+                Log out
+              </Button>
             </div>
 
             <h3 className="font-semibold">What you need to update</h3>

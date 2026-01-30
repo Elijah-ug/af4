@@ -15,7 +15,6 @@ type Options = {
   receiverId: number | any;
 };
 export const MessageModel: React.FC<Options> = ({ receiverId }) => {
-  // const { data: sender } = useGetLoggedinUserQuery();
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
   const { data, isLoading: loadMsg } = useGetAllMessagesWithUserQuery(receiverId, { skip: !receiverId }) as any;
   console.log("User messages==>", data);

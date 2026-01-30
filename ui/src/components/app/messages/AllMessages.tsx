@@ -25,7 +25,7 @@ export const AllMessages: React.FC = () => {
     setIsOpen(true);
     console.log(isOpen);
   };
-  return (
+  return ( 
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20 py-13">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">

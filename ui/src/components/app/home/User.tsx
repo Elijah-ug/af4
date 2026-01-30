@@ -7,8 +7,7 @@ type UserProps = {
   newUser: SafeUser;
 };
 export const User: React.FC<UserProps> = ({ newUser }) => {
-  // const { data, isLoading } = useGetAllMessagesQuery();
-  console.log("user messages==>", newUser);
+  // console.log("user messages==>", newUser);
 
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>

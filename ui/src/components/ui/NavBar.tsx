@@ -1,6 +1,6 @@
 // NavBar.tsx
 import React from "react";
-import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun } from "lucide-react";
+import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useMantineColorScheme } from "@mantine/core";
 
@@ -8,7 +8,7 @@ export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const navlinks = [
     { link: "/", i: Home },
-    { link: "active-users", i: Home },
+    { link: "active-users", i: Users },
     { link: "messages", i: MessageCircle },
     { link: "discover", i: Compass },
     { link: "notifications", i: Bell },
@@ -26,8 +26,8 @@ export const NavBar: React.FC = () => {
         <div className="flex justify-between w-full lg:gap-7 items-center pr-3  py-2">
           {/* Home */}
 
-          {navlinks.map((nav) => (
-            <NavLink to={nav.link} className=" hover:text-pink-600 transition">
+          {navlinks.map((nav, i) => (
+            <NavLink key={i} to={nav.link} className=" hover:text-pink-600 transition">
               <nav.i size={19} strokeWidth={2.5} />
             </NavLink>
           ))}

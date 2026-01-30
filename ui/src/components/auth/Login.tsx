@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import type { LoginFormValues } from "../../types/types";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../../state/queries/user/userMutations";
+import { connectSocket } from "../../utils/handlesockets";
 export const Login: React.FC = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate();
@@ -24,11 +25,14 @@ export const Login: React.FC = () => {
       }
       const payload = await loginUser(values);
 
-      const token: string | undefined = (payload?.data as any)?.token || "No token";
+      const token: string | undefined = (payload?.data as any | string)?.token || "No token";
       if (!token) {
         return console.log("No token");
       }
+      console.log("payload==>", payload);
       localStorage.setItem("token", token);
+      // connection socket
+      connectSocket(payload?.data?.account.id);
       navigate("/");
       return payload;
     } catch (error) {
@@ -36,7 +40,6 @@ export const Login: React.FC = () => {
       return toast.error("Login failed");
     }
   };
-  console.log("token here==>");
   return (
     <div className="flex items-center justify-center py-24 ">
       <Card shadow="sm" padding="lg" radius="md" withBorder className="w-xs sm:w-lg  shadow-lg ">

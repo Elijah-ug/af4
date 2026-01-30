@@ -11,7 +11,6 @@ export const store = async (req: Request, res: Response) => {
     const msg = await prisma.message.create({
       data: { ...parsed.data, senderId },
     });
-    console.log("Message created==>", msg);
     return res.status(200).json({ message: "Message sent", msg });
   } catch (error) {
     if (error instanceof Error) {

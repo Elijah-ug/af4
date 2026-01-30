@@ -12,11 +12,8 @@ type Options = {
 export const Message: React.FC<Options> = ({ msg, openModel }) => {
   const { data: senders, isLoading: loadingSender } = useGetAllUsersQuery();
   const { data, isLoading } = useGetSingleUserQuery(msg?.receiverId, { skip: !msg?.receiverId });
-  // const u = user?.messages.reduce((acc, cv)=>  cv)
   console.log(" useGetSingleUserQuery==>", data);
-  // console.log("User here==>", user?.safe.sentMessages);
 
-  //   if()
   return (
     <div className="">
       {isLoading || loadingSender ? (

@@ -54,17 +54,14 @@ export const index = async (req: Request, res: Response) => {
 
 export const show = async (req: Request, res: Response) => {
   try {
-    console.log("Params here=>", req.params.user);
     const id = parseInt(req.params.user);
     if (!id || Number.isNaN(id)) {
       console.log("No user id", id, typeof id);
       return res.status(400).json({ message: "Invalid or missing user id" });
     }
-    console.log("Parsedin id✅ ==>", id);
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
     const newUser = await safeUser(user);
-    console.log("User==>", newUser);
     return res.status(200).json({ message: "show user", newUser });
   } catch (error) {
     if (error instanceof Error) {
@@ -77,10 +74,8 @@ export const show = async (req: Request, res: Response) => {
 };
 
 export const getMe = async (req: Request, res: Response) => {
-  console.log("id here ==>", req.user);
   try {
     const id = req.user.id;
-    console.log(id);
     if (!id) {
       console.log("my id not passed");
       return res.status(400).json({ message: "Invalid or missing user id" });
@@ -88,7 +83,6 @@ export const getMe = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return res.status(404).json({ message: "User not found" });
     const newUser = await safeUser(user);
-    console.log("User==>", newUser);
     return res.status(200).json({ message: "show user", newUser });
   } catch (error) {
     if (error instanceof Error) {

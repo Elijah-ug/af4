@@ -3,7 +3,6 @@ import { useGetAllUsersQuery } from "../../../state/queries/user/userQuery";
 import { LoadingOverlay } from "@mantine/core";
 import { ActiveUser } from "./ActiveUser";
 
-
 export const ActiveUsers: React.FC = () => {
   const { data, isLoading } = useGetAllUsersQuery();
   const [total, setTotal] = useState<number>(0);
@@ -12,7 +11,7 @@ export const ActiveUsers: React.FC = () => {
       setTotal(data?.totalUsers);
     }
   }, [data]);
-    console.log("profilePic==>", data);
+  console.log("profilePic==>", data);
 
   return (
     <div className=" lg:px-10 py-18">

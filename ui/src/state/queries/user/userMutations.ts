@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { LoginFormValues, SignupPayload } from "../../../types/types";
+import type { LoginFormValues, LoginResponse, SignupPayload } from "../../../types/types";
+import { token } from "../../../utils/global";
 
 export const userMutations = createApi({
   reducerPath: "userMutates",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_ALL_USERS,
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
@@ -21,7 +21,7 @@ export const userMutations = createApi({
         body,
       }),
     }),
-    loginUser: builder.mutation<LoginFormValues, any>({
+    loginUser: builder.mutation<LoginResponse, LoginFormValues>({
       query: (body) => ({
         url: "/login",
         method: "POST",
