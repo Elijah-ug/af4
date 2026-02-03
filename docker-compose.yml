@@ -1,0 +1,46 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: af4-api
+    restart: unless-stopped
+    env_file: ./api/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    depends_on:
+      - db
+  db:
+    image: postgres:16-alpine
+    container_name: af4-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=elicom
+      - POSTGRES_PASSWORD=elicom256
+      - POSTGRES_DB=chat
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: af4-ui
+    restart: unless-stopped
+    env_file:
+      - ./ui/.env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

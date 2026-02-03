@@ -130,7 +130,7 @@ export const Friend: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-1 pt-16 sm:pb-11 h-screen  sm:px-10 text-sm ">
+    <div className="flex flex-col gap-1 pt-16 sm:pb-11 min-h-screen  sm:px-10 text-sm ">
       <div className="flex items-center text-xs gap-3 shadow-md px-3">
         <Avatar color="blue" alt="it's me" />
         {isTyping && <span className="text-xs text-green-400">{data?.newUser.username} is typing...</span>}
@@ -149,7 +149,7 @@ export const Friend: React.FC = () => {
                     className={`flex  ${msg.senderId === currentUser?.newUser.id ? "justify-end " : "justify-start "}`}
                   >
                     <span
-                      className={`p-2 min-w-[40%] max-w-[72%]  ${
+                      className={`p-2 sm:p-3 min-w-[40%] max-w-[72%]  ${
                         msg.senderId === currentUser?.newUser.id
                           ? "bg-gray-500 rounded-tl-2xl rounded-br-2xl"
                           : "bg-gray-600 rounded-tr-2xl rounded-bl-2xl"
@@ -166,7 +166,7 @@ export const Friend: React.FC = () => {
           </div>
         </div>
       )}
-      <form onSubmit={form.onSubmit(handleSendMessage)} className="flex items-center gap-7 pb-3 ">
+      <form onSubmit={form.onSubmit(handleSendMessage)} className="flex items-center gap-7 pb-3 sm:pb-7 ">
         <Input
           value={form.values.content}
           onChange={(e) => handleTyping(e.currentTarget.value)}

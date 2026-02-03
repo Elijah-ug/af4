@@ -29,7 +29,6 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 - report user
 
 ## Posts
-
 - CRUD
 
 ## Application & friendship
@@ -37,3 +36,7 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 - online mark
 - last seen time
 - nearby users
+
+# Dockerization commands
+--> docker build -t img_name .
+

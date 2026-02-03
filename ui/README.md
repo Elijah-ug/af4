@@ -20,6 +20,9 @@
 ✅ Users sending messages end to end
 ✅ showing a typing event
 ✅ delivering the messages in real time with Socket.io
+* ================ some other parts to refactor =======
+- Showing errors on forms
+- Code cleanup
 
 # Next steps
  * Revising the socket.io best pattern (server -> client) events
