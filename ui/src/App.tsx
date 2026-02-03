@@ -20,8 +20,17 @@ import { LandingPage } from "./components/app/LandingPage";
 import { SingleUser } from "./components/app/user/SingleUser";
 import { AllMessages } from "./components/app/messages/AllMessages";
 import { Friend } from "./components/app/messages/Friend";
+import { useEffect } from "react";
+import { useGetLoggedinUserQuery } from "./state/queries/user/userQuery";
+import { connectSocket } from "./utils/handlesockets";
 export const App: React.FC = () => {
+  const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
+  console.log("Current user==>", user);
+  useEffect(() => {
+    if (!user?.newUser.id) return;
+    connectSocket(user?.newUser.id);
+  }, [user?.newUser.id]);
 
   return (
     <MantineProvider defaultColorScheme="dark">

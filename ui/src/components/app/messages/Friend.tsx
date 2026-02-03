@@ -13,12 +13,15 @@ import {
 } from "../../../state/queries/user/messages/messageQueries";
 import { toast } from "react-toastify";
 import { socket } from "../services/socket";
-import { connectSocket } from "../../../utils/handlesockets";
 
 export const Friend: React.FC = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [isTyping, setIsTyping] = useState<boolean>(false);
+
+  // refs so typing state survives re-renders
   const typingTimeoutRef = React.useRef<any>(null);
+  const isTypingRef = React.useRef(false);
+
   const form = useForm({
     mode: "controlled",
     initialValues: { content: "", receiverId: 0 },
@@ -33,62 +36,68 @@ export const Friend: React.FC = () => {
 
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
 
-  // load api messages into state
+  // load api messages into state once
   useEffect(() => {
-    if (friend) {
+    if (friend?.messages) {
       setMessages(friend.messages);
     }
-  }, [friend]);
+  }, [friend?.messages]);
 
-  // soccket connections to listen to incoming messages
+  // Socket listeners (stable, single registration)
   useEffect(() => {
-    if (!currentUser || !friend) return;
+    if (!currentUser) return;
 
     // talks to io.emit at the server
-    socket.on("chat_message", (message) => {
-      console.log("📩 realtime message:", message);
-      setMessages((prev) => [...prev, message]);
-    });
+    // socket.on("message", (message) => {
+    //   console.log("📩 realtime message:", message);
+    //   setMessages((prev) => [...prev, message]);
+    // });
 
-    const handleType = ({ senderId }: any) => {
+    const onChatMessage = (message: any) => {
+      setMessages((prev) => [...prev, message]);
+    };
+
+    const onUserTyping = ({ senderId }: any) => {
       console.log("currentUser?.newUser.id", senderId);
       if (senderId !== currentUser?.newUser.id) {
         console.log("friend here");
-
         setIsTyping(true);
       }
     };
-    const handleStopType = ({ senderId }: any) => {
+    const onUserStopType = ({ senderId }: any) => {
       if (senderId !== currentUser?.newUser.id) {
         setIsTyping(false);
       }
     };
+
+    // ======= matching server events ======
     // typing flag event
-    socket.on("user_typing", handleType);
+    socket.on("chat_message", onChatMessage);
+    socket.on("user_typing", onUserTyping);
     // remove typing flag event
-    socket.on("user_stop_typing", handleStopType);
+    socket.on("user_stop_typing", onUserStopType);
 
     return () => {
-      socket.off("chat_message");
-      socket.off("user_typing", handleType);
-      socket.off("user_stop_typing", handleStopType);
+      socket.off("chat_message", onChatMessage);
+      socket.off("user_typing", onUserTyping);
+      socket.off("user_stop_typing", onUserStopType);
     };
   }, [friend, currentUser]);
 
-  // handle typing
-
+  // typing handler with debounce (no spamming the server)
   const handleTyping = (value: string) => {
     form.setFieldValue("content", value);
     console.log("is user typing or==>", isTyping);
 
-    socket.emit("typing", {
-      senderId: currentUser?.newUser.id,
-      receiverId: friend?.them,
-    });
-
-    if (typingTimeoutRef.current) {
-      clearTimeout(typingTimeoutRef.current);
+    if (!isTypingRef.current) {
+      socket.emit("typing", {
+        senderId: currentUser?.newUser.id,
+        receiverId: friend?.them,
+      });
+      isTypingRef.current = true;
     }
+
+    clearTimeout(typingTimeoutRef.current);
 
     typingTimeoutRef.current = setTimeout(() => {
       socket.emit("stop_typing", {
@@ -98,12 +107,17 @@ export const Friend: React.FC = () => {
     }, 1500);
   };
   // console.log("Token==>", token);
+  // send message with no state updates
   const handleSendMessage = async (values: MessageToSend) => {
     try {
       console.log("values==>", values);
       const parsed = messageValidator.safeParse({ ...values, receiverId: friend?.them });
       const res = await sendMessage(parsed.data);
       console.log("Response==>", res);
+      // if (res.msg) {
+      //   setMessages((prev) => [...prev, res.msg]);
+      // }
+
       // emit real time event to the server
       socket.emit("message", {
         newMsg: res.data.msg,

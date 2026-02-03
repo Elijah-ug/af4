@@ -4,8 +4,7 @@ import { TextInput, Button, Card, Loader } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 import type { LoginFormValues } from "../../types/types";
 import { toast } from "react-toastify";
-import { useLoginUserMutation } from "../../state/queries/user/userMutations";
-import { connectSocket } from "../../utils/handlesockets";
+import { useLoginUserMutation } from "../../state/queries/user/userQuery";
 export const Login: React.FC = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ export const Login: React.FC = () => {
       console.log("payload==>", payload);
       localStorage.setItem("token", token);
       // connection socket
-      connectSocket(payload?.data?.account.id);
+
       navigate("/");
       return payload;
     } catch (error) {

@@ -4,7 +4,7 @@ import React from "react";
 import { dates, months, signupSchema, years } from "../../utils/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import type { SignupFormValues, SignupPayload } from "../../types/types";
-import { useRegisterUserMutation } from "../../state/queries/user/userMutations";
+import { useRegisterUserMutation } from "../../state/queries/user/userQuery";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 

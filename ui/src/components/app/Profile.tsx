@@ -1,23 +1,20 @@
 import { Card, Image, Indicator, Divider, Loader, Button } from "@mantine/core";
 import type React from "react";
 import { useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
-import { placeholder, token } from "../../utils/global";
-import { Link, useNavigate } from "react-router-dom";
+import { placeholder } from "../../utils/global";
+import { Link } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { disconnectSocket } from "../../utils/handlesockets";
 
 export const Profile: React.FC = () => {
   const { data, isLoading } = useGetLoggedinUserQuery();
-  const navigate = useNavigate();
   // console.log("Loggedin user==>", data);
 
   const handleLogOut = () => {
-    
-      localStorage.removeItem("token");
-      // disconnect the socket connection
-      disconnectSocket();
-      return navigate("/");
-    
+    localStorage.removeItem("token");
+    // disconnect the socket connection
+    disconnectSocket();
+    return (window.location.href = "/");
   };
   // const data = (data as any)?.safe;
   return (
