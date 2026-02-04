@@ -31,7 +31,7 @@ export const Profile: React.FC = () => {
                 </Indicator>
                 <div className="flex flex-col">
                   {/* {data.name} */}
-                  <span className="font-semibold">Mugisha Talent Elijah</span>
+                  {/* <span className="font-semibold">Mugisha Talent Elijah</span> */}
                   <span className="text-sm">{data?.newUser.username}</span>
                 </div>
 

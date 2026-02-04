@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // "allowImportingTsExtensions": true,
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "src",

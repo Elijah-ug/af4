@@ -5,11 +5,13 @@ WORKDIR /app
 COPY package*.json /app/
 # install dependencies
 RUN npm ci
+# copy src to for better caching
+COPY src ./src
 # copy code to the working directory
 COPY . .
 # run build
 RUN npm run build
 # expose the app port
-EXPOSE 5173
+EXPOSE 80
 # start the application
 CMD [ "npm", "run", "dev", "--", "--host" ]

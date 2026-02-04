@@ -11,6 +11,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: "postgresql://elicom:elicom256@localhost:5432/chat",
+    url: env("DATABASE_URL"),
   },
 });

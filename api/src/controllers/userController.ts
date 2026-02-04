@@ -8,12 +8,13 @@ export const store = async (req: Request, res: Response) => {
     const parsed = validateUserOnReg.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
     const { password, dateOfBirth, username } = parsed.data;
+
     const format = formatUserName(username);
     const userAge = getAge(dateOfBirth);
     if (userAge <= 18) return res.status(400).json({ message: "Under age" });
     const pwd = await hashpwd(password);
     const user = await prisma.user.create({
-      data: { ...parsed.data, password: pwd, age: userAge },
+      data: { ...parsed.data, password: pwd, age: userAge, username: format },
     });
     const newUser = safeUser(user);
     const payload = { id: newUser.id, email: newUser.email };

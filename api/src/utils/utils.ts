@@ -22,10 +22,6 @@ export const hashpwd = (password: string) => {
 };
 
 export const formatUserName = (username: string | any) => {
-  const symbol = "@";
-  let standard = "";
-  if (username[0] !== "@") {
-    standard.concat(symbol, username);
-  }
-  return standard;
+  const format = username.charAt(0) !== "@" ? `@${username}` : username;
+  return format;
 };
