@@ -35,6 +35,12 @@ export const SignUp: React.FC = () => {
       const { year, month, date, ...payload } = values;
       const newvals: SignupPayload = { ...payload, dateOfBirth };
       const res = await registerUser(newvals);
+      const token: string | undefined = (res?.data as any | string)?.token || "No token";
+      if (!token) {
+        return console.log("No token");
+      }
+      console.log("payload==>", payload);
+      localStorage.setItem("token", token);
       console.log("Res==>", res);
       navigate("/");
       return res;

@@ -1,13 +1,15 @@
 import { Card, Image, Indicator, Divider, Loader, Button } from "@mantine/core";
 import type React from "react";
-import { useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
+import { useDestroyAccountMutation, useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
 import { placeholder } from "../../utils/global";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { disconnectSocket } from "../../utils/handlesockets";
 
 export const Profile: React.FC = () => {
   const { data, isLoading } = useGetLoggedinUserQuery();
+  const [delMe, { isLoading: loadDel }] = useDestroyAccountMutation();
+  const navigate = useNavigate();
   // console.log("Loggedin user==>", data);
 
   const handleLogOut = () => {
@@ -16,7 +18,15 @@ export const Profile: React.FC = () => {
     disconnectSocket();
     return (window.location.href = "/");
   };
-  // const data = (data as any)?.safe;
+  // delete account
+  const handleDeleteAcc = async (userId: number) => {
+    try {
+      await delMe(userId);
+      return (window.location.href = "/");
+    } catch (error) {
+      console.log("Delete error", error);
+    }
+  };
   return (
     <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-18">
       {isLoading ? (
@@ -94,7 +104,10 @@ export const Profile: React.FC = () => {
               </ul>
             </div>
 
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end gap-3">
+              <Button onClick={() => handleDeleteAcc(data.newUser.id)} color="red">
+                {loadDel ? <Loader /> : <span>Delete Account </span>}
+              </Button>
               <Button onClick={handleLogOut} className="">
                 Log out
               </Button>

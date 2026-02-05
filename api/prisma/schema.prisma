@@ -38,6 +38,7 @@ model User {
   galary           UserPic[]
   location         String?
   interests        String[] // Prisma supports arrays in Postgres
+  likes            Int?
   status           String        @default("inactive")
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
@@ -48,6 +49,8 @@ model User {
   userQueries      UserQueries[]
   isDeleted        Boolean       @default(false)
   deletedAt        DateTime?
+  friend           Penpal[]      @relation("friend")
+  user             Penpal[]      @relation("user")
 }
 
 model Update {
@@ -65,6 +68,7 @@ model Update {
 model UserPic {
   id         Int      @id @default(autoincrement())
   url        String
+  likes      Int?
   isPrimary  Boolean  @default(false)
   uploadedAt DateTime @default(now())
   user       User     @relation(fields: [userId], references: [id])
@@ -79,6 +83,7 @@ model UserPost {
   info      String
   user      User      @relation(fields: [userId], references: [id])
   userId    Int
+  likes     Int?
   isDeleted Boolean   @default(false)
   deletedAt DateTime?
 }
@@ -90,11 +95,27 @@ model Message {
   senderId          Int
   receiver          User      @relation("ReceivedMessages", fields: [receiverId], references: [id])
   receiverId        Int
+  penpalId          Int
+  penpal            Penpal    @relation(fields: [penpalId], references: [id])
   createdAt         DateTime? @default(now())
   readAt            DateTime?
   deletedAt         DateTime?
   senderDeletedAt   DateTime?
   receiverDeletedAt DateTime?
+}
+
+model Penpal {
+  id        Int       @id @default(autoincrement())
+  friendId  Int       @unique
+  userId    Int
+  user      User      @relation("user", fields: [userId], references: [id])
+  friend    User      @relation("friend", fields: [friendId], references: [id])
+  message   Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  readAt    DateTime?
+
+  @@unique([userId, friendId])
 }
 
 model UserQueries {

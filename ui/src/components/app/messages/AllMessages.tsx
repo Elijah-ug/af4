@@ -3,8 +3,9 @@ import { Message } from "./Message";
 import { MessageModel } from "./MessageModel";
 import { useParams } from "react-router-dom";
 import { Image } from "@mantine/core";
-import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
-import { useGetAllMessagesQuery } from "../../../state/queries/user/messages/messageQueries";
+import { useGetLoggedinUserQuery, useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
+import { useGetAllMessagesQuery, useGetChatsQuery } from "../../../state/queries/user/messages/messageQueries";
+import type { MessageRequest } from "../../../types/message";
 
 export const AllMessages: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -12,10 +13,12 @@ export const AllMessages: React.FC = () => {
   const id = Number(user);
   const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
   const { data: allMessages } = useGetAllMessagesQuery();
-  console.log("selected user id==>", selectedUser);
+  const { data: me } = useGetLoggedinUserQuery();
+  const { data: chats, isLoading, error } = useGetChatsQuery();
+  console.log("get all chats error==>", error);
   const receiverId = selectedUser?.safe?.id;
 
-  console.log("all messages==>", allMessages);
+  // console.log("all messages==>", allMessages);
 
   let staticSender: number[] = [];
   for (let i = 0; i <= 15; i++) {
@@ -25,11 +28,21 @@ export const AllMessages: React.FC = () => {
     setIsOpen(true);
     console.log(isOpen);
   };
-  return ( 
+  // console.log("Me==>", me);
+  // new map
+  const grouped = new Map<number, MessageRequest>();
+  allMessages?.messages.forEach((msg) => {
+    const partnerId = msg.senderId === me?.newUser.id ? msg.receiverId : msg.senderId;
+    if (!grouped.has(partnerId)) {
+      grouped.set(partnerId, msg);
+    }
+    // console.log("Ids==>", partnerId);
+  });
+  return (
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20 py-13">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">
-        {allMessages?.messages.map((msg) => (
+        {Array.from(grouped.values()).map((msg) => (
           <Message key={msg.id} msg={msg} openModel={() => openModel()} />
         ))}
       </div>

@@ -5,11 +5,26 @@ import { prisma } from "../config/db";
 export const store = async (req: Request, res: Response) => {
   try {
     const senderId = req.user.id;
+
+    // create penpal
+
     if (!senderId) return res.status(404).json({ message: "404, user not found" });
     const parsed = validateMessage.safeParse(req.body);
+
     if (!parsed.success) return res.status(400).json({ message: "400 validation error", error: parsed.error });
+    const { receiverId } = parsed.data;
+    const penpal = await prisma.penpal.upsert({
+      where: {
+        userId_friendId: { userId: senderId, friendId: receiverId },
+      },
+      update: {},
+      create: {
+        userId: senderId,
+        friendId: receiverId,
+      },
+    });
     const msg = await prisma.message.create({
-      data: { ...parsed.data, senderId },
+      data: { ...parsed.data, senderId, penpalId: penpal.id },
     });
     return res.status(200).json({ message: "Message sent", msg });
   } catch (error) {
@@ -67,18 +82,18 @@ export const index = async (req: Request, res: Response) => {
         deletedAt: null,
         OR: [{ receiverId: id }, { senderId: id }],
       },
-      distinct: ["receiverId"],
+      distinct: ["senderId"],
       orderBy: { createdAt: "desc" },
     });
     // count by sender
-    const totalNewMsgs = await prisma.message.groupBy({
-      by: ["senderId", "createdAt"],
-      _count: { id: true },
+    const totalNewMsgs = await prisma.message.findMany({
       where: {
         deletedAt: null,
         OR: [{ receiverId: id }, { senderId: id }],
+        NOT: [{ senderId: id }, { receiverId: id }],
       },
       orderBy: { createdAt: "desc" },
+      distinct: ["senderId", "receiverId"],
     });
     return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
   } catch (error) {

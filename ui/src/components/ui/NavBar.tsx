@@ -2,7 +2,7 @@
 import React from "react";
 import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { useMantineColorScheme } from "@mantine/core";
+import { Badge, Notification, useMantineColorScheme } from "@mantine/core";
 
 export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -28,7 +28,16 @@ export const NavBar: React.FC = () => {
 
           {navlinks.map((nav, i) => (
             <NavLink key={i} to={nav.link} className=" hover:text-pink-600 transition">
-              <nav.i size={19} strokeWidth={2.5} />
+              {nav.i === MessageCircle ? (
+                <div className="relative inline-flex">
+                  <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
+                    4
+                  </Badge>
+                  <nav.i size={19} strokeWidth={2.5} />
+                </div>
+              ) : (
+                <nav.i size={19} strokeWidth={2.5} />
+              )}
             </NavLink>
           ))}
         </div>

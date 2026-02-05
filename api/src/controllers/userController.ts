@@ -116,9 +116,8 @@ export const update = async (req: Request, res: Response) => {
 export const destroy = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
-    const user = await prisma.user.update({
+    const user = await prisma.user.delete({
       where: { id },
-      data: { deletedAt: new Date(), isDeleted: true },
     });
     console.log("Destroyed user==>", user);
     return res.status(200).json({ message: "destroy user", user });

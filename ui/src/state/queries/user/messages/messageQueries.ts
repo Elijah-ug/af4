@@ -7,9 +7,11 @@ export const messageQueries = createApi({
     baseUrl: import.meta.env.VITE_USER_MESSAGES,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
+
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
+      console.log("token==>", token);
       return headers;
     },
   }),
@@ -31,6 +33,13 @@ export const messageQueries = createApi({
       }),
       providesTags: ["Messages"],
     }),
+    getChats: builder.query<any, void>({
+      query: () => ({
+        url: "/all-chats",
+        method: "GET",
+      }),
+      providesTags: ["Messages"],
+    }),
     sendMessage: builder.mutation<MessageRequest, MessageToSend>({
       query: (body) => ({
         url: "/send",
@@ -41,4 +50,5 @@ export const messageQueries = createApi({
     }),
   }),
 });
-export const { useGetAllMessagesQuery, useGetAllMessagesWithUserQuery, useSendMessageMutation } = messageQueries;
+export const { useGetAllMessagesQuery, useGetAllMessagesWithUserQuery, useSendMessageMutation, useGetChatsQuery } =
+  messageQueries;

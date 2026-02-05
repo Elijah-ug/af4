@@ -54,6 +54,13 @@ export const fetchUserQueries = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    destroyAccount: builder.mutation<any, number>({
+      query: (user) => ({
+        url: `/${user}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 export const {
@@ -62,4 +69,5 @@ export const {
   useGetSingleUserQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
+  useDestroyAccountMutation,
 } = fetchUserQueries;

@@ -130,8 +130,8 @@ export const Friend: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-1 pt-16 sm:pb-11 min-h-screen  sm:px-10 text-sm ">
-      <div className="flex items-center text-xs gap-3 shadow-md px-3">
+    <div className="flex flex-col gap-1 pt-16 sm:pb-11 min-h-screen  sm:px-10 text-sm">
+      <div className="flex items-center text-xs gap-3 shadow-md px-3 py-1.5">
         <Avatar color="blue" alt="it's me" />
         {isTyping && <span className="text-xs text-green-400">{data?.newUser.username} is typing...</span>}
       </div>

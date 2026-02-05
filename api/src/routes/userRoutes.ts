@@ -10,5 +10,5 @@ userRouter.get("/me", authenticateUser, getMe);
 userRouter.get("/", index);
 userRouter.get("/:user", show);
 userRouter.put("/:user", authenticateUser, update);
-userRouter.put("/:user", authenticateUser, destroy);
+userRouter.delete("/:user", authenticateUser, destroy);
 export default userRouter;
