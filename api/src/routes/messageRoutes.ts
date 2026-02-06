@@ -7,12 +7,12 @@ const messageRouter = express.Router();
 messageRouter.post("/send", authenticateUser, store);
 messageRouter.get("/chat", authenticateUser, chatIndex);
 messageRouter.get("/", authenticateUser, index);
+messageRouter.get("/my-chats", authenticateUser, penpals);
 messageRouter.get("/:message", authenticateUser, show);
 messageRouter.put("/:message", authenticateUser, update);
 messageRouter.put("/:message", authenticateUser, destroy);
 messageRouter.put("/:message/unread", authenticateUser, unread);
 
 // chat
-messageRouter.get("/all-chats", authenticateUser, penpals);
 
 export default messageRouter;

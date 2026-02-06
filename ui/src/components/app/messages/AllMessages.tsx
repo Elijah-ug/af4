@@ -15,7 +15,7 @@ export const AllMessages: React.FC = () => {
   const { data: allMessages } = useGetAllMessagesQuery();
   const { data: me } = useGetLoggedinUserQuery();
   const { data: chats, isLoading, error } = useGetChatsQuery();
-  console.log("get all chats error==>", error);
+  console.log("get all chats error==>", chats);
   const receiverId = selectedUser?.safe?.id;
 
   // console.log("all messages==>", allMessages);
@@ -42,7 +42,7 @@ export const AllMessages: React.FC = () => {
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20 py-13">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">
-        {Array.from(grouped.values()).map((msg) => (
+        {chats?.chat.map((msg) => (
           <Message key={msg.id} msg={msg} openModel={() => openModel()} />
         ))}
       </div>

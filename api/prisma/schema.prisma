@@ -106,7 +106,7 @@ model Message {
 
 model Penpal {
   id        Int       @id @default(autoincrement())
-  friendId  Int       @unique
+  friendId  Int
   userId    Int
   user      User      @relation("user", fields: [userId], references: [id])
   friend    User      @relation("friend", fields: [friendId], references: [id])

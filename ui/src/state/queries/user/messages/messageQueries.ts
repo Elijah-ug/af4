@@ -35,7 +35,7 @@ export const messageQueries = createApi({
     }),
     getChats: builder.query<any, void>({
       query: () => ({
-        url: "/all-chats",
+        url: "/my-chats",
         method: "GET",
       }),
       providesTags: ["Messages"],
