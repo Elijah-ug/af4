@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { MessageRequest, MessageToSend, UserMessages } from "../../../../types/message";
+import type { ChatRequest, MessageRequest, MessageToSend, UserMessages } from "../../../../types/message";
 
 export const messageQueries = createApi({
   reducerPath: "messageQ",
@@ -33,7 +33,7 @@ export const messageQueries = createApi({
       }),
       providesTags: ["Messages"],
     }),
-    getChats: builder.query<any, void>({
+    getChats: builder.query<ChatRequest, void>({
       query: () => ({
         url: "/my-chats",
         method: "GET",

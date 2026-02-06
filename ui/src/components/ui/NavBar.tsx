@@ -2,7 +2,7 @@
 import React from "react";
 import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { Badge, Notification, useMantineColorScheme } from "@mantine/core";
+import { Badge, useMantineColorScheme } from "@mantine/core";
 
 export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
