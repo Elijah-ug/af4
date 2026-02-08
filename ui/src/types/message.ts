@@ -42,7 +42,8 @@ export type Chat = {
 };
 export type ChatRequest = {
   message: string;
-  chat: Chat[];
+  count: number;
+  chat: Chat[] | SafeUser[];
 };
 export type UserMessages = {
   message: string;

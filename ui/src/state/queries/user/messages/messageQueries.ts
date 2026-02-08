@@ -40,6 +40,14 @@ export const messageQueries = createApi({
       }),
       providesTags: ["Messages"],
     }),
+
+    updateMyChats: builder.mutation<ChatRequest, any>({
+      query: () => ({
+        url: `/my-chats/read`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Messages"],
+    }),
     sendMessage: builder.mutation<MessageRequest, MessageToSend>({
       query: (body) => ({
         url: "/send",
@@ -50,5 +58,10 @@ export const messageQueries = createApi({
     }),
   }),
 });
-export const { useGetAllMessagesQuery, useGetAllMessagesWithUserQuery, useSendMessageMutation, useGetChatsQuery } =
-  messageQueries;
+export const {
+  useGetAllMessagesQuery,
+  useGetAllMessagesWithUserQuery,
+  useSendMessageMutation,
+  useGetChatsQuery,
+  useUpdateMyChatsMutation,
+} = messageQueries;

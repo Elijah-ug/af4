@@ -49,7 +49,7 @@ export const chatIndex = async (req: Request, res: Response) => {
         deletedAt: null,
         OR: [
           { senderId: me, receiverId: them },
-          { senderId: them, receiverId: me },
+          { receiverId: me, senderId: them },
         ],
       },
     });
@@ -60,7 +60,7 @@ export const chatIndex = async (req: Request, res: Response) => {
       deletedAt: null,
     };
     const totalNewMsgs = await prisma.message.count({ where: check });
-    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs, them });
+    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs, them, me });
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error ==>", error.message);

@@ -12,10 +12,10 @@ export const AllMessages: React.FC = () => {
   const id = Number(user);
   const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
   const { data: chats, isLoading } = useGetChatsQuery();
-  // console.log("get all chats error==>", chats);
+  // console.log("get all chats==>", chats);
   const receiverId = selectedUser?.safe?.id;
 
-  // console.log("all messages==>", allMessages);
+  console.log("all chats==>", chats);
 
   const openModel = () => {
     setIsOpen(true);

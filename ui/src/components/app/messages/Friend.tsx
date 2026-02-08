@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { messageValidator } from "../../../utils/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import type { MessageToSend } from "../../../types/message";
-import { useGetLoggedinUserQuery, useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
+import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
 import { useParams } from "react-router-dom";
 import {
   useGetAllMessagesWithUserQuery,
@@ -28,11 +28,9 @@ export const Friend: React.FC = () => {
     validate: zodResolver(messageValidator),
   });
   const { user } = useParams();
-  const { data, isLoading: loadUser } = useGetSingleUserQuery(Number(user), { skip: !user });
-  const { data: friend, isLoading: loadFriennd } = useGetAllMessagesWithUserQuery(data?.newUser.id, { skip: !data });
+  // const { data, isLoading: loadUser } = useGetSingleUserQuery();
+  const { data: friend, isLoading: loadFriennd } = useGetAllMessagesWithUserQuery(Number(user), { skip: !user });
   const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
-
-  // console.log("currentUser friend==>", friend);
 
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
 
@@ -106,7 +104,6 @@ export const Friend: React.FC = () => {
       });
     }, 1500);
   };
-  // console.log("Token==>", token);
   // send message with no state updates
   const handleSendMessage = async (values: MessageToSend) => {
     try {
@@ -129,13 +126,15 @@ export const Friend: React.FC = () => {
       return toast.error("Message Not Sent");
     }
   };
+  console.log("messages with friend==>", friend);
+
   return (
     <div className="flex flex-col gap-1 pt-16 sm:pb-11 min-h-screen  sm:px-10 text-sm">
       <div className="flex items-center text-xs gap-3 shadow-md px-3 py-1.5">
         <Avatar color="blue" alt="it's me" />
-        {isTyping && <span className="text-xs text-green-400">{data?.newUser.username} is typing...</span>}
+        {isTyping && <span className="text-xs text-green-400">{currentUser?.newUser.username} is typing...</span>}
       </div>
-      {loadUser || loadFriennd || loadCurrentUser ? (
+      {loadCurrentUser ? (
         <Loader />
       ) : (
         <div className="flex-1 overflow-y-auto px-3 ">

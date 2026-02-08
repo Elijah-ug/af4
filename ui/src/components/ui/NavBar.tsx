@@ -1,8 +1,9 @@
 // NavBar.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Badge, useMantineColorScheme } from "@mantine/core";
+import { useGetChatsQuery } from "../../state/queries/user/messages/messageQueries";
 
 export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -14,6 +15,10 @@ export const NavBar: React.FC = () => {
     { link: "notifications", i: Bell },
     { link: "settings", i: Settings },
   ];
+
+  const { data: chats, isLoading } = useGetChatsQuery();
+  // console.log("get all chats nav==>", chats);
+
   return (
     <nav
       className={
@@ -30,9 +35,11 @@ export const NavBar: React.FC = () => {
             <NavLink key={i} to={nav.link} className=" hover:text-pink-600 transition">
               {nav.i === MessageCircle ? (
                 <div className="relative inline-flex">
-                  <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
-                    4
-                  </Badge>
+                  {chats && chats.count > 0 && (
+                    <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
+                      {chats.count}
+                    </Badge>
+                  )}
                   <nav.i size={19} strokeWidth={2.5} />
                 </div>
               ) : (
