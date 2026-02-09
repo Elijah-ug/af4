@@ -1,9 +1,13 @@
 // NavBar.tsx
-import React, { useEffect } from "react";
+import React from "react";
 import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Badge, useMantineColorScheme } from "@mantine/core";
-import { useGetChatsQuery } from "../../state/queries/user/messages/messageQueries";
+import {
+  useGetAllMessagesQuery,
+  useGetChatsQuery,
+  useUpdateMyChatsMutation,
+} from "../../state/queries/user/messages/messageQueries";
 
 export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -16,8 +20,21 @@ export const NavBar: React.FC = () => {
     { link: "settings", i: Settings },
   ];
 
-  const { data: chats, isLoading } = useGetChatsQuery();
-  // console.log("get all chats nav==>", chats);
+  const { data: chats } = useGetChatsQuery();
+  const { data: msg } = useGetAllMessagesQuery();
+  const [updateMany, { isLoading }] = useUpdateMyChatsMutation();
+  console.log("useGetAllMessagesQuery msg==>", msg);
+  console.log("useGetChatsQuery msg==>", chats);
+
+  const handleUnsetNotification = async () => {
+    try {
+      const res = await updateMany();
+      console.log("Updated many chats==>", res);
+    } catch (error) {
+      console.log("error==>", error);
+      return;
+    }
+  };
 
   return (
     <nav
@@ -35,12 +52,12 @@ export const NavBar: React.FC = () => {
             <NavLink key={i} to={nav.link} className=" hover:text-pink-600 transition">
               {nav.i === MessageCircle ? (
                 <div className="relative inline-flex">
-                  {chats && chats.count > 0 && (
+                  {!isLoading && msg && msg.globalCount > 0 && (
                     <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
-                      {chats.count}
+                      {msg.globalCount}
                     </Badge>
                   )}
-                  <nav.i size={19} strokeWidth={2.5} />
+                  <nav.i size={19} strokeWidth={2.5} onClick={handleUnsetNotification} />
                 </div>
               ) : (
                 <nav.i size={19} strokeWidth={2.5} />

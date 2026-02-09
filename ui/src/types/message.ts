@@ -43,6 +43,7 @@ export type Chat = {
 export type ChatRequest = {
   message: string;
   count: number;
+  globalCount: number;
   chat: Chat[] | SafeUser[];
 };
 export type UserMessages = {
@@ -50,4 +51,17 @@ export type UserMessages = {
   messages: MessageRequest[];
   totalNewMsgs: number;
   them: number;
+  count: number;
+  globalCount: number;
+};
+export type PenpalRequest = {
+  id: number;
+  friendId: number;
+  userId: number;
+  user: SafeUser;
+  friend: SafeUser;
+  message: ChatMsg[];
+  createdAt: Date;
+  updatedAt: Date;
+  readAt: Date;
 };

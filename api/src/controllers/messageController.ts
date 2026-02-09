@@ -13,14 +13,17 @@ export const store = async (req: Request, res: Response) => {
 
     if (!parsed.success) return res.status(400).json({ message: "400 validation error", error: parsed.error });
     const { receiverId } = parsed.data;
+    // normalizing pair
+    const userId = Math.min(senderId, receiverId);
+    const friendId = Math.max(senderId, receiverId);
     const penpal = await prisma.penpal.upsert({
       where: {
-        userId_friendId: { userId: senderId, friendId: receiverId },
+        userId_friendId: { userId, friendId },
       },
       update: {},
       create: {
-        userId: senderId,
-        friendId: receiverId,
+        userId,
+        friendId,
       },
     });
     const msg = await prisma.message.create({
@@ -54,8 +57,8 @@ export const chatIndex = async (req: Request, res: Response) => {
       },
     });
     const check = {
-      senderId: me,
-      receiverId: them,
+      senderId: them,
+      receiverId: me,
       readAt: null,
       deletedAt: null,
     };
@@ -95,7 +98,10 @@ export const index = async (req: Request, res: Response) => {
       orderBy: { createdAt: "desc" },
       distinct: ["senderId", "receiverId"],
     });
-    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs });
+    const count = await prisma.message.count({ where: { receiverId: id, readAt: null, deletedAt: null } });
+    const globalCount = await prisma.message.count({ where: { receiverId: id, updatedAt: null, deletedAt: null } });
+
+    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs, count, globalCount });
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error ==>", error.message);

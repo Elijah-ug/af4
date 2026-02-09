@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { ChatRequest, MessageRequest, MessageToSend, UserMessages } from "../../../../types/message";
+import type {
+  ChatRequest,
+  MessageRequest,
+  MessageToSend,
+  PenpalRequest,
+  UserMessages,
+} from "../../../../types/message";
 
 export const messageQueries = createApi({
   reducerPath: "messageQ",
@@ -33,7 +39,7 @@ export const messageQueries = createApi({
       }),
       providesTags: ["Messages"],
     }),
-    getChats: builder.query<ChatRequest, void>({
+    getChats: builder.query<PenpalRequest, void>({
       query: () => ({
         url: "/my-chats",
         method: "GET",
@@ -41,7 +47,7 @@ export const messageQueries = createApi({
       providesTags: ["Messages"],
     }),
 
-    updateMyChats: builder.mutation<ChatRequest, any>({
+    updateMyChats: builder.mutation<ChatRequest, void>({
       query: () => ({
         url: `/my-chats/read`,
         method: "PUT",
@@ -56,6 +62,14 @@ export const messageQueries = createApi({
       }),
       invalidatesTags: ["Messages"],
     }),
+
+    readUserMessages: builder.mutation<MessageRequest, void>({
+      query: () => ({
+        url: "/my-messages/read",
+        method: "PUT",
+      }),
+      invalidatesTags: ["Messages"],
+    }),
   }),
 });
 export const {
@@ -64,4 +78,5 @@ export const {
   useSendMessageMutation,
   useGetChatsQuery,
   useUpdateMyChatsMutation,
+  useReadUserMessagesMutation,
 } = messageQueries;

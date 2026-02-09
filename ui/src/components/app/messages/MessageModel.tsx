@@ -17,7 +17,7 @@ type Options = {
 export const MessageModel: React.FC<Options> = ({ receiverId }) => {
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
   const { data, isLoading: loadMsg } = useGetAllMessagesWithUserQuery(receiverId, { skip: !receiverId }) as any;
-  console.log("User messages==>", data);
+  // console.log("User messages==>", data);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: { content: "", receiverId: 0 },

@@ -99,6 +99,7 @@ model Message {
   penpal            Penpal    @relation(fields: [penpalId], references: [id])
   createdAt         DateTime? @default(now())
   readAt            DateTime?
+  updatedAt         DateTime?
   deletedAt         DateTime?
   senderDeletedAt   DateTime?
   receiverDeletedAt DateTime?

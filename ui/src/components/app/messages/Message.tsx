@@ -1,21 +1,35 @@
 import React from "react";
 import { Badge, Divider, Loader } from "@mantine/core";
 import { Link } from "react-router-dom";
-import type { Chat } from "../../../types/message";
-import { useUpdateMyChatsMutation } from "../../../state/queries/user/messages/messageQueries";
-import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
+import {
+  useGetAllMessagesWithUserQuery,
+  useReadUserMessagesMutation,
+} from "../../../state/queries/user/messages/messageQueries";
 import type { SafeUser } from "../../../types/types";
 
 type Options = {
   openModel: () => void;
-  msg:ChatRequest;
+  msg: SafeUser;
 };
 
-export const Message: React.FC<Options> = ({ msg, openModel }) => {
-  const [updateChats, { isLoading }] = useUpdateMyChatsMutation();
-  const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
+export const Message: React.FC<Options> = ({ msg }) => {
+  // const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
+  const { data: messages, isLoading: loadMsg } = useGetAllMessagesWithUserQuery(msg.id);
+  const [readUnread] = useReadUserMessagesMutation();
+
   // console.log("currentUser here==>", currentUser);
-  // console.log(" all mapped user==>", msg);
+  console.log(" all mapped messages==>", messages);
+  const handleReadMessages = async () => {
+    try {
+      // if (texts && texts?.count > 0) {
+      const res = await readUnread();
+      console.log("Messages read==>", res);
+      return res;
+      // }
+    } catch (error) {
+      console.log("Read error==>", error);
+    }
+  };
 
   return (
     <div className="">
@@ -23,7 +37,12 @@ export const Message: React.FC<Options> = ({ msg, openModel }) => {
         <Loader color="green" />
       ) : (
         <div>
-          <Link key={msg.id} to={`/friend/${msg.id}`} className="flex items-center gap-3 p-2" onClick={openModel}>
+          <Link
+            key={msg.id}
+            to={`/friend/${msg.id}`}
+            className="flex items-center gap-3 p-2"
+            onClick={handleReadMessages}
+          >
             <div className="bg-gray-500 w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-lg ">
               <span>
                 {msg.name.slice()[0]}
@@ -37,9 +56,9 @@ export const Message: React.FC<Options> = ({ msg, openModel }) => {
               </span>
               <span>{msg?.userId}</span>
             </div>
-            {false && (
+            {!loadMsg && messages && messages.totalNewMsgs > 0 && (
               <Badge size="lg" circle>
-                2
+                {messages.totalNewMsgs}
               </Badge>
             )}
           </Link>
