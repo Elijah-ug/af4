@@ -8,10 +8,10 @@ export const AllUsers: React.FC = () => {
   console.log("useGetAllUsersQuery==>", error);
 
   return (
-    <div className="">
+    <div className="lg:px-10">
       <div className="flex items-center gap-5">
         <span>All Users</span>
-        <span>35215</span>
+        <span>{data?.totalUsers}</span>
       </div>
       <div className="">
         {isLoading ? (
