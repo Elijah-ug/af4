@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: "http://localhost:8080",
+  origin: ["http://localhost:8080", "https://af4-gilt.vercel.app"],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -30,7 +30,11 @@ app.use(`${baseUrl}messages/`, messageRouter);
 const server = http.createServer(app);
 // attach socket.io
 const io = new Server(server, {
-  cors: { origin: "http://localhost:8080", methods: ["POST", "GET"], credentials: true },
+  cors: {
+    origin: ["http://localhost:8080", "https://af4-gilt.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  },
   transports: ["polling", "websocket"],
 });
 // socket events

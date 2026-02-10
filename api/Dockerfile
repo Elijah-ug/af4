@@ -29,7 +29,9 @@ RUN npm run build
 # expose the app port
 EXPOSE 3000
 # start the app(compiled JS) for production
-CMD ["npm" "run" "start"]
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+CMD ["./entrypoint.sh"]
 # start the app for dev
 # CMD ["sh", "-c", "\
 #   echo 'Waiting for Postgres...'; \

@@ -35,7 +35,7 @@ export const index = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany();
     const totalUsers = await prisma.user.count();
-    const pwd = users.map((user) => user.password);
+    // const pwd = users.map((user) => user.password);
     // the following are gonna be worked upon later
     //  -->1️⃣ filter online users
     //  -->2️⃣ pagination of online users
@@ -55,7 +55,7 @@ export const index = async (req: Request, res: Response) => {
 
 export const show = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.user);
+    const id = parseInt(req.params.user as string);
     if (!id || Number.isNaN(id)) {
       console.log("No user id", id, typeof id);
       return res.status(400).json({ message: "Invalid or missing user id" });

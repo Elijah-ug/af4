@@ -114,7 +114,7 @@ export const index = async (req: Request, res: Response) => {
 
 export const show = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.message);
+    const id = parseInt(req.params.message as string);
 
     const userId = req.user.id;
     if (!id) return res.status(404).json({ message: "404 Message not found" });
@@ -142,7 +142,7 @@ export const show = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.message);
+    const id = parseInt(req.params.message as string);
     const userId = req.user.id;
     if (!id) return res.status(404).json({ message: "404 User not found" });
     const msg = await prisma.message.findUnique({ where: { id } });
@@ -160,7 +160,7 @@ export const update = async (req: Request, res: Response) => {
 
 export const destroy = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.message);
+    const id = parseInt(req.params.message as string);
     const userId = req.user.id;
     if (!id) return res.status(404).json({ message: "404 User not found" });
     const msg = await prisma.message.findUnique({ where: { id } });
@@ -194,7 +194,7 @@ export const destroy = async (req: Request, res: Response) => {
 
 export const unread = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.message);
+    const id = parseInt(req.params.message as string);
     const userId = req.user.id;
 
     if (!id && !userId) res.status(404).json({ message: "404 not found" });
