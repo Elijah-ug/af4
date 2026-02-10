@@ -6,26 +6,34 @@ RUN apk add --no-cache netcat-openbsd
 
 # copy package files for better caching
 COPY package*.json  /app/
-# install dependencies
-# set node env to dev
-ENV NODE_ENV=development
-RUN npm install
-RUN npm install nodemon
+
+# install all deps (including devDeps)
+RUN npm ci
 # copy prisma directory
 COPY prisma ./prisma
 # generate prisma client
 RUN npx prisma generate
+# set node env to dev
+ENV NODE_ENV=production
+# RUN npm install nodemon
+
+# RUN npm ci --only=production
+
 # copy the code to the working directory
 COPY . .
 # build TS -> JS
-# RUN npm run build
+RUN npm run build
+
+# prunde dev dependencies for prod
+# RUN npm prune --production
 # expose the app port
 EXPOSE 3000
-# start the app
-CMD ["sh", "-c", "\
-  echo 'Waiting for Postgres...'; \
-  until nc -z db 5432; do sleep 2; done; \
-  npx prisma migrate dev --name=d; \
-  npm run dev \
-"]
-# CMD [ "npm", "run", "start" ]
+# start the app(compiled JS) for production
+CMD ["npm" "run" "start"]
+# start the app for dev
+# CMD ["sh", "-c", "\
+#   echo 'Waiting for Postgres...'; \
+#   until nc -z db 5432; do sleep 2; done; \
+#   npx prisma migrate dev --name=d; \
+#   npm run dev \
+# "]
