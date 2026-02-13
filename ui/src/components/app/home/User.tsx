@@ -31,7 +31,6 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
 
         <div className="grid gap-1">
           <Text size="sm" c="dimmed">
-            hyet
             {newUser.username || "@johndoe"}
           </Text>
 

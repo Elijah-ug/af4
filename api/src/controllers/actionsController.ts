@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/db";
 
-export const store = async (req: Request, res: Response) => {
+export const like = async (req: Request, res: Response) => {
   console.log("tested adding a match on this route");
   try {
     const from: number = req?.user.id;
@@ -48,6 +48,14 @@ export const store = async (req: Request, res: Response) => {
     }
   }
 };
+
+// export const likes=async(req: Request, res: Response)=>{
+//   try {
+//     const user = req.user.id
+//   } catch (error) {
+    
+//   }
+// }
 
 export const matches = async (req: Request, res: Response) => {
   try {

@@ -33,8 +33,10 @@ export const store = async (req: Request, res: Response) => {
 
 export const index = async (req: Request, res: Response) => {
   try {
-    const users = await prisma.user.findMany();
+    const allUsers = await prisma.user.findMany();
+    const users = allUsers.map(({ password, ...safeInfo }) => safeInfo);
     const totalUsers = await prisma.user.count();
+
     // const pwd = users.map((user) => user.password);
     // the following are gonna be worked upon later
     //  -->1️⃣ filter online users
