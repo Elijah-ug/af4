@@ -1,12 +1,10 @@
-FROM node:24-alpine
+FROM node:20
 # set working directory
 WORKDIR /app
 # copy package files for better caching
-COPY package*.json /app/
+COPY package*.json ./
 # install dependencies
 RUN npm ci
-# copy src to for better caching
-COPY src ./src
 # copy code to the working directory
 COPY . .
 # run build

@@ -4,7 +4,7 @@ import type { LoginFormValues, LoginResponse, SignupPayload, UserResponse, UserT
 export const fetchUserQueries = createApi({
   reducerPath: "userQuery",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_ALL_USERS,
+    baseUrl: `${import.meta.env.VITE_BASE_URL}users`,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {

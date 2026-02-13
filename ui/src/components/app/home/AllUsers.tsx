@@ -4,8 +4,7 @@ import { LoadingOverlay } from "@mantine/core";
 import { User } from "./User";
 
 export const AllUsers: React.FC = () => {
-  const { data, isLoading, error } = useGetAllUsersQuery();
-  console.log("useGetAllUsersQuery==>", error);
+  const { data, isLoading } = useGetAllUsersQuery();
 
   return (
     <div className="lg:px-10">

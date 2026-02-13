@@ -6,7 +6,7 @@ import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
 
 export const LoggedinUser: React.FC = () => {
   const { data, isLoading } = useGetLoggedinUserQuery();
-  console.log("Loggedin User==>", data);
+  // console.log("Loggedin User==>", data);
   return (
     <div className="px-3 sm:px-5 lg:px-10 pb-5 ">
       {isLoading ? (

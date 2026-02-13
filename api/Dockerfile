@@ -1,23 +1,21 @@
-FROM node:24-alpine
+FROM node:20
 # set working directory
 WORKDIR /app
 # install netcat for waiting the db
-RUN apk add --no-cache netcat-openbsd
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 
 # copy package files for better caching
-COPY package*.json  /app/
+COPY package*.json  ./
 
 # install all deps (including devDeps)
 RUN npm ci
 # copy prisma directory
 COPY prisma ./prisma
 # generate prisma client
-RUN npx prisma generate
-# set node env to dev
-ENV NODE_ENV=production
-# RUN npm install nodemon
+RUN npm install -D nodemon
 
-# RUN npm ci --only=production
+RUN npx prisma generate
+# ENV NODE_ENV=production
 
 # copy the code to the working directory
 COPY . .
@@ -31,7 +29,7 @@ EXPOSE 3000
 # start the app(compiled JS) for production
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
-CMD ["./entrypoint.sh"]
+CMD ["sh", "./entrypoint.sh"]
 # start the app for dev
 # CMD ["sh", "-c", "\
 #   echo 'Waiting for Postgres...'; \
