@@ -40,7 +40,9 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
           </Link>
           <div className="absolute right-1 flex items-center gap-1">
             <Heart size={19} color="red" onClick={() => handleLikeUser(newUser.id)} />
-            <span className="text-xs">{newUser.likesTo.length}</span>
+            <span className="text-xs">
+              {newUser.likesTo && newUser.likesTo.length > 0 ? newUser.likesTo.length : ""}
+            </span>
           </div>
         </div>
       </div>
