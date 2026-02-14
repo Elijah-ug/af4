@@ -34,7 +34,7 @@ export const messageQueries = createApi({
 
     getAllMessagesWithUser: builder.query<UserMessages, number | any>({
       query: (receiverId) => ({
-        url: `/chat?with=${receiverId}`,
+        url: `/chat-index?with=${receiverId}`,
         method: "GET",
       }),
       providesTags: ["Messages"],

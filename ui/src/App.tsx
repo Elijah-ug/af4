@@ -48,7 +48,7 @@ export const App: React.FC = () => {
               ) : (
                 <>
                   <Route path="/" element={<Home />} />
-                  <Route path="/:user" element={<SingleUser />} />
+                  <Route path="users/:user" element={<SingleUser />} />
                   {/* </Route> */}
                   <Route path="discover" element={<Discover />} />
                   <Route path="messages" element={<AllMessages />} />
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
                   <Route path="profile" element={<Profile />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="active-users" element={<ActiveUsers />} />
-                  <Route path="friend/:user" element={<Friend />} />
+                  <Route path="/:user" element={<Friend />} />
 
                   {/* single components */}
                 </>

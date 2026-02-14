@@ -40,7 +40,7 @@ export const fetchUserQueries = createApi({
     }),
     registerUser: builder.mutation<SignupPayload, SignupPayload>({
       query: (body) => ({
-        url: "signup",
+        url: "/signup",
         method: "POST",
         body,
       }),

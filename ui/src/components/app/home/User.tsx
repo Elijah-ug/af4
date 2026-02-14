@@ -22,14 +22,14 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
     <Card shadow="sm" padding="md" radius="md" withBorder>
       <div className="grid gap-1">
         <Card.Section>
-          <Link to={`/${newUser.id}`}>
+          <Link to={`user/${newUser.id}`}>
             <Indicator position="top-start" label="new" offset={14}>
               <Image src={placeholder} alt="user" />
             </Indicator>
           </Link>
         </Card.Section>
 
-        <div className="grid gap-1">
+        <div className="grid gap-1 relative">
           <Text size="sm" c="dimmed">
             {newUser.username || "@johndoe"}
           </Text>
@@ -38,11 +38,11 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
             <span>Location:</span>
             <span>Kisaasi</span>
           </Text>
-          <Link to={`/friend/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
+          <Link to={`/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
             Send Message
           </Link>
-          <div className="">
-            <ThumbsUp size={15} onClick={() => handleLikeUser(newUser.id)} />
+          <div className="absolute right-1">
+            <ThumbsUp size={19} onClick={() => handleLikeUser(newUser.id)} />
           </div>
         </div>
       </div>

@@ -37,12 +37,7 @@ export const Message: React.FC<Options> = ({ msg }) => {
         <Loader color="green" />
       ) : (
         <div>
-          <Link
-            key={msg.id}
-            to={`/friend/${msg.id}`}
-            className="flex items-center gap-3 p-2"
-            onClick={handleReadMessages}
-          >
+          <Link key={msg.id} to={`/${msg.id}`} className="flex items-center gap-3 p-2" onClick={handleReadMessages}>
             <div className="bg-gray-500 w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-lg ">
               <span>
                 {msg.name.slice()[0]}

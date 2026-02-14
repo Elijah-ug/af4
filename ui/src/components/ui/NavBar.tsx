@@ -23,8 +23,8 @@ export const NavBar: React.FC = () => {
   const { data: chats } = useGetChatsQuery();
   const { data: msg } = useGetAllMessagesQuery();
   const [updateMany, { isLoading }] = useUpdateMyChatsMutation();
-  console.log("useGetAllMessagesQuery msg==>", msg);
-  console.log("useGetChatsQuery msg==>", chats);
+  // console.log("useGetAllMessagesQuery msg==>", msg);
+  // console.log("useGetChatsQuery msg==>", chats);
 
   const handleUnsetNotification = async () => {
     try {
@@ -45,19 +45,20 @@ export const NavBar: React.FC = () => {
       }
     >
       <div className="flex items-center justify-between gap-5 ">
-        <div className="flex justify-between w-full lg:gap-7 items-center pr-3  py-2">
+        <div className="flex justify-between items-center w-full lg:gap-7 pr-3  py-2">
           {/* Home */}
 
           {navlinks.map((nav, i) => (
             <NavLink key={i} to={nav.link} className=" hover:text-pink-600 transition">
               {nav.i === MessageCircle ? (
-                <div className="relative inline-flex">
+                <div className={`${msg && msg.globalCount > 0 && "relative"}  flex`}>
+                  <nav.i size={19} strokeWidth={2.5} onClick={handleUnsetNotification} />
+
                   {!isLoading && msg && msg.globalCount > 0 && (
                     <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
                       {msg.globalCount}
                     </Badge>
                   )}
-                  <nav.i size={19} strokeWidth={2.5} onClick={handleUnsetNotification} />
                 </div>
               ) : (
                 <nav.i size={19} strokeWidth={2.5} />

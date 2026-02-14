@@ -52,6 +52,7 @@ export const like = async (req: Request, res: Response) => {
 // export const likes=async(req: Request, res: Response)=>{
 //   try {
 //     const user = req.user.id
+//     const userLikes=await prisma.like.count({where:{}})
 //   } catch (error) {
     
 //   }

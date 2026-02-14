@@ -15,6 +15,12 @@ export type LoginFormValues = {
   password: string;
   // token: string;
 };
+type likesToUser = {
+  id: number;
+  fromUser: number;
+  toUser: number;
+  length: number;
+};
 
 export type SafeUser = {
   id: number;
@@ -34,12 +40,14 @@ export type SafeUser = {
   verifiedAt: Date | null;
   isDeleted: boolean;
   deletedAt: Date | null;
+  likesTo: likesToUser;
 };
 export type LoginResponse = {
   message: string;
   token: string;
   account: SafeUser;
 };
+
 export type UserType = {
   message: string;
   newUser: SafeUser;

@@ -22,10 +22,10 @@ services:
     environment:
       - POSTGRES_USER=elicom
       # dev
-      - POSTGRES_PASSWORD=elicom256
-      - POSTGRES_DB=chat
-      # - POSTGRES_PASSWORD=MyvJ5cuwLSlgzlyslOg2QF3S37N7bGPN
-      # - POSTGRES_DB=chat_ds41
+      # - POSTGRES_PASSWORD=elicom256
+      # - POSTGRES_DB=chat
+      - POSTGRES_PASSWORD=MyvJ5cuwLSlgzlyslOg2QF3S37N7bGPN
+      - POSTGRES_DB=chat_ds41
     ports:
       - "5432:5432"
     healthcheck:
