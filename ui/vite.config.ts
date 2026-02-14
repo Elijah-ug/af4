@@ -6,15 +6,16 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: {
-    proxy: {
-      "/realcompanion": {
-        target: "http://api:3000",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-    host: true,
-    port: 80,
-  },
+  // dev
+  // server: {
+  //   proxy: {
+  //     "/realcompanion": {
+  //       target: "http://api:3000",
+  //       changeOrigin: true,
+  //       secure: false,
+  //     },
+  //   },
+  //   host: true,
+  //   port: 80,
+  // },
 });
