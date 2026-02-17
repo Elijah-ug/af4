@@ -32,8 +32,7 @@ export const Login: React.FC = () => {
       localStorage.setItem("token", token);
       // connection socket
 
-      navigate("/");
-      return payload;
+      return (window.location.href = "/");
     } catch (error) {
       console.log("Validation errors=>", error);
       return toast.error("Login failed");

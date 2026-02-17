@@ -42,8 +42,7 @@ export const SignUp: React.FC = () => {
       console.log("payload==>", payload);
       localStorage.setItem("token", token);
       console.log("Res==>", res);
-      navigate("/");
-      return res;
+      return (window.location.href = "/");
     } catch (error) {
       console.log("Dev errors==>", error);
       return toast.error("Signup failed!");
