@@ -10,7 +10,7 @@ import type {
 export const messageQueries = createApi({
   reducerPath: "messageQ",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BASE_URL}messages`,
+    baseUrl: `${import.meta.env.VITE_BASE_URL}/messages`,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
 
