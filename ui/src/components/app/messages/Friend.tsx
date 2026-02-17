@@ -8,9 +8,7 @@ import type { MessageToSend } from "../../../types/message";
 import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
 import { useParams } from "react-router-dom";
 import {
-  useGetAllMessagesQuery,
   useGetAllMessagesWithUserQuery,
-  useGetChatsQuery,
   useSendMessageMutation,
 } from "../../../state/queries/user/messages/messageQueries";
 import { toast } from "react-toastify";
@@ -32,9 +30,9 @@ export const Friend: React.FC = () => {
   const { user } = useParams();
   const userId = Number(user);
   console.log("User==>", user);
-  const { data: friend, isLoading: loadFriennd } = useGetAllMessagesWithUserQuery(userId, { skip: !user });
-  const { data: dd } = useGetChatsQuery();
-  console.log("useGetAllMessagesWithUserQuery ==>", friend);
+  const { data: friend, isLoading: loadFriennd, error } = useGetAllMessagesWithUserQuery(userId, { skip: !user });
+  console.log("useGetAllMessagesWithUserQuery ==>", friend, "Error==>", error);
+  console.log("local messages ==>", messages);
 
   const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
 
@@ -114,7 +112,7 @@ export const Friend: React.FC = () => {
   const handleSendMessage = async (values: MessageToSend) => {
     try {
       console.log("values==>", values);
-      const parsed = messageValidator.safeParse({ ...values, receiverId: friend?.them });
+      const parsed = messageValidator.safeParse({ ...values, receiverId: userId });
       console.log("Parsed==>", parsed);
       const res = await sendMessage(parsed.data);
       console.log("Response==>", res);

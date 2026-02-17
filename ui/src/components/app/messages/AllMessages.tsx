@@ -4,14 +4,17 @@ import { MessageModel } from "./MessageModel";
 import { useParams } from "react-router-dom";
 import { Image } from "@mantine/core";
 import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
-import { useGetChatsQuery } from "../../../state/queries/user/messages/messageQueries";
+import { useGetAllMessagesQuery, useGetChatsQuery } from "../../../state/queries/user/messages/messageQueries";
 
 export const AllMessages: React.FC = () => {
   const { user } = useParams<{ user: string | any }>();
   const id = Number(user);
   const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
   const { data: chats, isLoading } = useGetChatsQuery();
-  // console.log("get all chats==>", chats);
+  const { data: msgs, error } = useGetAllMessagesQuery();
+  console.log("get all messages==>", msgs);
+  console.log("get all messages error==>", error);
+  
   const receiverId = selectedUser?.safe?.id;
 
   // console.log("all chats==>", chats);
