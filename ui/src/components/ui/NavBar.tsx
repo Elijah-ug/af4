@@ -8,6 +8,7 @@ import {
   useGetChatsQuery,
   useUpdateMyChatsMutation,
 } from "../../state/queries/user/messages/messageQueries";
+import { useAllNewNotificationsQuery } from "../../state/queries/user/userQuery";
 
 export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -23,7 +24,8 @@ export const NavBar: React.FC = () => {
   const { data: chats } = useGetChatsQuery();
   const { data: msg } = useGetAllMessagesQuery();
   const [updateMany, { isLoading }] = useUpdateMyChatsMutation();
-  // console.log("useGetAllMessagesQuery msg==>", msg);
+  const { data: notifications, isLoading: LoadNotifications } = useAllNewNotificationsQuery();
+  console.log("notifications ==>", notifications);
   // console.log("useGetChatsQuery msg==>", chats);
 
   const handleUnsetNotification = async () => {
@@ -57,6 +59,16 @@ export const NavBar: React.FC = () => {
                   {!isLoading && msg && msg.globalCount > 0 && (
                     <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
                       {msg.globalCount}
+                    </Badge>
+                  )}
+                </div>
+              ) : nav.i === Bell ? (
+                <div className={`${notifications && notifications.all > 0 && "relative"}  flex`}>
+                  <nav.i size={19} strokeWidth={2.5} onClick={handleUnsetNotification} />
+
+                  {!LoadNotifications && notifications && notifications.all > 0 && (
+                    <Badge size="xs" color="red" circle className="absolute -top-1 -right-1 z-50">
+                      {notifications.all}
                     </Badge>
                   )}
                 </div>

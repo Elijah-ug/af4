@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 
 export const SignUp: React.FC = () => {
   const [registerUser, { isLoading, error }] = useRegisterUserMutation();
-  const navigate = useNavigate();
 
   const form = useForm<SignupFormValues>({
     mode: "uncontrolled",
@@ -41,7 +40,8 @@ export const SignUp: React.FC = () => {
       }
       console.log("payload==>", payload);
       localStorage.setItem("token", token);
-      console.log("Res==>", res);
+      console.log("Res from signup==>", res);
+
       return (window.location.href = "/");
     } catch (error) {
       console.log("Dev errors==>", error);

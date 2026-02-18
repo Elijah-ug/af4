@@ -61,6 +61,38 @@ export const fetchUserQueries = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
+    triggerLike: builder.mutation<any, number>({
+      query: (to) => ({
+        url: `${to}/likes`,
+        method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    getMatches: builder.query<any, void>({
+      query: () => ({
+        url: "/matches",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
+    unreadLikes: builder.query<any, void>({
+      query: () => ({
+        url: "/new-likes",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
+    allNewNotifications: builder.query<any, void>({
+      query: () => ({
+        url: "/all-new-notifications",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 export const {
@@ -69,5 +101,9 @@ export const {
   useGetSingleUserQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
+  useTriggerLikeMutation,
+  useGetMatchesQuery,
   useDestroyAccountMutation,
+  useUnreadLikesQuery,
+  useAllNewNotificationsQuery,
 } = fetchUserQueries;

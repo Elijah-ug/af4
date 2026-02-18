@@ -4,7 +4,7 @@ import type { SafeUser } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
-import { useTriggerLikeMutation } from "../../../state/queries/user/messages/actionsQueries";
+import { useTriggerLikeMutation } from "../../../state/queries/user/userQuery";
 type UserProps = {
   newUser: SafeUser;
 };
@@ -14,6 +14,7 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
     try {
       const res = await likeUser(to);
       console.log("Like response==>", res);
+      return res;
     } catch (error) {
       console.log("Like error==>", error);
     }

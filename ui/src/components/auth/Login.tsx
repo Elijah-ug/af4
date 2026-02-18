@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import type { LoginFormValues } from "../../types/types";
 import { toast } from "react-toastify";
 import { useLoginUserMutation } from "../../state/queries/user/userQuery";
+import { connectSocket } from "../../utils/handlesockets";
 export const Login: React.FC = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export const Login: React.FC = () => {
       console.log("payload==>", payload);
       localStorage.setItem("token", token);
       // connection socket
+      connectSocket(payload?.data?.account.id);
 
       return (window.location.href = "/");
     } catch (error) {

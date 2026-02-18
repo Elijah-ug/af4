@@ -24,38 +24,38 @@ model Admin {
   updates    Update[]
 }
 
-  model User {
-    id               Int           @id @default(autoincrement())
-    name             String
-    username         String?       @unique
-    email            String        @unique
-    password         String
-    gender           String
-    dateOfBirth      String
-    age              Int?
-    bio              String?
-    profilePic       String?
-    galary           UserPic[]
-    location         String?
-    interests        String[] // Prisma supports arrays in Postgres
-    likes            Int?
-    status           String        @default("inactive")
-    createdAt        DateTime      @default(now())
-    updatedAt        DateTime      @updatedAt
-    verifiedAt       DateTime?
-    posts            UserPost[]
-    sentMessages     Message[]     @relation("SentMessages")
-    receivedMessages Message[]     @relation("ReceivedMessages")
-    userQueries      UserQueries[]
-    isDeleted        Boolean       @default(false)
-    deletedAt        DateTime?
-    friend           Penpal[]      @relation("friend")
-    user             Penpal[]      @relation("user")
-    likesFrom        Like[]        @relation("from")
-    likesTo          Like[]        @relation("to")
-    matchesA         Match[]       @relation("userA")
-    matchesB         Match[]       @relation("userB")
-  }
+model User {
+  id               Int           @id @default(autoincrement())
+  name             String
+  username         String?       @unique
+  email            String        @unique
+  password         String
+  gender           String
+  dateOfBirth      String
+  age              Int?
+  bio              String?
+  profilePic       String?
+  galary           UserPic[]
+  location         String?
+  interests        String[] // Prisma supports arrays in Postgres
+  likes            Int?
+  status           String        @default("inactive")
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  verifiedAt       DateTime?
+  posts            UserPost[]
+  sentMessages     Message[]     @relation("SentMessages")
+  receivedMessages Message[]     @relation("ReceivedMessages")
+  userQueries      UserQueries[]
+  isDeleted        Boolean       @default(false)
+  deletedAt        DateTime?
+  friend           Penpal[]      @relation("friend")
+  user             Penpal[]      @relation("user")
+  likesFrom        Like[]        @relation("from")
+  likesTo          Like[]        @relation("to")
+  matchesA         Match[]       @relation("userA")
+  matchesB         Match[]       @relation("userB")
+}
 
 model Update {
   id        Int       @id @default(autoincrement())
@@ -124,21 +124,25 @@ model Penpal {
 }
 
 model Like {
-  id       Int  @id @default(autoincrement())
-  fromUser Int
-  toUser   Int
-  userA    User @relation("from", fields: [fromUser], references: [id])
-  userB    User @relation("to", fields: [toUser], references: [id])
+  id        Int       @id @default(autoincrement())
+  fromUser  Int
+  toUser    Int
+  userA     User      @relation("from", fields: [fromUser], references: [id])
+  userB     User      @relation("to", fields: [toUser], references: [id])
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
 
   @@unique([fromUser, toUser])
 }
 
 model Match {
-  id      Int  @id @default(autoincrement())
-  userAId Int
-  userBId Int
-  userA   User @relation("userA", fields: [userAId], references: [id])
-  userB   User @relation("userB", fields: [userBId], references: [id])
+  id        Int       @id @default(autoincrement())
+  userAId   Int
+  userBId   Int
+  userA     User      @relation("userA", fields: [userAId], references: [id])
+  userB     User      @relation("userB", fields: [userBId], references: [id])
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
 
   @@unique([userAId, userBId])
 }

@@ -4,7 +4,8 @@ import type { SafeUser } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
 import { Link } from "react-router-dom";
 import { ThumbsUp } from "lucide-react";
-import { useTriggerLikeMutation } from "../../../state/queries/user/messages/actionsQueries";
+import { useTriggerLikeMutation } from "../../../state/queries/user/userQuery";
+
 type UserProps = {
   newUser: SafeUser;
 };

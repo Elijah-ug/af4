@@ -26,7 +26,7 @@ import { connectSocket } from "./utils/handlesockets";
 export const App: React.FC = () => {
   const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
-  console.log("Current user==>", user);
+  console.log("Current user connectSocket ==>", user);
   useEffect(() => {
     if (!user?.newUser.id) return;
     connectSocket(user?.newUser.id);

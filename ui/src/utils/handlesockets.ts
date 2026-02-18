@@ -1,7 +1,9 @@
 import { socket } from "../components/app/services/socket";
 
 export const connectSocket = (userId: number | any) => {
-  if (socket.connected) return;
+  if (socket.connected) {
+    return console.log("Socket connected");
+  }
   socket.auth = { userId };
   socket.connect();
 

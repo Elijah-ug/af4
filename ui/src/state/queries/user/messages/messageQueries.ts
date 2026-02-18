@@ -70,6 +70,13 @@ export const messageQueries = createApi({
       }),
       invalidatesTags: ["Messages"],
     }),
+    unreadMessages: builder.query<any, void>({
+      query: () => ({
+        url: "/unread",
+        method: "GET",
+      }),
+      providesTags: ["Messages"],
+    }),
   }),
 });
 export const {
@@ -79,4 +86,5 @@ export const {
   useGetChatsQuery,
   useUpdateMyChatsMutation,
   useReadUserMessagesMutation,
+  useUnreadMessagesQuery,
 } = messageQueries;

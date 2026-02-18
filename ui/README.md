@@ -27,6 +27,10 @@
 * Showing errors on forms
 * Code cleanup
 
+<!-- todos -->
+
+- To move logged in user filtering logic to the backend
+
 # Next steps
 
 - Using redis + socket.io to render online users
