@@ -2,14 +2,13 @@ import { Card, Image, Indicator, Divider, Loader, Button } from "@mantine/core";
 import type React from "react";
 import { useDestroyAccountMutation, useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
 import { placeholder } from "../../utils/global";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { disconnectSocket } from "../../utils/handlesockets";
 
 export const Profile: React.FC = () => {
   const { data, isLoading } = useGetLoggedinUserQuery();
   const [delMe, { isLoading: loadDel }] = useDestroyAccountMutation();
-  const navigate = useNavigate();
   // console.log("Loggedin user==>", data);
 
   const handleLogOut = () => {
@@ -46,7 +45,7 @@ export const Profile: React.FC = () => {
                 </div>
 
                 <div className="">
-                  <Link to="edit" className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
+                  <Link to={`/update`} className="flex items-center justify-around gap- bg-purple-400 p-1 rounded">
                     <Pencil className="text-white" />
                     <span>Edit</span>
                   </Link>

@@ -23,6 +23,8 @@ import { Friend } from "./components/app/messages/Friend";
 import { useEffect } from "react";
 import { useGetLoggedinUserQuery } from "./state/queries/user/userQuery";
 import { connectSocket } from "./utils/handlesockets";
+import { EditBio } from "./components/auth/EditBio";
+import { PasswordReset } from "./components/auth/PasswordReset";
 export const App: React.FC = () => {
   const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
@@ -58,8 +60,9 @@ export const App: React.FC = () => {
                   <Route path="profile" element={<Profile />} />
                   <Route path="login" element={<Login />} />
                   <Route path="signup" element={<SignUp />} />
-                  <Route path="profile" element={<Profile />} />
+                  <Route path="/update" element={<SignUp />} />
                   <Route path="settings" element={<Settings />} />
+                  <Route path="password-reset" element={<PasswordReset />} />
                   <Route path="active-users" element={<ActiveUsers />} />
                   <Route path="/:user" element={<Friend />} />
 

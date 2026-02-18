@@ -1,57 +1,37 @@
-import React, { useEffect, useState, type FormEvent } from "react";
+import React, { useState, type FormEvent } from "react";
 import { TextInput, Button, Card, Loader } from "@mantine/core";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useLoginUserMutation } from "../../state/queries/user/userQuery";
-import { connectSocket } from "../../utils/handlesockets";
+import { useUpdatePasswordMutation } from "../../state/queries/user/userQuery";
 import { Eye, EyeOff } from "lucide-react";
 import { getErrorMessage } from "../../utils/global";
 type Pwd = {
   email: string;
   password: string;
 };
-export const Login: React.FC = () => {
-  const [loginUser, { isLoading, error }] = useLoginUserMutation();
+export const PasswordReset: React.FC = () => {
+  const [updatePwd, { isLoading, error }] = useUpdatePasswordMutation();
   const [reveal, setReveal] = useState<Boolean>(false);
   const [userData, setUserData] = useState<Pwd>({
     email: "",
     password: "",
   });
-  const location = useLocation();
-  // useEffect to check if useLoaction has some state
-  useEffect(() => {
-    if (location.state) {
-    }
-  });
-  useEffect(() => {
-    if (location.state) {
-      const { newEmail, newPassword } = location.state as { newEmail: string; newPassword: string };
-      if (newEmail && newPassword) {
-        setUserData({ email: newEmail, password: newPassword });
-      }
-    }
-  }, [location.state]);
+  const navigate = useNavigate();
+
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (localStorage.getItem("token")) {
         localStorage.removeItem("token");
       }
-      const payload = await loginUser(userData);
-
-      const token: string | undefined = (payload?.data as any | string)?.token || "No token";
-      if (!token) {
-        return console.log("No token");
-      }
-      console.log("Login checked==>", payload);
-      console.log("payload==>", payload);
+      const payload = await updatePwd(userData);
       if (!payload.data) {
-        return;
+        return null;
       }
-      localStorage.setItem("token", token);
-      // connection socket
-      connectSocket(payload?.data?.account.id);
-      return (window.location.href = "/");
+      console.log("User found==>", payload);
+      return navigate("/login", {
+        state: { newEmail: payload.data.user.email, newPassword: payload.data.user.password },
+      });
     } catch (error) {
       console.log("Validation errors=>", error);
       return toast.error("Login failed");
@@ -92,25 +72,23 @@ export const Login: React.FC = () => {
                 </div>
 
                 <Button type="submit" mt="sm">
-                  Login
+                  {isLoading ? <Loader color="blue" /> : "Reset Password"}
                 </Button>
               </div>
               {/* <div className="mt-2 text-center">{err && <p className="text-red-400 text-sm">{`${err}!`}</p>}</div> */}
               <div className="flex flex-col gap-5 items-center mt-3 ">
                 <p className="">Don't have an account?</p>
                 <Link to="/signup" className="underline">
-                  Sign Up
+                  Create an account
                 </Link>
               </div>
             </form>
           </div>
         )}
+
         {error && (
           <div className="text-sm flex items-center gap-3 py-3">
             <span className="text-sm text-red-400">{getErrorMessage(error)}</span>
-            <Link to="/password-reset" className="text-blue-400 hover:underline">
-              Reset Password
-            </Link>
           </div>
         )}
       </Card>

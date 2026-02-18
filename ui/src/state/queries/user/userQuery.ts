@@ -46,6 +46,15 @@ export const fetchUserQueries = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
+    updatePassword: builder.mutation<any, any>({
+      query: (body) => ({
+        url: "/user/update-password",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
     loginUser: builder.mutation<LoginResponse, LoginFormValues>({
       query: (body) => ({
         url: "/login",
@@ -53,6 +62,13 @@ export const fetchUserQueries = createApi({
         body,
       }),
       invalidatesTags: ["User"],
+    }),
+    updateProfie: builder.mutation<SignupPayload, SignupPayload>({
+      query: (body) => ({
+        url: "/profile/update",
+        method: "PATCH",
+        body,
+      }),
     }),
     destroyAccount: builder.mutation<any, number>({
       query: (user) => ({
@@ -105,5 +121,7 @@ export const {
   useGetMatchesQuery,
   useDestroyAccountMutation,
   useUnreadLikesQuery,
+  useUpdateProfieMutation,
+  useUpdatePasswordMutation,
   useAllNewNotificationsQuery,
 } = fetchUserQueries;

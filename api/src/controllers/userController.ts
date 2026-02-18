@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { validateUserOnReg } from "../utils/validate";
+import { validateUserOnReg, validateUserOnUpdate } from "../utils/validate";
 import { formatUserName, getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
 import { prisma } from "../config/db";
 
@@ -100,11 +100,20 @@ export const getMe = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
-    const parsed = validateUserOnReg.safeParse(req.body);
-    if (!parsed.success) return res.status(401).json({ message: "Bad request, validation failed" });
-    const user = await prisma.user.update({ where: { id }, data: parsed.data });
+    const parsed = validateUserOnUpdate.safeParse(req.body);
+    console.log("updated user==>", parsed);
+
+    if (!parsed.success) return res.status(400).json({ message: "Bad request, validation failed", err: parsed.error });
+    const { dateOfBirth, username } = parsed.data;
+    const format = formatUserName(username);
+    const userAge = getAge(dateOfBirth);
+
+    const user = await prisma.user.update({
+      where: { id },
+      data: { ...parsed.data, username: format, age: userAge },
+    });
     console.log("updated user==>", user);
-    return res.status(200).json({ message: "update user", user });
+    return res.status(200).json({ message: "User updated", user });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);

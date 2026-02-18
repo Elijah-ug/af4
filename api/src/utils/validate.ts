@@ -27,6 +27,25 @@ export const validateUserOnReg = z.object({
   interests: z.array(z.string()).optional(),
 });
 
+export const validateUserOnUpdate = z.object({
+  name: z.string().optional(),
+  email: z.email().optional(),
+  // password: z.string().min(6).optional(),
+  gender: z.string().optional(),
+  dateOfBirth: z.iso.date().optional(),
+  status: z.string().default("inactive").optional(),
+  username: z.string().min(3).optional(),
+  age: z.int().optional(),
+  bio: z.string().optional(),
+  profilePic: z.url().optional(),
+  location: z.string().optional(),
+  interests: z.array(z.string()).optional(),
+});
+
+export const validatePwd = z.object({
+  email: z.email(),
+  password: z.string().min(6).optional(),
+});
 export const loginValidator = z.object({
   email: z.email(),
   password: z.string().min(6),

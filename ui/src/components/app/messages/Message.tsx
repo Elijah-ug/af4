@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import {
   useGetAllMessagesWithUserQuery,
   useReadUserMessagesMutation,
+  useUnreadMessagesQuery,
 } from "../../../state/queries/user/messages/messageQueries";
 import type { SafeUser } from "../../../types/types";
 
@@ -13,12 +14,11 @@ type Options = {
 };
 
 export const Message: React.FC<Options> = ({ msg }) => {
-  // const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
-  const { data: messages, isLoading: loadMsg } = useGetAllMessagesWithUserQuery(msg.id);
+  const { data: newMsg, isLoading: loadNew } = useUnreadMessagesQuery();
+
   const [readUnread] = useReadUserMessagesMutation();
 
-  // console.log("currentUser here==>", currentUser);
-  console.log(" all mapped messages==>", messages);
+  console.log(" all mapped messages==>", newMsg);
   const handleReadMessages = async () => {
     try {
       // if (texts && texts?.count > 0) {
@@ -49,11 +49,10 @@ export const Message: React.FC<Options> = ({ msg }) => {
                 {/* {msg?.userId === currentUser?.newUser.id ? msg?.friend.username : msg?.user.username} */}
                 {msg.username}
               </span>
-              <span>{msg?.userId}</span>
             </div>
-            {!loadMsg && messages && messages.totalNewMsgs > 0 && (
+            {!loadNew && newMsg && newMsg.unreadMsg > 0 && (
               <Badge size="lg" circle>
-                {messages.totalNewMsgs}
+                {newMsg.unreadMsg}
               </Badge>
             )}
           </Link>

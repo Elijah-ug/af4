@@ -17,11 +17,15 @@ export const safeUser = (user: any) => {
   return safeUser;
 };
 
+export const revealSecrets = (pwd: string) => {
+  const parsed = jwt.decode(pwd);
+};
+
 export const hashpwd = (password: string) => {
   return bcrypt.hash(password, 10);
 };
 
 export const formatUserName = (username: string | any) => {
   const format = username.charAt(0) !== "@" ? `@${username}` : username;
-  return format;
+  return format.toLowerCase();
 };

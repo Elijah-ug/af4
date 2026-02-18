@@ -27,9 +27,6 @@
 * Showing errors on forms
 * Code cleanup
 
-<!-- todos -->
-
-- To move logged in user filtering logic to the backend
 
 # Next steps
 
