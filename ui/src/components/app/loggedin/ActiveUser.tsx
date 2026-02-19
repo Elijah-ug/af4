@@ -19,6 +19,7 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
       console.log("Like error==>", error);
     }
   };
+  console.log("User to like==>", newUser);
   return (
     <Card shadow="sm" padding="md" radius="md" withBorder>
       <div className="grid gap-1">

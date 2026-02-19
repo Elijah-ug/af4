@@ -25,10 +25,11 @@ import { useGetLoggedinUserQuery } from "./state/queries/user/userQuery";
 import { connectSocket } from "./utils/handlesockets";
 import { EditBio } from "./components/auth/EditBio";
 import { PasswordReset } from "./components/auth/PasswordReset";
+import { UserLikes } from "./components/app/user/UserLikes";
 export const App: React.FC = () => {
   const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
-  console.log("Current user connectSocket ==>", user);
+  // console.log("Current user connectSocket ==>", user);
   useEffect(() => {
     if (!user?.newUser.id) return;
     connectSocket(user?.newUser.id);
@@ -64,6 +65,7 @@ export const App: React.FC = () => {
                   <Route path="settings" element={<Settings />} />
                   <Route path="password-reset" element={<PasswordReset />} />
                   <Route path="active-users" element={<ActiveUsers />} />
+                  <Route path="likes" element={<UserLikes />} />
                   <Route path="/:user" element={<Friend />} />
 
                   {/* single components */}

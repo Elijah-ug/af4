@@ -19,7 +19,7 @@ export const Notifications: React.FC = () => {
 
         {/* unread messages */}
         {likes && likes.unreadLikes > 0 && (
-          <Link to="/new-likes" className="bg-gray-700 p-2">
+          <Link to="/likes" className="bg-gray-700 p-2">
             <span>You have {likes.unreadLikes} new likes </span>
           </Link>
         )}

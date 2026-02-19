@@ -13,7 +13,7 @@ export const ActiveUsers: React.FC = () => {
       setTotal(data?.totalUsers);
     }
   }, [data]);
-  console.log("all users==>", data);
+  // console.log("all users==>", data);
 
   return (
     <div className=" lg:px-10 py-18">

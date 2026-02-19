@@ -102,6 +102,14 @@ export const fetchUserQueries = createApi({
       providesTags: ["User"],
     }),
 
+    userLikes: builder.query<any, void>({
+      query: () => ({
+        url: "/user-likes",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
     allNewNotifications: builder.query<any, void>({
       query: () => ({
         url: "/all-new-notifications",
@@ -121,6 +129,7 @@ export const {
   useGetMatchesQuery,
   useDestroyAccountMutation,
   useUnreadLikesQuery,
+  useUserLikesQuery,
   useUpdateProfieMutation,
   useUpdatePasswordMutation,
   useAllNewNotificationsQuery,

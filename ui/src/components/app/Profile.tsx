@@ -9,7 +9,7 @@ import { disconnectSocket } from "../../utils/handlesockets";
 export const Profile: React.FC = () => {
   const { data, isLoading } = useGetLoggedinUserQuery();
   const [delMe, { isLoading: loadDel }] = useDestroyAccountMutation();
-  // console.log("Loggedin user==>", data);
+  console.log("Loggedin user==>", data);
 
   const handleLogOut = () => {
     localStorage.removeItem("token");

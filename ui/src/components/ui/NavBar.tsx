@@ -25,7 +25,7 @@ export const NavBar: React.FC = () => {
   const { data: msg } = useGetAllMessagesQuery();
   const [updateMany, { isLoading }] = useUpdateMyChatsMutation();
   const { data: notifications, isLoading: LoadNotifications } = useAllNewNotificationsQuery();
-  console.log("notifications ==>", notifications);
+  // console.log("notifications ==>", notifications);
   // console.log("useGetChatsQuery msg==>", chats);
 
   const handleUnsetNotification = async () => {

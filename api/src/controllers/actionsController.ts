@@ -36,7 +36,6 @@ export const like = async (req: Request, res: Response) => {
         },
       });
     }
-
     return res.status(201).json({ message: reciprocal ? "It's a match" : "Liked User", like, match });
   } catch (error) {
     if (error instanceof Error) {
@@ -49,12 +48,20 @@ export const like = async (req: Request, res: Response) => {
   }
 };
 
-// export const likes = async (req: Request, res: Response) => {
-//   try {
-//     const user = req.user.id;
-//     const userLikes = await prisma.like.count({ where: {} });
-//   } catch (error) {}
-// };
+export const userLikes = async (req: Request, res: Response) => {
+  try {
+    const toUser = req.user.id;
+    const userLikes = await prisma.like.findMany({ where: { toUser } });
+    const likers = await prisma.user.findMany({
+      where: { likesTo: { some: { id: toUser } } },
+      include: { likesTo: true },
+    });
+    return res.status(200).json({ message: "My likes", userLikes, likers });
+  } catch (error) {
+    console.log("Error in likes", error);
+    return res.status(500).json({ message: "Internal Server error", err: error });
+  }
+};
 
 export const matches = async (req: Request, res: Response) => {
   try {
