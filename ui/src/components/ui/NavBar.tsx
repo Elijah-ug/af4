@@ -10,7 +10,7 @@ export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const navlinks = [
     { link: "/", i: Home },
-    { link: "active-users", i: Users },
+    { link: "my-likes", i: Users },
     { link: "messages", i: MessageCircle },
     { link: "discover", i: Compass },
     { link: "notifications", i: Bell },

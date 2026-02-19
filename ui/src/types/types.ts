@@ -52,6 +52,7 @@ export type UserType = {
   message: string;
   newUser: SafeUser;
 };
+
 export type UserResponse = {
   message: string;
   totalUsers: number;
@@ -59,6 +60,15 @@ export type UserResponse = {
 };
 type Like = {
   id: number;
+  fromUser: number;
+  toUser: number;
+  createdAt: Date;
+  readAt: Date;
+};
+export type UserRelational = {
+  message: string;
+  userLikes: Like[];
+  users: SafeUser[];
 };
 export type Matches = {
   message: string;

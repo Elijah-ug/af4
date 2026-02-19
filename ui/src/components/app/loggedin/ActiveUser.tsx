@@ -3,13 +3,11 @@ import type React from "react";
 import type { SafeUser } from "../../../types/types";
 import { placeholder } from "../../../utils/global";
 import { Link } from "react-router-dom";
-import { useUserLikesQuery } from "../../../state/queries/user/userQuery";
 type UserProps = {
   newUser: SafeUser;
 };
 export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
   
-
   return (
     <div className="">
       <Card shadow="sm" padding="md" radius="md" withBorder>

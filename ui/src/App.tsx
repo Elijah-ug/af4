@@ -23,7 +23,6 @@ import { Friend } from "./components/app/messages/Friend";
 import { useEffect } from "react";
 import { useGetLoggedinUserQuery } from "./state/queries/user/userQuery";
 import { connectSocket } from "./utils/handlesockets";
-import { EditBio } from "./components/auth/EditBio";
 import { PasswordReset } from "./components/auth/PasswordReset";
 import { UserLikes } from "./components/app/user/UserLikes";
 export const App: React.FC = () => {
@@ -64,7 +63,7 @@ export const App: React.FC = () => {
                   <Route path="/update" element={<SignUp />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="password-reset" element={<PasswordReset />} />
-                  <Route path="active-users" element={<ActiveUsers />} />
+                  <Route path="my-likes" element={<ActiveUsers />} />
                   <Route path="likes" element={<UserLikes />} />
                   <Route path="/:user" element={<Friend />} />
 

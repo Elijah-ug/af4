@@ -22,7 +22,7 @@ export const UserLikes: React.FC = () => {
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-1 py-20">
-        {!isLoading && data?.likers.map((user: any) => <User key={user.id} newUser={user} />)}
+        {!isLoading && data?.users.map((user: any) => <User key={user.id} newUser={user} />)}
       </div>
     </div>
   );

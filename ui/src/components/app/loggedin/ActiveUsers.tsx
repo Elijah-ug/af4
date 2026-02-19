@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  useGetAllUsersQuery,
-  useGetLoggedinUserQuery,
-  useGetMatchesQuery,
-  useUserLikesQuery,
-} from "../../../state/queries/user/userQuery";
+import { useGetAllUsersQuery, useGetLoggedinUserQuery, useUserLikesQuery } from "../../../state/queries/user/userQuery";
 import { LoadingOverlay } from "@mantine/core";
 import { ActiveUser } from "./ActiveUser";
 
 export const ActiveUsers: React.FC = () => {
   const { data, isLoading } = useGetAllUsersQuery();
-  const { data: currUser, isLoading: loadCurrUser } = useGetLoggedinUserQuery();
+  const { data: currUser } = useGetLoggedinUserQuery();
 
-  const { data: matches } = useGetMatchesQuery();
-  console.log("get all matches==>", matches);
-
-  const { data: likers, isLoading: loadLikers } = useUserLikesQuery();
-  // console.log("profile likers==>", likers);
+  const { data: likers } = useUserLikesQuery();
+  console.log("get likers types==>", likers);
 
   const [total, setTotal] = useState<number>(0);
   useEffect(() => {
@@ -24,13 +16,11 @@ export const ActiveUsers: React.FC = () => {
       setTotal(data?.totalUsers);
     }
   }, [data]);
-  // console.log("all users==>", data);
 
   return (
     <div className=" lg:px-10 py-18">
       <div className="flex items-center gap-5 ">
         <span>See who liked your profile</span>
-        <span>{total}</span>
       </div>
       <div className="">
         {isLoading ? (

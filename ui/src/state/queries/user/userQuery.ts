@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { LoginFormValues, LoginResponse, SignupPayload, UserResponse, UserType } from "../../../types/types";
+import type { LoginFormValues, LoginResponse, SignupPayload, UserRelational, UserResponse, UserType } from "../../../types/types";
 
 export const fetchUserQueries = createApi({
   reducerPath: "userQuery",
@@ -110,7 +110,7 @@ export const fetchUserQueries = createApi({
       providesTags: ["User"],
     }),
 
-    userLikes: builder.query<any, void>({
+    userLikes: builder.query<UserRelational, void>({
       query: () => ({
         url: "/user-likes",
         method: "GET",
