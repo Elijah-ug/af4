@@ -57,10 +57,12 @@ export type UserResponse = {
   totalUsers: number;
   users: SafeUser[];
 };
-
-// export type SingleUser={
-//   message:string
-//   safe:
-// }
+type Like = {
+  id: number;
+};
+export type Matches = {
+  message: string;
+  matches: Like[];
+};
 
 export type MessageData = { text: string };

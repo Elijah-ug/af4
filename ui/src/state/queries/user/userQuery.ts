@@ -96,7 +96,7 @@ export const fetchUserQueries = createApi({
 
     getMatches: builder.query<any, void>({
       query: () => ({
-        url: "/matches",
+        url: "/my-matches",
         method: "GET",
       }),
       providesTags: ["User"],
@@ -141,5 +141,5 @@ export const {
   useUpdateProfieMutation,
   useUpdatePasswordMutation,
   useAllNewNotificationsQuery,
-  useReadLikesMutation
+  useReadLikesMutation,
 } = fetchUserQueries;

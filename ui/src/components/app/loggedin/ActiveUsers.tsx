@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useGetAllUsersQuery, useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
+import {
+  useGetAllUsersQuery,
+  useGetLoggedinUserQuery,
+  useGetMatchesQuery,
+  useUserLikesQuery,
+} from "../../../state/queries/user/userQuery";
 import { LoadingOverlay } from "@mantine/core";
 import { ActiveUser } from "./ActiveUser";
 
 export const ActiveUsers: React.FC = () => {
   const { data, isLoading } = useGetAllUsersQuery();
   const { data: currUser, isLoading: loadCurrUser } = useGetLoggedinUserQuery();
+
+  const { data: matches } = useGetMatchesQuery();
+  console.log("get all matches==>", matches);
+
+  const { data: likers, isLoading: loadLikers } = useUserLikesQuery();
+  // console.log("profile likers==>", likers);
 
   const [total, setTotal] = useState<number>(0);
   useEffect(() => {
@@ -18,7 +29,7 @@ export const ActiveUsers: React.FC = () => {
   return (
     <div className=" lg:px-10 py-18">
       <div className="flex items-center gap-5 ">
-        <span>Users online</span>
+        <span>See who liked your profile</span>
         <span>{total}</span>
       </div>
       <div className="">
@@ -28,7 +39,9 @@ export const ActiveUsers: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-1 my-7">
-            {data?.users.map((user) => user.id !== currUser?.newUser.id && <ActiveUser key={user.id} newUser={user} />)}
+            {likers?.users.map(
+              (user) => user.id !== currUser?.newUser.id && <ActiveUser key={user.id} newUser={user} />,
+            )}
           </div>
         )}
       </div>

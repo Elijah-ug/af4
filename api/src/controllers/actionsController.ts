@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { prisma } from "../config/db";
 
 export const like = async (req: Request, res: Response) => {
-  console.log("tested adding a match on this route");
   try {
     const from: number = req?.user.id;
     const to: number = Number(req.params.to);
@@ -48,10 +47,10 @@ export const like = async (req: Request, res: Response) => {
   }
 };
 
-export const userLikes = async (req: Request, res: Response) => {
+export const unreadLikes = async (req: Request, res: Response) => {
   try {
     const toUser = req.user.id;
-    const userLikes = await prisma.like.findMany({ where: { toUser } });
+    const userLikes = await prisma.like.findMany({ where: { readAt: null }, orderBy: { createdAt: "desc" } });
     const likers = await prisma.user.findMany({
       where: { likesTo: { some: { id: toUser } } },
       include: { likesTo: true },
@@ -63,12 +62,30 @@ export const userLikes = async (req: Request, res: Response) => {
   }
 };
 
+export const userLikes = async (req: Request, res: Response) => {
+  try {
+    const toUser = req.user.id;
+    const userLikes = await prisma.like.findMany({ where: { toUser } });
+    const users = await prisma.user.findMany({
+      where: { likesFrom: { some: { toUser: toUser } } },
+      include: { likesTo: true },
+    });
+    return res.status(200).json({ message: "My likes", userLikes, users });
+  } catch (error) {
+    console.log("Error in likes", error);
+    return res.status(500).json({ message: "Internal Server error", err: error });
+  }
+};
+
 export const matches = async (req: Request, res: Response) => {
   try {
-    console.log("This rouite also gotten");
-    // const user = req.user.id;
-    // console.log("User==>", user);
-    return res.status(200).json({ message: "Matches fetched" });
+    const user = req.user.id;
+    const matches = await prisma.match.findMany({
+      where: { OR: [{ userAId: user }, { userBId: user }] },
+      include: { userA: true, userB: true },
+    });
+    // to filter the logged in user here
+    return res.status(200).json({ message: "Matches fetched", matches });
   } catch (error) {
     console.log("error==>", error);
     return res.status(500).json({ message: "500 internal server error", err: error });

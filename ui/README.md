@@ -27,6 +27,7 @@
 -> Render User likers
 -> Allow user to block/report other user
 
+
 - ================ some other parts to refactor =======
 
 * Showing errors on forms
