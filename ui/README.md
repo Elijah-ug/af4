@@ -22,6 +22,11 @@
 ✅ showing a typing event
 ✅ delivering the messages in real time with Socket.io
 
+<!-- todos today -->
+-> Refactor update many messages and likes (readAt)
+-> Render User likers
+-> Allow user to block/report other user
+
 - ================ some other parts to refactor =======
 
 * Showing errors on forms

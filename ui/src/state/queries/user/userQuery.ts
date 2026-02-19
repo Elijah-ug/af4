@@ -86,6 +86,14 @@ export const fetchUserQueries = createApi({
       invalidatesTags: ["User"],
     }),
 
+    readLikes: builder.mutation<any, void>({
+      query: () => ({
+        url: "/read-likes",
+        method: "PATCH",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
     getMatches: builder.query<any, void>({
       query: () => ({
         url: "/matches",
@@ -133,4 +141,5 @@ export const {
   useUpdateProfieMutation,
   useUpdatePasswordMutation,
   useAllNewNotificationsQuery,
+  useReadLikesMutation
 } = fetchUserQueries;

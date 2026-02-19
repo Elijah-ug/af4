@@ -3,11 +3,7 @@ import React from "react";
 import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Badge, useMantineColorScheme } from "@mantine/core";
-import {
-  useGetAllMessagesQuery,
-  useGetChatsQuery,
-  useUpdateMyChatsMutation,
-} from "../../state/queries/user/messages/messageQueries";
+import { useGetAllMessagesQuery, useUpdateMyChatsMutation } from "../../state/queries/user/messages/messageQueries";
 import { useAllNewNotificationsQuery } from "../../state/queries/user/userQuery";
 
 export const NavBar: React.FC = () => {
@@ -21,11 +17,9 @@ export const NavBar: React.FC = () => {
     { link: "settings", i: Settings },
   ];
 
-  const { data: chats } = useGetChatsQuery();
   const { data: msg } = useGetAllMessagesQuery();
   const [updateMany, { isLoading }] = useUpdateMyChatsMutation();
   const { data: notifications, isLoading: LoadNotifications } = useAllNewNotificationsQuery();
-  // console.log("notifications ==>", notifications);
   // console.log("useGetChatsQuery msg==>", chats);
 
   const handleUnsetNotification = async () => {

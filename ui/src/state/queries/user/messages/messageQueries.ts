@@ -17,7 +17,7 @@ export const messageQueries = createApi({
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
-      console.log("token==>", token);
+      // console.log("token==>", token);
       return headers;
     },
   }),

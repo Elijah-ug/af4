@@ -55,6 +55,20 @@ model User {
   likesTo          Like[]        @relation("to")
   matchesA         Match[]       @relation("userA")
   matchesB         Match[]       @relation("userB")
+  blocker          Block[]       @relation("Blocker")
+  blocked          Block[]       @relation("Blocked")
+}
+
+model Block {
+  id        Int      @id @default(autoincrement())
+  blockerId Int
+  blockedId Int
+  createdAt DateTime @default(now())
+
+  blocker User @relation("Blocker", fields: [blockerId], references: [id])
+  blocked User @relation("Blocked", fields: [blockedId], references: [id])
+
+  @@unique([blockerId, blockedId])
 }
 
 model Update {

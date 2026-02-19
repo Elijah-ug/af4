@@ -30,7 +30,7 @@ export const PasswordReset: React.FC = () => {
       }
       console.log("User found==>", payload);
       return navigate("/login", {
-        state: { newEmail: payload.data.user.email, newPassword: payload.data.user.password },
+        state: { newEmail: payload.data.user.email, newPassword: userData.password },
       });
     } catch (error) {
       console.log("Validation errors=>", error);

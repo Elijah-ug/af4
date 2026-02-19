@@ -4,27 +4,20 @@ import { MessageModel } from "./MessageModel";
 import { useParams } from "react-router-dom";
 import { Image } from "@mantine/core";
 import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
-import { useGetAllMessagesQuery, useGetChatsQuery } from "../../../state/queries/user/messages/messageQueries";
+import { useGetChatsQuery } from "../../../state/queries/user/messages/messageQueries";
 
 export const AllMessages: React.FC = () => {
   const { user } = useParams<{ user: string | any }>();
   const id = Number(user);
   const { data: selectedUser } = useGetSingleUserQuery(id, { skip: !id }) as any;
   const { data: chats, isLoading } = useGetChatsQuery();
-  const { data: msgs, error } = useGetAllMessagesQuery();
-  console.log("get all messages==>", msgs);
-  console.log("get all messages error==>", error);
-  
   const receiverId = selectedUser?.safe?.id;
 
-  // console.log("all chats==>", chats);
-
-  // console.log("Me==>", me);
   return (
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20 py-13">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">
-        {!isLoading && chats && chats.chat.map((msg) => <Message key={msg.id} msg={msg} />)}
+        {!isLoading && chats && chats.chat.map((msg) => <Message key={msg.id} chat={msg} />)}
       </div>
       {/* messaging area for large screens */}
       <div className="hidden sm:flex sm:col-span-2 lg:col-span-3 ">

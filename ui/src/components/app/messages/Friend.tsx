@@ -29,11 +29,8 @@ export const Friend: React.FC = () => {
   });
   const { user } = useParams();
   const userId = Number(user);
-  console.log("User==>", user);
-  const { data: friend, isLoading: loadFriennd, error } = useGetAllMessagesWithUserQuery(userId, { skip: !user });
-  console.log("useGetAllMessagesWithUserQuery ==>", friend, "Error==>", error);
-  console.log("local messages ==>", messages);
-
+  const { data: friend, isLoading: loadFriennd } = useGetAllMessagesWithUserQuery(userId, { skip: !user });
+console.log("With user==>", friend)
   const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
 
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
@@ -134,10 +131,13 @@ export const Friend: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-1 pt-16 sm:pb-11 min-h-screen  sm:px-10 text-sm">
-      <div className="flex items-center text-xs gap-3 shadow-md px-3 py-1.5">
-        <Avatar color="blue" alt="it's me" />
-        {isTyping && <span className="text-xs text-green-400">{currentUser?.newUser.username} is typing...</span>}
-      </div>
+      {!loadFriennd && (
+        <div className="flex items-center text-xs gap-3 shadow-md px-3 py-1.5">
+          <Avatar color="blue" alt="it's me" />
+          <span>{friend?.user.username}</span>
+          {isTyping && <span className="text-xs text-green-400"> is typing...</span>}
+        </div>
+      )}
       {loadCurrentUser ? (
         <Loader />
       ) : (
@@ -175,7 +175,7 @@ export const Friend: React.FC = () => {
           onChange={(e) => handleTyping(e.currentTarget.value)}
           radius="xl"
           type="text"
-          className=" w-full"
+          className="w-full"
           size="lg"
         />
         <Button type="submit">

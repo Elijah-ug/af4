@@ -2,7 +2,7 @@ import express from "express";
 import { destroy, index, show, store, update, getMe } from "../controllers/userController";
 import { authenticateUser } from "../middleware/auth";
 import { login } from "../controllers/login";
-import { like, userLikes } from "../controllers/actionsController";
+import { like, readLikes, userLikes } from "../controllers/actionsController";
 import { allNotifications, newLikes } from "../controllers/notificationsController";
 import { updatePassword } from "../controllers/passwordController";
 
@@ -15,6 +15,7 @@ userRouter.get("/new-likes", authenticateUser, newLikes);
 userRouter.get("/user-likes", authenticateUser, userLikes);
 userRouter.get("/all-new-notifications", authenticateUser, allNotifications);
 userRouter.patch("/profile/update", authenticateUser, update);
+userRouter.patch("/read-likes", authenticateUser, readLikes);
 userRouter.patch("/user/update-password", updatePassword);
 userRouter.post("/:to/likes", authenticateUser, like);
 userRouter.get("/:user", show);

@@ -74,3 +74,15 @@ export const matches = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "500 internal server error", err: error });
   }
 };
+
+// update many likes(readAt)
+export const readLikes = async (req: Request, res: Response) => {
+  try {
+    const toUser = req.user.id;
+    const read = await prisma.like.updateMany({ where: { toUser, readAt: null }, data: { readAt: new Date() } });
+    return res.status(200).json({ message: "Read likes", read });
+  } catch (error) {
+    console.log("error==>", error);
+    return res.status(500).json({ message: "500 internal server error", err: error });
+  }
+};

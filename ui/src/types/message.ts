@@ -18,6 +18,7 @@ export type MessageRequest = {
 };
 
 type ChatMsg = {
+  chat: SafeUser;
   content: string;
   createdAt: Date;
   deletedAt: Date;
@@ -46,6 +47,9 @@ export type ChatRequest = {
   globalCount: number;
   chat: Chat[] | SafeUser[];
 };
+type name = {
+  username: string;
+};
 export type UserMessages = {
   message: string;
   messages: MessageRequest[];
@@ -53,15 +57,17 @@ export type UserMessages = {
   them: number;
   count: number;
   globalCount: number;
+  user: name;
 };
 export type PenpalRequest = {
   id: number;
   friendId: number;
   userId: number;
-  user: SafeUser;
-  friend: SafeUser;
-  message: ChatMsg[];
+  chat: SafeUser[];
   createdAt: Date;
   updatedAt: Date;
   readAt: Date;
+  count: number;
+  countP: number;
+  message: string;
 };

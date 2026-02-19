@@ -47,6 +47,8 @@ export const chatIndex = async (req: Request, res: Response) => {
 
     if (!me) return res.status(404).json({ message: "404 User not found" });
     if (!them) return res.status(404).json({ message: "404 Receiver not found" });
+    // get user(them)
+    const user = await prisma.user.findUnique({ where: { id: them }, select: { username: true } });
     const messages = await prisma.message.findMany({
       where: {
         deletedAt: null,
@@ -63,7 +65,7 @@ export const chatIndex = async (req: Request, res: Response) => {
       deletedAt: null,
     };
     const totalNewMsgs = await prisma.message.count({ where: check });
-    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs, them, me });
+    return res.status(200).json({ message: "Messages found", messages, totalNewMsgs, them, me, user });
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error ==>", error.message);
