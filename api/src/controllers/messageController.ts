@@ -7,12 +7,23 @@ export const store = async (req: Request, res: Response) => {
     const senderId = req.user.id;
 
     // create penpal
-
     if (!senderId) return res.status(404).json({ message: "404, user not found" });
+
     const parsed = validateMessage.safeParse(req.body);
 
     if (!parsed.success) return res.status(400).json({ message: "400 validation error", error: parsed.error });
     const { receiverId } = parsed.data;
+
+    // check if sender or receiver is blocked
+    const isBlocked = await prisma.block.findFirst({
+      where: {
+        OR: [
+          { blockerId: senderId, blockedId: receiverId },
+          { blockerId: receiverId, blockedId: senderId },
+        ],
+      },
+    });
+    if (isBlocked) return res.status(403).json({ message: "403 Forbidden" });
     // normalizing pair
     const userId = Math.min(senderId, receiverId);
     const friendId = Math.max(senderId, receiverId);

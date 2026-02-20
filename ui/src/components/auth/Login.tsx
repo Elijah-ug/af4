@@ -57,7 +57,6 @@ export const Login: React.FC = () => {
       return toast.error("Login failed");
     }
   };
-console.log("User data now==>", userData)
   return (
     <div className="flex items-center justify-center py-24 ">
       <Card shadow="sm" padding="lg" radius="md" withBorder className="w-xs sm:w-lg  shadow-lg ">

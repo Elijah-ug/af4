@@ -1,11 +1,16 @@
 import { Avatar, Button, Input, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { SendHorizontal } from "lucide-react";
+import { Blocks, SendHorizontal, ShieldBan, ShieldMinus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { messageValidator } from "../../../utils/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import type { MessageToSend } from "../../../types/message";
-import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
+import {
+  useBlockUserMutation,
+  useGetLoggedinUserQuery,
+  useRestrictBlockedQuery,
+  useUnBlockUserMutation,
+} from "../../../state/queries/user/userQuery";
 import { useParams } from "react-router-dom";
 import {
   useGetAllMessagesWithUserQuery,
@@ -30,10 +35,13 @@ export const Friend: React.FC = () => {
   const { user } = useParams();
   const userId = Number(user);
   const { data: friend, isLoading: loadFriennd } = useGetAllMessagesWithUserQuery(userId, { skip: !user });
-console.log("With user==>", friend)
   const { data: currentUser, isLoading: loadCurrentUser } = useGetLoggedinUserQuery();
+  const { data: isBlocked } = useRestrictBlockedQuery(friend?.them as number, { skip: !friend });
+  console.log(" currentUser==>", isBlocked);
 
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
+  const [blockUser, { isLoading: loadBlock }] = useBlockUserMutation();
+  const [unBlockUser, { isLoading: loadUnblock }] = useUnBlockUserMutation();
 
   // load api messages into state once
   useEffect(() => {
@@ -129,13 +137,37 @@ console.log("With user==>", friend)
     }
   };
 
+  const handleBlockUser = async (userId: number | any) => {
+    try {
+      const res = await blockUser(userId);
+      console.log("Blocked user==>", res);
+      return (window.location.href = "/");
+    } catch (error) {
+      return console.log("error in block==>", error);
+    }
+  };
+
+  const handleUnblockUser = async (userId: any) => {
+    try {
+      const res = await unBlockUser(userId);
+      console.log("Unblocking user==>", res);
+      return res;
+    } catch (error) {
+      console.log("Unblock error");
+    }
+  };
   return (
     <div className="flex flex-col gap-1 pt-16 sm:pb-11 min-h-screen  sm:px-10 text-sm">
       {!loadFriennd && (
-        <div className="flex items-center text-xs gap-3 shadow-md px-3 py-1.5">
-          <Avatar color="blue" alt="it's me" />
-          <span>{friend?.user.username}</span>
-          {isTyping && <span className="text-xs text-green-400"> is typing...</span>}
+        <div className="flex justify-between items-center shadow-lg px-3 py-1.5">
+          <div className="flex items-center text-xs gap-3 ">
+            <Avatar color="blue" alt="it's me" />
+            <span>{friend?.user.username}</span>
+            {isTyping && <span className="text-xs text-green-400"> is typing...</span>}
+          </div>
+          {!isBlocked?.isBlocked&&(<div className=" cursor-pointer">
+            {loadBlock ? <Loader color="green" /> : <ShieldBan onClick={() => handleBlockUser(friend?.them)} />}
+          </div>)}
         </div>
       )}
       {loadCurrentUser ? (
@@ -169,23 +201,44 @@ console.log("With user==>", friend)
           </div>
         </div>
       )}
-      <form onSubmit={form.onSubmit(handleSendMessage)} className="flex items-center gap-7 pb-3 sm:pb-7 ">
-        <Input
-          value={form.values.content}
-          onChange={(e) => handleTyping(e.currentTarget.value)}
-          radius="xl"
-          type="text"
-          className="w-full"
-          size="lg"
-        />
-        <Button type="submit">
-          {isLoading ? (
-            <Loader color="" />
+      {isBlocked?.isBlocked ? (
+        <div className="flex items-center justify-center gap-2 py-5 sm:text-lg">
+          <span className="text-red-400 ">You can't send a message! </span>
+          {isBlocked?.isBlocked.blockerId === currentUser?.newUser.id ? (
+            <div className="flex items-center justify-center gap-2">
+              <span>Unblock user</span>
+              {loadUnblock ? (
+                <Loader color="green" />
+              ) : (
+                <ShieldMinus
+                  onClick={() => handleUnblockUser(isBlocked.isBlocked.blockedId)}
+                  className="cursor-pointer"
+                />
+              )}
+            </div>
           ) : (
-            <SendHorizontal type="submit" className="text-xl text-white right-9" size={24} />
+            <span className="text-red-400 ">you were blocked</span>
           )}
-        </Button>
-      </form>
+        </div>
+      ) : (
+        <form onSubmit={form.onSubmit(handleSendMessage)} className="flex items-center gap-7 pb-3 sm:pb-7 ">
+          <Input
+            value={form.values.content}
+            onChange={(e) => handleTyping(e.currentTarget.value)}
+            radius="xl"
+            type="text"
+            className="w-full"
+            size="lg"
+          />
+          <Button type="submit">
+            {isLoading ? (
+              <Loader color="" />
+            ) : (
+              <SendHorizontal type="submit" className="text-xl text-white right-9" size={24} />
+            )}
+          </Button>
+        </form>
+      )}
     </div>
   );
 };

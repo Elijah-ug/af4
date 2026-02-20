@@ -76,3 +76,10 @@ export type Matches = {
 };
 
 export type MessageData = { text: string };
+
+// block
+type IsBlocked = { id: number; blockerId: number; blockedId: number; createdAt: Date };
+export type BlockRequest = {
+  message: string;
+  isBlocked: IsBlocked;
+};

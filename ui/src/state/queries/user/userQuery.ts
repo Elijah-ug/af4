@@ -1,5 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { LoginFormValues, LoginResponse, SignupPayload, UserRelational, UserResponse, UserType } from "../../../types/types";
+import type {
+  BlockRequest,
+  LoginFormValues,
+  LoginResponse,
+  SignupPayload,
+  UserRelational,
+  UserResponse,
+  UserType,
+} from "../../../types/types";
 
 export const fetchUserQueries = createApi({
   reducerPath: "userQuery",
@@ -118,6 +126,30 @@ export const fetchUserQueries = createApi({
       providesTags: ["User"],
     }),
 
+    blockUser: builder.mutation<any, number>({
+      query: (userId) => ({
+        url: `/block-user?user=${userId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    unBlockUser: builder.mutation<any, number>({
+      query: (userId) => ({
+        url: `/unblock-user/${userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    restrictBlocked: builder.query<BlockRequest, number>({
+      query: (userId) => ({
+        url: `/blocked?user=${userId}`,
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
     allNewNotifications: builder.query<any, void>({
       query: () => ({
         url: "/all-new-notifications",
@@ -142,4 +174,7 @@ export const {
   useUpdatePasswordMutation,
   useAllNewNotificationsQuery,
   useReadLikesMutation,
+  useBlockUserMutation,
+  useRestrictBlockedQuery,
+  useUnBlockUserMutation
 } = fetchUserQueries;
