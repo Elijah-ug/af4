@@ -57,6 +57,8 @@ model User {
   matchesB         Match[]       @relation("userB")
   blocker          Block[]       @relation("Blocker")
   blocked          Block[]       @relation("Blocked")
+  reporter         Report[]      @relation("Reporter")
+  reported         Report[]      @relation("Reported")
 }
 
 model Block {
@@ -69,6 +71,16 @@ model Block {
   blocked User @relation("Blocked", fields: [blockedId], references: [id])
 
   @@unique([blockerId, blockedId])
+}
+
+model Report {
+  id         Int      @id @default(autoincrement())
+  reporterId Int
+  reportedId Int
+  reporter   User     @relation("Reporter", fields: [reporterId], references: [id])
+  reported   User     @relation("Reported", fields: [reportedId], references: [id])
+  reason     String
+  createdAt  DateTime @default(now())
 }
 
 model Update {

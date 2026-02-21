@@ -25,6 +25,7 @@ import { useGetLoggedinUserQuery } from "./state/queries/user/userQuery";
 import { connectSocket } from "./utils/handlesockets";
 import { PasswordReset } from "./components/auth/PasswordReset";
 import { UserLikes } from "./components/app/user/UserLikes";
+import { ReportUser } from "./components/app/user/ReportUser";
 export const App: React.FC = () => {
   const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
@@ -65,6 +66,7 @@ export const App: React.FC = () => {
                   <Route path="password-reset" element={<PasswordReset />} />
                   <Route path="my-likes" element={<ActiveUsers />} />
                   <Route path="likes" element={<UserLikes />} />
+                  <Route path="report-user/:user" element={<ReportUser />} />
                   <Route path="/:user" element={<Friend />} />
 
                   {/* single components */}

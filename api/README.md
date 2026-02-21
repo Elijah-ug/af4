@@ -44,3 +44,8 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 --> docker build -t img_name .
 
 - I containerized the af4-api directory and pushed it to ghcr.io
+
+<!-- to be added tomorrow -->
+
+- Report user
+- Search & discovery → filters (age, location, interests), recommendations.

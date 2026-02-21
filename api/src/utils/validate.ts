@@ -55,3 +55,7 @@ export const validateMessage = z.object({
   content: z.string().max(255),
   receiverId: z.int(),
 });
+
+export const reportUser = z.object({
+  reason: z.string().min(3).max(255),
+});

@@ -150,9 +150,27 @@ export const fetchUserQueries = createApi({
       providesTags: ["User"],
     }),
 
+    reportUser: builder.mutation<any, any>({
+      query: ({ userId, reason }) => ({
+        url: `/report-user/${userId}`,
+        method: "POST",
+        body: { reason },
+      }),
+      invalidatesTags: ["User"],
+    }),
+
     allNewNotifications: builder.query<any, void>({
       query: () => ({
         url: "/all-new-notifications",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
+    searchUsers: builder.query<UserResponse, string | void>({
+      query: (search) => ({
+        url: `/searched`,
+        params: { search },
         method: "GET",
       }),
       providesTags: ["User"],
@@ -176,5 +194,7 @@ export const {
   useReadLikesMutation,
   useBlockUserMutation,
   useRestrictBlockedQuery,
-  useUnBlockUserMutation
+  useUnBlockUserMutation,
+  useReportUserMutation,
+  useSearchUsersQuery,
 } = fetchUserQueries;

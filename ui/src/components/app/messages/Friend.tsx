@@ -1,6 +1,6 @@
 import { Avatar, Button, Input, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Blocks, SendHorizontal, ShieldBan, ShieldMinus } from "lucide-react";
+import { SendHorizontal, ShieldBan, ShieldMinus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { messageValidator } from "../../../utils/form";
 import { zodResolver } from "mantine-form-zod-resolver";
@@ -11,7 +11,7 @@ import {
   useRestrictBlockedQuery,
   useUnBlockUserMutation,
 } from "../../../state/queries/user/userQuery";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   useGetAllMessagesWithUserQuery,
   useSendMessageMutation,
@@ -141,7 +141,7 @@ export const Friend: React.FC = () => {
     try {
       const res = await blockUser(userId);
       console.log("Blocked user==>", res);
-      return (window.location.href = "/");
+      return res;
     } catch (error) {
       return console.log("error in block==>", error);
     }
@@ -165,9 +165,11 @@ export const Friend: React.FC = () => {
             <span>{friend?.user.username}</span>
             {isTyping && <span className="text-xs text-green-400"> is typing...</span>}
           </div>
-          {!isBlocked?.isBlocked&&(<div className=" cursor-pointer">
-            {loadBlock ? <Loader color="green" /> : <ShieldBan onClick={() => handleBlockUser(friend?.them)} />}
-          </div>)}
+          {!isBlocked?.isBlocked && (
+            <div className=" cursor-pointer">
+              {loadBlock ? <Loader color="green" /> : <ShieldBan onClick={() => handleBlockUser(friend?.them)} />}
+            </div>
+          )}
         </div>
       )}
       {loadCurrentUser ? (
@@ -202,10 +204,10 @@ export const Friend: React.FC = () => {
         </div>
       )}
       {isBlocked?.isBlocked ? (
-        <div className="flex items-center justify-center gap-2 py-5 sm:text-lg">
+        <div className="flex items-center sm:flex-row flex-col justify-center gap-3 py-5 sm:text-lg">
           <span className="text-red-400 ">You can't send a message! </span>
           {isBlocked?.isBlocked.blockerId === currentUser?.newUser.id ? (
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center  justify-center gap-2 sm:gap-3 text-sm ">
               <span>Unblock user</span>
               {loadUnblock ? (
                 <Loader color="green" />
@@ -215,6 +217,10 @@ export const Friend: React.FC = () => {
                   className="cursor-pointer"
                 />
               )}
+              <span>Or</span>
+              <Link to={`/report-user/${isBlocked.isBlocked.blockedId}`} className="underline">
+                Report User
+              </Link>
             </div>
           ) : (
             <span className="text-red-400 ">you were blocked</span>

@@ -6,6 +6,8 @@ import { like, matches, readLikes, unreadLikes, userLikes } from "../controllers
 import { allNotifications, newLikes } from "../controllers/notificationsController";
 import { updatePassword } from "../controllers/passwordController";
 import { blockUser, destroyBlock, restrictBlocked } from "../controllers/blockUserController";
+import { report, reports } from "../controllers/reportUserController";
+import { filterUsers } from "../controllers/filterController";
 
 const userRouter = express.Router();
 userRouter.post("/signup", store);
@@ -23,6 +25,9 @@ userRouter.get("/my-matches", authenticateUser, matches);
 userRouter.patch("/user/update-password", updatePassword);
 userRouter.get("/blocked", authenticateUser, restrictBlocked);
 userRouter.delete("/unblock-user/:user", authenticateUser, destroyBlock);
+userRouter.get("/reports", authenticateUser, reports);
+userRouter.get("/searched", filterUsers);
+userRouter.post("/report-user/:user", authenticateUser, report);
 userRouter.post("/:to/likes", authenticateUser, like);
 userRouter.get("/:user", show);
 userRouter.delete("/:user", authenticateUser, destroy);

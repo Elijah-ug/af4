@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { validateUserOnReg, validateUserOnUpdate } from "../utils/validate";
-import { formatUserName, getAge, hashpwd, jwtToken, safeUser } from "../utils/utils";
+import { formatUserName, getAge, hashpwd, jwtToken, safeUser, safeUserSelect } from "../utils/utils";
 import { prisma } from "../config/db";
 
 export const store = async (req: Request, res: Response) => {
