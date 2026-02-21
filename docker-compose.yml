@@ -22,8 +22,8 @@ services:
     environment:
       - POSTGRES_USER=elicom
       # prod
-      - POSTGRES_PASSWORD=gpl6qJ6FRPpkl4knggnVZejxnsjogYug
-      - POSTGRES_DB=chat_hc69
+      - POSTGRES_PASSWORD=MyvJ5cuwLSlgzlyslOg2QF3S37N7bGPN
+      - POSTGRES_DB=chat_ds41
       # dev
       # - POSTGRES_PASSWORD=elicom256
       # - POSTGRES_DB=chat
