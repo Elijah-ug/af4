@@ -30,10 +30,4 @@ EXPOSE 3000
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 CMD ["sh", "./entrypoint.sh"]
-# start the app for dev
-# CMD ["sh", "-c", "\
-#   echo 'Waiting for Postgres...'; \
-#   until nc -z db 5432; do sleep 2; done; \
-#   npx prisma migrate dev --name=d; \
-#   npm run dev \
-# "]
+
