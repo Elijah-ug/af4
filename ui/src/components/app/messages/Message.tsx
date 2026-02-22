@@ -31,29 +31,24 @@ export const Message: React.FC<Options> = ({ chat }) => {
         <div className="">No chats found</div>
       ) : (
         <div>
-          <Link
-            key={chat.id}
-            to={`/${chat?.friend.id}`}
-            className="flex items-center gap-3 p-2"
-            onClick={handleReadMessages}
-          >
+          <Link key={chat.id} to={`/${chat?.id}`} className="flex items-center gap-3 p-2" onClick={handleReadMessages}>
             <div className="bg-gray-500 w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-lg ">
               <span>
-                {chat.friend.name.slice()[0]}
-                {/* {chat?.userId === currentUser?.newUser.id ? chat?.friend.name.slice()[0] : chat?.user.name.slice()[0]} */}
+                {chat.name.slice()[0]}
+                {/* {chat?.userId === currentUser?.newUser.id ? chat?.name.slice()[0] : chat?.user.name.slice()[0]} */}
               </span>
             </div>
             <div className="">
               <span>
-                {/* {chat?.userId === currentUser?.newUser.id ? chat?.friend.username : chat?.user.username} */}
-                {chat.friend.username}
+                {/* {chat?.userId === currentUser?.newUser.id ? chat?.username : chat?.user.username} */}
+                {chat.username}
               </span>
             </div>
-            {chat?.message.length > 0 && (
+            {/* {chat?.message.length > 0 && (
               <Badge size="sm" circle>
                 {chat.message.length}
               </Badge>
-            )}
+            )} */}
           </Link>
 
           <Divider size="xs" />

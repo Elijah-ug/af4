@@ -22,10 +22,9 @@ export const penpals = async (req: Request, res: Response) => {
     });
 
     if (!chats) return;
-    const chat: any = chats.map((penpal: any) => (penpal.userId === currentUserId ? penpal : penpal.user));
+    const chat: any = chats.map((penpal: any) => (penpal.userId === currentUserId ? penpal.friend : penpal.user));
     const count = await prisma.message.count({ where: { readAt: null, receiverId: currentUserId } });
     const countP = await prisma.penpal.count({ where: { readAt: null, friendId: currentUserId } });
-
     // console.log("get all chats==>", chat);
 
     return res.status(200).json({ message: "penpals fetched", chat, count, countP, chats });

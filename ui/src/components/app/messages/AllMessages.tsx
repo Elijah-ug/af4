@@ -18,15 +18,7 @@ export const AllMessages: React.FC = () => {
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 gap-13 mb-20 py-13">
       {/* show senders side bar */}
       <div className="grid gap-2  p-3 ">
-        {!isLoading &&
-          chats &&
-          chats.chat.map((msg) =>
-            msg.friend ? (
-              <Message key={msg.id} chat={msg} />
-            ) : (
-              <div className="col-span-full text-center py-16">No chats found</div>
-            ),
-          )}
+        {!isLoading && chats && chats.chat.map((msg) => <Message key={msg.id} chat={msg} />)}
       </div>
       {/* messaging area for large screens */}
       <div className="hidden sm:flex sm:col-span-2 lg:col-span-3 ">
