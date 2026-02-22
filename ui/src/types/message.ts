@@ -45,7 +45,7 @@ export type ChatRequest = {
   message: string;
   count: number;
   globalCount: number;
-  chat: Chat[] | SafeUser[];
+  chat: Chat[];
 };
 type name = {
   username: string;

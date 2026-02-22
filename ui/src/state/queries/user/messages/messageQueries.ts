@@ -39,7 +39,7 @@ export const messageQueries = createApi({
       }),
       providesTags: ["Messages"],
     }),
-    getChats: builder.query<PenpalRequest, void>({
+    getChats: builder.query<ChatRequest, void>({
       query: () => ({
         url: "/my-chats",
         method: "GET",
