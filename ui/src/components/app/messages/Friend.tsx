@@ -14,6 +14,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import {
   useGetAllMessagesWithUserQuery,
+  useReadUserMessagesMutation,
   useSendMessageMutation,
 } from "../../../state/queries/user/messages/messageQueries";
 import { toast } from "react-toastify";
@@ -42,6 +43,17 @@ export const Friend: React.FC = () => {
   const [sendMessage, { isLoading }] = useSendMessageMutation() as any;
   const [blockUser, { isLoading: loadBlock }] = useBlockUserMutation();
   const [unBlockUser, { isLoading: loadUnblock }] = useUnBlockUserMutation();
+  const [readUnread] = useReadUserMessagesMutation();
+
+  // update message if the user is in chat
+  useEffect(() => {
+    const read = async () => {
+      const res = await readUnread();
+      console.log("Message read==>", res);
+    };
+
+    read();
+  }, [currentUser]);
 
   // load api messages into state once
   useEffect(() => {
@@ -235,6 +247,7 @@ export const Friend: React.FC = () => {
             type="text"
             className="w-full"
             size="lg"
+            required
           />
           <Button type="submit">
             {isLoading ? (

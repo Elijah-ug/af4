@@ -3,6 +3,7 @@ import type {
   BlockRequest,
   LoginFormValues,
   LoginResponse,
+  SafeUser,
   SignupPayload,
   UserRelational,
   UserResponse,

@@ -44,7 +44,7 @@ export const Message: React.FC<Options> = ({ chat }) => {
                 {chat.username}
               </span>
             </div>
-            {chat?._count.sentMessages > 0 && (
+            {chat?._count?.sentMessages > 0 && (
               <Badge size="sm" circle>
                 {chat._count.sentMessages}
               </Badge>

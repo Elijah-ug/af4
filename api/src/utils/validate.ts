@@ -52,7 +52,7 @@ export const loginValidator = z.object({
 });
 
 export const validateMessage = z.object({
-  content: z.string().max(255),
+  content: z.string().min(1).max(255),
   receiverId: z.int(),
 });
 

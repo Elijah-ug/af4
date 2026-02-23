@@ -23,7 +23,7 @@ export const penpals = async (req: Request, res: Response) => {
         },
         _count: {
           select: {
-            message: { where: { readAt: null, deletedAt: null, receiverId: currentUserId } },
+            message: { where: { updatedAt: null, deletedAt: null, receiverId: currentUserId } },
           },
         },
       },
@@ -96,7 +96,7 @@ export const read = async (req: Request, res: Response) => {
         readAt: null,
         deletedAt: null,
       },
-      data: { readAt: new Date() },
+      data: { readAt: new Date(), updatedAt: new Date() },
     });
     console.log("messages read==>", readUserMessages);
     return res.status(200).json({ message: "Messages read", readUserMessages });
