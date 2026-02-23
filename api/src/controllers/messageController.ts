@@ -68,6 +68,7 @@ export const chatIndex = async (req: Request, res: Response) => {
           { receiverId: me, senderId: them },
         ],
       },
+      orderBy: { createdAt: "asc" },
     });
     const check = {
       senderId: them,
