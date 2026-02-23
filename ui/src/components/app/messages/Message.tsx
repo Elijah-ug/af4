@@ -44,11 +44,11 @@ export const Message: React.FC<Options> = ({ chat }) => {
                 {chat.username}
               </span>
             </div>
-            {/* {chat?.message.length > 0 && (
+            {chat?._count.sentMessages > 0 && (
               <Badge size="sm" circle>
-                {chat.message.length}
+                {chat._count.sentMessages}
               </Badge>
-            )} */}
+            )}
           </Link>
 
           <Divider size="xs" />

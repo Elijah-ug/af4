@@ -12,10 +12,19 @@ export const penpals = async (req: Request, res: Response) => {
       },
       include: {
         user: true,
-        friend: true,
+        friend: {
+          include: {
+            _count: { select: { sentMessages: { where: { receiverId: currentUserId, readAt: null } } } },
+          },
+        },
         message: {
           orderBy: { createdAt: "desc" },
           where: { readAt: null },
+        },
+        _count: {
+          select: {
+            message: { where: { readAt: null, deletedAt: null, receiverId: currentUserId } },
+          },
         },
       },
       orderBy: { createdAt: "desc" },

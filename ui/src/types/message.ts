@@ -30,6 +30,9 @@ type ChatMsg = {
   senderDeletedAt: Date;
   senderId: number;
 };
+type Count = {
+  sentMessages: number;
+};
 export type Chat = {
   friendId: number;
   userId: number;
@@ -40,12 +43,15 @@ export type Chat = {
   friend: SafeUser;
   user: SafeUser;
   message: ChatMsg[];
+  _count: Count;
+  name:string
+  username:string
 };
 export type ChatRequest = {
   message: string;
   count: number;
   globalCount: number;
-  chat: SafeUser[];
+  chat: Chat[];
   chats: Chat[];
 };
 type name = {
