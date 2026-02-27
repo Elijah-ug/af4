@@ -31,7 +31,12 @@ export const Message: React.FC<Options> = ({ chat }) => {
         <div className="">No chats found</div>
       ) : (
         <div>
-          <Link key={chat.id} to={`/${chat?.id}`} className="flex items-center gap-3 p-2" onClick={handleReadMessages}>
+          <Link
+            key={chat.id}
+            to={`/chat/${chat?.id}`}
+            className="flex items-center gap-3 p-2"
+            onClick={handleReadMessages}
+          >
             <div className="bg-gray-500 w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-lg ">
               <span>
                 {chat.name.slice()[0]}

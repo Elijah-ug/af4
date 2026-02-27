@@ -67,7 +67,7 @@ export const App: React.FC = () => {
                   <Route path="my-likes" element={<ActiveUsers />} />
                   <Route path="likes" element={<UserLikes />} />
                   <Route path="report-user/:user" element={<ReportUser />} />
-                  <Route path="/:user" element={<Friend />} />
+                  <Route path="chat/:user" element={<Friend />} />
 
                   {/* single components */}
                 </>

@@ -21,7 +21,7 @@ export const AllUsers: React.FC<any> = ({ searched, loadUsers }) => {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-1 my-7">
             {searched
-              ? searched.users.map((user: any) => <ActiveUser key={user.id} newUser={user} />)
+              ? searched.users.map((user: any) => <User key={user.id} newUser={user} />)
               : data?.users.map((user) => <User key={user.id} newUser={user} />)}
           </div>
         )}

@@ -7,7 +7,6 @@ type UserProps = {
   newUser: SafeUser;
 };
 export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
-  
   return (
     <div className="">
       <Card shadow="sm" padding="md" radius="md" withBorder>
@@ -29,7 +28,7 @@ export const ActiveUser: React.FC<UserProps> = ({ newUser }) => {
               <span>Location:</span>
               <span>Kisaasi</span>
             </Text>
-            <Link to={`/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
+            <Link to={`/chat/${newUser.id}`} className="bg-blue-500 p-1 text-center rounded text-sm">
               Send Message
             </Link>
             {/* <div className="absolute right-1">

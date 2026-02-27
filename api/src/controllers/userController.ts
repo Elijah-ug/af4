@@ -62,7 +62,10 @@ export const show = async (req: Request, res: Response) => {
       console.log("No user id", id, typeof id);
       return res.status(400).json({ message: "Invalid or missing user id" });
     }
-    const user = await prisma.user.findUnique({ where: { id }, include: { likesTo: true } });
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { _count: { select: { likesTo: true } } },
+    });
     if (!user) return res.status(404).json({ message: "User not found" });
     const newUser = await safeUser(user);
     return res.status(200).json({ message: "show user", newUser });

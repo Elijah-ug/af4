@@ -4,16 +4,14 @@ import { Card, Image, Indicator, Divider } from "@mantine/core";
 import { useGetSingleUserQuery } from "../../../state/queries/user/userQuery";
 import { Link, useParams } from "react-router-dom";
 import { placeholder } from "../../../utils/global";
-import { Heart, ThumbsDown } from "lucide-react";
+import { Heart } from "lucide-react";
 
 export const SingleUser: React.FC = () => {
   const { user } = useParams<{ user: string | any }>();
   const { data } = useGetSingleUserQuery(Number(user), { skip: !user });
-  console.log("ID here", user);
-  console.log("test route data", (data as any)?.safe);
-  const newUser = (data as any)?.safe;
+  console.log("User data==>", data);
   return (
-    <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-3">
+    <div className="flex lg:flex-row flex-col   justify-center min-h-screen gap-10  px-3 lg:px-10 py-20 ">
       {data ? (
         <div className="grid gap-5">
           <Card shadow="sm" padding="lg" radius="md" withBorder className="sm">
@@ -23,31 +21,21 @@ export const SingleUser: React.FC = () => {
                   <Image src={placeholder} radius="50%" fit="cover" width={20} alt="Norway" />
                 </Indicator>
                 <div className="flex flex-col">
-                  {/* {newUser.name} */}
-                  <span className="font-semibold">Mugisha Talent Elijah</span>
-                  <span className="text-sm">{newUser?.username}</span>
+                  {/* {data.newUser.name} */}
+                  <span className="font-semibold">{data.newUser.name}</span>
                 </div>
 
-                <div className="flex items-center justify-center gap-7">
-                  <Link to="edit" className=" text-purple-400 ">
-                    <Heart className=" " />
-                  </Link>
-                  <Link to="edit" className="">
-                    <ThumbsDown />
-                  </Link>
+                <div className="flex items-center gap-7">
+                  <span className="text-sm">{data.newUser?.username}</span>
+                  <Heart size={19} color="red" className=" " />
                 </div>
               </div>
               {/*  */}
               <div className="lg:w-full text-sm">
                 <div className="grid gap-5 text-sm">
                   <div className="flex items-center gap-2">
-                    <span>Age:</span>
-                    <span>{newUser.age}</span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
                     <span>Gender:</span>
-                    <span>{newUser.gender}</span>
+                    <span>{data.newUser.gender}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -57,30 +45,40 @@ export const SingleUser: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                     <span>Account:</span>
-                    <span>{newUser.status}</span>
+                    <span>{data.newUser.status}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span>D.O.B</span>
-                    <span>{newUser.dateOfBirth}</span>
+                    <span>Age: </span>
+                    <span>{new Date().getFullYear() - new Date(data.newUser.dateOfBirth).getFullYear()}</span>
                     <Divider size="" />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span>Likes: </span>
+                    <span>{data.newUser._count.likesTo}</span>
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="grid place-items-center pt-3">
+              <Link to={`/chat/${data.newUser.id}`} className="bg-blue-500 p-2 sm:w-sm w-full text-center rounded text-sm">
+              Send Message
+            </Link>
             </div>
           </Card>
 
           <div className="grid gap-3">
             {/* bio */}
-            <div className="border p-2">
-              <h3 className="font-semibold">{newUser.username && `${newUser.username}'s`} bio</h3>
+            <div className="border-gray-600 border-2 p-2">
+              <h3 className="font-semibold">{data.newUser.username && `${data.newUser.username}'s`} bio</h3>
               <p className="text-sm font-light">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil impedit illo ducimus ab dicta nisi illum
                 quas mollitia ullam vitae?
               </p>
             </div>
 
-            <div className="border p-2">
+            <div className="border-gray-600 border-2 p-2 p-2">
               <h3 className="font-semibold">Interests</h3>
               <ul className="text-sm font-extralight">
                 <li>Long term relationship</li>

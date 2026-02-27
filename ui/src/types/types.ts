@@ -41,6 +41,7 @@ export type SafeUser = {
   isDeleted: boolean;
   deletedAt: Date | null;
   likesTo: likesToUser;
+  _count: { likesTo: number };
 };
 export type LoginResponse = {
   message: string;
