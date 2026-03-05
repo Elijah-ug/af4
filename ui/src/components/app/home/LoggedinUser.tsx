@@ -11,7 +11,7 @@ export const LoggedinUser: React.FC<any> = ({ setSearch, search, loadUsers, hand
     <div className="px-3 sm:px-5 lg:px-10 pb-5 ">
       {isLoading ? (
         <div className="">
-          <Loader />{" "}
+          <Loader />
         </div>
       ) : (
         <div className=" flex items-center lg:justify-between gap-10 pb-5 ">

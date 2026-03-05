@@ -8,7 +8,7 @@ import { updatePassword } from "../controllers/passwordController";
 import { blockUser, destroyBlock, restrictBlocked } from "../controllers/blockUserController";
 import { report, reports } from "../controllers/reportUserController";
 import { filterUsers } from "../controllers/filterController";
-import { bannedUsers, banUser } from "../controllers/admin/banUsersController";
+import { bannedUsers, banUser, unbanUser } from "../controllers/admin/banUsersController";
 
 const userRouter = express.Router();
 userRouter.post("/signup", store);
@@ -32,7 +32,8 @@ userRouter.get("/searched", filterUsers);
 userRouter.post("/report-user/:user", authenticateUser, report);
 userRouter.post("/:to/likes", authenticateUser, like);
 userRouter.get("/:user", show);
-userRouter.patch("/:user", authenticateUser, banUser);
+userRouter.patch("/ban-user/:user", authenticateUser, banUser);
+userRouter.patch("/remove-ban/:user", authenticateUser, unbanUser);
 
 userRouter.delete("/:user", authenticateUser, destroy);
 export default userRouter;

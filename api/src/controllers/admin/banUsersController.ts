@@ -38,3 +38,22 @@ export const bannedUsers = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal sever error", error: error });
   }
 };
+
+// unban user
+export const unbanUser = async (req: Request, res: Response) => {
+  try {
+    const admin = req.user.id;
+    const user = Number(req.params.user as string);
+
+    // check if admin is the one triggering
+    const isAdmin = await prisma.user.findUnique({ where: { id: admin, role: "admin" } });
+    if (!isAdmin) {
+      return res.status(403).json({ message: "User is authorized" });
+    }
+    const recover = await prisma.user.update({ where: { id: user, status: "inactive" }, data: { status: "active" } });
+    return res.status(200).json({ message: "Recovered banned User!", recover });
+  } catch (error) {
+    console.log("Error ==>", error);
+    return res.status(500).json({ message: "Internal sever error", error: error });
+  }
+};

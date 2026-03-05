@@ -30,6 +30,7 @@ export type SafeUser = {
   gender: string;
   dateOfBirth: string;
   email: string;
+  role: string;
   bio: string;
   profilePic: string;
   location: string;

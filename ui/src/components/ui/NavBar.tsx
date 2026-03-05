@@ -1,6 +1,6 @@
 // NavBar.tsx
 import React from "react";
-import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users } from "lucide-react";
+import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users, LayoutDashboard } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Badge, useMantineColorScheme } from "@mantine/core";
 import { useGetAllMessagesQuery, useUpdateMyChatsMutation } from "../../state/queries/user/messages/messageQueries";
@@ -15,6 +15,7 @@ export const NavBar: React.FC = () => {
     { link: "discover", i: Compass },
     { link: "notifications", i: Bell },
     { link: "settings", i: Settings },
+    { link: "dashboard", i: LayoutDashboard },
   ];
 
   const { data: msg } = useGetAllMessagesQuery();

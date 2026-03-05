@@ -160,6 +160,30 @@ export const fetchUserQueries = createApi({
       invalidatesTags: ["User"],
     }),
 
+    banUser: builder.mutation<UserResponse, number>({
+      query: (user) => ({
+        url: `/ban-user/${user}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    removeBanFromUser: builder.mutation<UserResponse, number>({
+      query: (user) => ({
+        url: `/remove-ban/${user}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    bannedUsers: builder.query<UserResponse, void>({
+      query: () => ({
+        url: "/banned",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
     allNewNotifications: builder.query<any, void>({
       query: () => ({
         url: "/all-new-notifications",
@@ -198,4 +222,7 @@ export const {
   useUnBlockUserMutation,
   useReportUserMutation,
   useSearchUsersQuery,
+  useBanUserMutation,
+  useBannedUsersQuery,
+  useRemoveBanFromUserMutation,
 } = fetchUserQueries;

@@ -26,6 +26,12 @@ import { connectSocket } from "./utils/handlesockets";
 import { PasswordReset } from "./components/auth/PasswordReset";
 import { UserLikes } from "./components/app/user/UserLikes";
 import { ReportUser } from "./components/app/user/ReportUser";
+import { AdminDashboard } from "./components/app/admin/AdminDashboard";
+import { AdminSettings } from "./components/app/admin/AdminSettings";
+import { BannedUsers } from "./components/app/admin/BannedUsers";
+import { Mails } from "./components/app/admin/Mails";
+import { PlatformUsers } from "./components/app/admin/PlatformUsers";
+import { Trends } from "./components/app/admin/Trends";
 export const App: React.FC = () => {
   const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
@@ -41,7 +47,7 @@ export const App: React.FC = () => {
       <div className={"flex flex-col min-h-screen"}>
         <div className="flex-1">
           <NavBar />
-          <div className="px-5">
+          <div className="pxx-5">
             {/* <Button onClick={toggleColorScheme}>Toggge {colorScheme === "dark" ? "light" : "dark"} schem</Button> */}
             <Routes>
               {fakeauth ? (
@@ -70,11 +76,21 @@ export const App: React.FC = () => {
                   <Route path="chat/:user" element={<Friend />} />
 
                   {/* single components */}
+                  {user && user.newUser.role && (
+                    <Route path="dashboard" element={<AdminDashboard />}>
+                      <Route path="trends" element={<Trends />} />
+                      <Route path="admin-settings" element={<AdminSettings />} />
+                      <Route path="banned-users" element={<BannedUsers />} />
+                      <Route path="mails" element={<Mails />} />
+                      <Route path="platform-users" element={<PlatformUsers />} />
+                    </Route>
+                  )}
                 </>
               )}
             </Routes>
           </div>
           {/* <LandingPage /> */}
+          {/* admin */}
         </div>
 
         <ToastContainer
