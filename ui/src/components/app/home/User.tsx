@@ -32,15 +32,15 @@ export const User: React.FC<UserProps> = ({ newUser }) => {
               <Image src={placeholder} height={20} alt="Norway" />
             </Indicator>
             <div className="absolute bottom-7 left-1 rounded-full bg-violet-500">
-            <Check/>
-          </div>
+              <Check />
+            </div>
           </Card.Section>
-          
         </Link>
         <div className="grid gap-1 pt-3">
           <div className="flex items-center justify-between">
-            <Text size="sm" c="dimmed">
-              {newUser.username}
+            <Text size="sm" c="dimmed" className="flex items-center gap-2">
+              <span>{newUser.username}</span>
+              <span className="font-semibold">{newUser.gender}</span>
             </Text>
             <div className="flex items-center gap-1">
               <Heart size={19} color="red" className="cursor-pointer" onClick={() => handleLikeUser(newUser.id)} />

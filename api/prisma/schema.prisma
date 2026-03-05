@@ -39,7 +39,8 @@ model User {
   location         String?
   interests        String[] // Prisma supports arrays in Postgres
   likes            Int?
-  status           String        @default("inactive")
+  status           String        @default("active")
+  role             String        @default("user")
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   verifiedAt       DateTime?

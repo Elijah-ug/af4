@@ -50,9 +50,7 @@ gooood=https://get.geojs.io/v1/ip/geo.json
 - Report user
 - Search & discovery → filters (age, location, interests), recommendations.
 
-## To check before deployment
 
-You’ve already built core MVP features:
 
 ✅ Real-time messaging (socket.io)
 ✅ Like → match system

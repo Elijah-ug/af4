@@ -6,6 +6,11 @@ export const store = async (req: Request, res: Response) => {
   try {
     const senderId = req.user.id;
 
+    // check if user is banned
+    const isBanned = await prisma.user.findUnique({ where: { id: senderId, status: "active", role: "user" } });
+    if (!isBanned) {
+      return res.status(403).json({ message: "User is banned or not authorized" });
+    }
     // create penpal
     if (!senderId) return res.status(404).json({ message: "404, user not found" });
 
