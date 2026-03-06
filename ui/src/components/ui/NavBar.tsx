@@ -4,10 +4,11 @@ import { Home, MessageCircle, Compass, Bell, Settings, Moon, Sun, Users, LayoutD
 import { NavLink } from "react-router-dom";
 import { Badge, useMantineColorScheme } from "@mantine/core";
 import { useGetAllMessagesQuery, useUpdateMyChatsMutation } from "../../state/queries/user/messages/messageQueries";
-import { useAllNewNotificationsQuery } from "../../state/queries/user/userQuery";
+import { useAllNewNotificationsQuery, useGetLoggedinUserQuery } from "../../state/queries/user/userQuery";
 
 export const NavBar: React.FC = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { data: user } = useGetLoggedinUserQuery();
   const navlinks = [
     { link: "/", i: Home },
     { link: "my-likes", i: Users },
@@ -67,6 +68,8 @@ export const NavBar: React.FC = () => {
                     </Badge>
                   )}
                 </div>
+              ) : nav.i === LayoutDashboard && user?.newUser.role !== "admin" ? (
+                <nav.i className="hidden" size={19} strokeWidth={2.5} />
               ) : (
                 <nav.i size={19} strokeWidth={2.5} />
               )}

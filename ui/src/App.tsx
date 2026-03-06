@@ -76,7 +76,7 @@ export const App: React.FC = () => {
                   <Route path="chat/:user" element={<Friend />} />
 
                   {/* single components */}
-                  {user && user.newUser.role && (
+                  {user && user.newUser.role === "admin" && (
                     <Route path="dashboard" element={<AdminDashboard />}>
                       <Route path="trends" element={<Trends />} />
                       <Route path="admin-settings" element={<AdminSettings />} />
