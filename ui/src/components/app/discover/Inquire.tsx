@@ -3,17 +3,16 @@ import { TextInput, Button, Card, Loader } from "@mantine/core";
 import { toast } from "react-toastify";
 import { useInquireMutation } from "../../../state/queries/user/inquiries";
 import { getErrorMessage } from "../../../utils/global";
+import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
 type Inquiry = {
-  email: string;
-  name: string;
   subject: string;
   message: string;
 };
 export const Inquire: React.FC = () => {
   const [inquire, { isLoading, error }] = useInquireMutation();
+  const { data } = useGetLoggedinUserQuery();
+  // console.log("data==>", data);
   const [userData, setUserData] = useState<Inquiry>({
-    name: "",
-    email: "",
     subject: "",
     message: "",
   });
@@ -21,6 +20,8 @@ export const Inquire: React.FC = () => {
   const handleSendInquiry = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      console.log("userData==>", userData);
+
       const payload = await inquire(userData);
       console.log("payload==>", payload);
       if (payload.data) {
@@ -43,22 +44,6 @@ export const Inquire: React.FC = () => {
           <div className="">
             <form onSubmit={handleSendInquiry} className="">
               <div className="grid gap-5">
-                <TextInput
-                  label="name"
-                  value={userData.name}
-                  onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                  required
-                />
-
-                <TextInput
-                  mt="sm"
-                  label="Email"
-                  placeholder="Email"
-                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                  value={userData.email}
-                  required
-                />
-
                 <TextInput
                   mt="sm"
                   label="Subject"

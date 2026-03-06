@@ -68,7 +68,7 @@ export const App: React.FC = () => {
                   <Route path="profile" element={<Profile />} />
                   <Route path="login" element={<Login />} />
                   <Route path="signup" element={<SignUp />} />
-                  <Route path="/update" element={<SignUp />} />
+                  <Route path="update" element={<SignUp />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="password-reset" element={<PasswordReset />} />
                   <Route path="my-likes" element={<ActiveUsers />} />

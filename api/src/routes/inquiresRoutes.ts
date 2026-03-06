@@ -6,4 +6,4 @@ const inquiriesRouter = express.Router();
 inquiriesRouter.get("/", authenticateUser, index);
 inquiriesRouter.post("/", authenticateUser, store);
 
-export default authenticateUser;
+export default inquiriesRouter;

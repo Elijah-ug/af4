@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import { prisma } from "../../config/db";
-import { inquiryValidator } from "../../utils/validate";
+import { UserInquiryValidator } from "../../utils/validate";
 
 export const store = async (req: Request, res: Response) => {
+  console.log("waiting for the store");
+
   try {
     const senderId = req.user.id;
-    const parsed = inquiryValidator.safeParse(req.body);
+    console.log("senderId==>", senderId);
+
+    const parsed = UserInquiryValidator.safeParse(req.body);
+    console.log("parsed==>", parsed);
     if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
     const inquiry = await prisma.userQueries.create({ data: { ...parsed.data, senderId } });
     return res.status(200).json({ message: "Read likes", inquiry });
@@ -18,10 +23,10 @@ export const store = async (req: Request, res: Response) => {
 export const index = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
-    const isAdmin = await prisma.user.findUnique({ where: { id, role: "admin" } });
-    if (!isAdmin) {
-      return res.status(403).json({ message: "Not Authorized" });
-    }
+    // const isAdmin = await prisma.user.findUnique({ where: { id, role: "admin" } });
+    // if (!isAdmin) {
+    //   return res.status(403).json({ message: "Not Authorized" });
+    // }
     const inquiries = await prisma.userQueries.findMany();
     return res.status(200).json({ message: "Users' Iquiries", inquiries });
   } catch (error) {

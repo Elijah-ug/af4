@@ -60,9 +60,7 @@ export const reportUser = z.object({
   reason: z.string().min(3).max(255),
 });
 
-export const inquiryValidator = z.object({
-  name: z.string().min(2).max(100),
-  email: z.email(),
+export const UserInquiryValidator = z.object({
   subject: z.string().optional(),
   message: z.string().min(2).max(250),
 });
