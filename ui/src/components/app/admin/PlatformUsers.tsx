@@ -31,25 +31,28 @@ export const PlatformUsers: React.FC = () => {
           <Loader />
         </div>
       ) : data ? (
-        data.users.map((user) => (
-          <div key={user.id} className="bg-gray-600 py-1 px-2 flex items-center justify-between rounded">
-            <div className="flex gap-4 items-center">
-              <Link to={`/users/${user.id}`}>{user.name}</Link>
-              <span>{user.gender}</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-amber-500">{user.status}</span>
-              {/* <Edit className="text-blue-400 cursor-pointer" /> */}
-              {loadBan ? (
-                <Loader />
-              ) : (
-                <Tooltip label="ban user">
-                  <BadgeX onClick={() => handleBanUser(user.id)} className="text-red-400 cursor-pointer" />
-                </Tooltip>
-              )}
-            </div>
-          </div>
-        ))
+        data.users.map(
+          (user) =>
+            user.status !== "inactive" && (
+              <div key={user.id} className="bg-gray-600 py-1 px-2 flex items-center justify-between rounded">
+                <div className="flex gap-4 items-center">
+                  <Link to={`/users/${user.id}`} className="hover:underline">{user.name}</Link>
+                  <span>{user.gender}</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-amber-500">{user.status}</span>
+                  {/* <Edit className="text-blue-400 cursor-pointer" /> */}
+                  {loadBan ? (
+                    <Loader />
+                  ) : (
+                    <Tooltip label="ban user">
+                      <BadgeX onClick={() => handleBanUser(user.id)} className="text-red-400 cursor-pointer" />
+                    </Tooltip>
+                  )}
+                </div>
+              </div>
+            ),
+        )
       ) : (
         <div className="">No Users</div>
       )}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Discover: React.FC = () => {
   return (
@@ -12,6 +13,12 @@ export const Discover: React.FC = () => {
           <p>A violet background: Account is activated </p>
           <p>A violet background: Account is activated </p>
         </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <h3>Any Inquiries?</h3>
+        <Link to="/send-inquiry" className="text-green-400">
+          Send us a message
+        </Link>
       </div>
     </div>
   );

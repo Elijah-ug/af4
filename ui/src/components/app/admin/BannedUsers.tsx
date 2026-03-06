@@ -24,20 +24,20 @@ export const BannedUsers: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 text-red-300">
       {isLoading ? (
         <Loader />
       ) : data ? (
         data.users.map((user) => (
           <div key={user.id} className="bg-gray-600 py-1 px-2 flex items-center justify-between rounded">
-            <div className="flex gap-4 items-center text-gray-400">
-              <Link to={`/users/${user.id}`} className="line-through">
+            <div className="flex gap-4 items-center">
+              <Link to={`/users/${user.id}`} className="line-through hover:underline">
                 {user.name}
               </Link>
               <span>{user.gender}</span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-amber-500">{user.status}</span>
+              <span className="">{user.status}</span>
               {/* <Edit className="text-blue-400 cursor-pointer" /> */}
               {loadBan ? (
                 <Loader />

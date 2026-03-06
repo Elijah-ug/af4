@@ -32,6 +32,7 @@ import { BannedUsers } from "./components/app/admin/BannedUsers";
 import { Mails } from "./components/app/admin/Mails";
 import { PlatformUsers } from "./components/app/admin/PlatformUsers";
 import { Trends } from "./components/app/admin/Trends";
+import { Inquire } from "./components/app/discover/Inquire";
 export const App: React.FC = () => {
   const { data: user } = useGetLoggedinUserQuery();
   const fakeauth: boolean = false;
@@ -74,6 +75,7 @@ export const App: React.FC = () => {
                   <Route path="likes" element={<UserLikes />} />
                   <Route path="report-user/:user" element={<ReportUser />} />
                   <Route path="chat/:user" element={<Friend />} />
+                  <Route path="send-inquiry" element={<Inquire />} />
 
                   {/* single components */}
                   {user && user.newUser.role === "admin" && (
@@ -94,7 +96,7 @@ export const App: React.FC = () => {
         </div>
 
         <ToastContainer
-          position="top-right"
+          position="bottom-left"
           autoClose={4000}
           hideProgressBar={false}
           newestOnTop={false}

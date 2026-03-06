@@ -8,4 +8,5 @@ echo "Running migrations"
 # done
 npx prisma migrate deploy
 echo "starting the service"
+npx prisma db seed
 npm run start

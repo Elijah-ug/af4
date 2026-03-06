@@ -34,7 +34,7 @@ export const store = async (req: Request, res: Response) => {
 export const index = async (req: Request, res: Response) => {
   try {
     const allUsers = await prisma.user.findMany({
-      where: { role: "user", status: "active" },
+      where: { role: "user" },
       include: { likesTo: true },
     });
     const users = allUsers.map(({ password, ...safeInfo }) => safeInfo);

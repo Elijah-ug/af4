@@ -1,0 +1,31 @@
+import { Request, Response } from "express";
+import { prisma } from "../../config/db";
+import { inquiryValidator } from "../../utils/validate";
+
+export const store = async (req: Request, res: Response) => {
+  try {
+    const senderId = req.user.id;
+    const parsed = inquiryValidator.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: "Bad request", error: parsed.error.message });
+    const inquiry = await prisma.userQueries.create({ data: { ...parsed.data, senderId } });
+    return res.status(200).json({ message: "Read likes", inquiry });
+  } catch (error) {
+    console.log("error==>", error);
+    return res.status(500).json({ message: "500 internal server error", err: error });
+  }
+};
+
+export const index = async (req: Request, res: Response) => {
+  try {
+    const id = req.user.id;
+    const isAdmin = await prisma.user.findUnique({ where: { id, role: "admin" } });
+    if (!isAdmin) {
+      return res.status(403).json({ message: "Not Authorized" });
+    }
+    const inquiries = await prisma.userQueries.findMany();
+    return res.status(200).json({ message: "Users' Iquiries", inquiries });
+  } catch (error) {
+    console.log("error==>", error);
+    return res.status(500).json({ message: "500 internal server error", err: error });
+  }
+};

@@ -183,5 +183,6 @@ model UserQueries {
   sender    User      @relation(fields: [senderId], references: [id])
   senderId  Int
   isDeleted Boolean   @default(false)
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
 }

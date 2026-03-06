@@ -8,6 +8,7 @@ import adminRouter from "./routes/adminRoutes";
 import messageRouter from "./routes/messageRoutes";
 import http from "http";
 import { Server } from "socket.io";
+import { authenticateUser } from "./middleware/auth";
 
 // console.log("DB URL==>", process.env.DATABASE_URL);
 
@@ -25,6 +26,7 @@ const baseUrl = "/realcompanion/api/v1/";
 app.use(`${baseUrl}admins/`, adminRouter);
 app.use(`${baseUrl}users/`, userRouter);
 app.use(`${baseUrl}messages/`, messageRouter);
+app.use(`${baseUrl}inquiries/`, authenticateUser);
 
 // create http server
 const server = http.createServer(app);
