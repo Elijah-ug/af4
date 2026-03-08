@@ -54,11 +54,20 @@ export type UserType = {
   message: string;
   newUser: SafeUser;
 };
-
+type PaginatedUsers = {
+  data: SafeUser[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+};
 export type UserResponse = {
   message: string;
   totalUsers: number;
-  users: SafeUser[];
+  users: PaginatedUsers;
+  totalpages: number;
 };
 type Like = {
   id: number;

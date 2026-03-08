@@ -57,6 +57,7 @@ export const safeUserSelect: Prisma.UserSelect = {
   deletedAt: true,
   friend: true,
   user: true,
+  role: true,
   likesFrom: true,
   likesTo: true,
   matchesA: true,

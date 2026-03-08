@@ -24,9 +24,9 @@ export const fetchUserQueries = createApi({
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getAllUsers: builder.query<UserResponse, void>({
-      query: () => ({
-        url: "/",
+    getAllUsers: builder.query<UserResponse, {page:number, limit:number}>({
+      query: ({page=1, limit=10}) => ({
+        url: `/?page=${page}&limit=${limit}`,
         method: "GET",
       }),
       providesTags: ["User"],

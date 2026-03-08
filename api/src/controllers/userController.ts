@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { validateUserOnReg, validateUserOnUpdate } from "../utils/validate";
 import { formatUserName, getAge, hashpwd, jwtToken, safeUser, safeUserSelect } from "../utils/utils";
 import { prisma } from "../config/db";
+import { paginationHelper } from "../utils/paginator";
 
 export const store = async (req: Request, res: Response) => {
   try {
@@ -33,12 +34,20 @@ export const store = async (req: Request, res: Response) => {
 
 export const index = async (req: Request, res: Response) => {
   try {
-    const allUsers = await prisma.user.findMany({
-      where: { role: "user" },
-      include: { likesTo: true },
-    });
-    const users = allUsers.map(({ password, ...safeInfo }) => safeInfo);
-    const totalUsers = await prisma.user.count();
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    // const users = await prisma.user.findMany({
+    //   where: { role: "user" },
+    //   select: safeUserSelect,
+    // });
+    const users = await paginationHelper(
+      prisma.user,
+      { page, limit },
+      { select: safeUserSelect, where: { role: "user" }, orderBy: { createdAt: "desc" } },
+    );
+    // const users = allUsers.map(({ password, ...safeInfo }) => safeInfo);
+    const totalUsers = await prisma.user.count({ where: { role: "user" } });
+    const totalpages=users.meta.totalPages
 
     // const pwd = users.map((user) => user.password);
     // the following are gonna be worked upon later
@@ -47,7 +56,7 @@ export const index = async (req: Request, res: Response) => {
     //  -->3️⃣ get users from the nearby
 
     // console.log("Users==>", users);
-    return res.status(200).json({ message: "index user", users, totalUsers });
+    return res.status(200).json({ message: "index user", users, totalUsers, totalpages });
   } catch (error) {
     if (error instanceof Error) {
       console.log(error);

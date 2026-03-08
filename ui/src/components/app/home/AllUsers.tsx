@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGetAllUsersQuery } from "../../../state/queries/user/userQuery";
 import { LoadingOverlay } from "@mantine/core";
 import { User } from "./User";
+import { Paginate } from "../pagination/Paginate";
 
 export const AllUsers: React.FC<any> = ({ searched, loadUsers }) => {
-  const { data, isLoading } = useGetAllUsersQuery();
-
+  const [page, setPages] = useState<number | any>(1);
+  const { data, isLoading } = useGetAllUsersQuery({ page, limit: 20 });
+  console.log("All users here", data);
   return (
     <div className="lg:px-10">
       <div className="flex items-center gap-5">
@@ -20,10 +22,13 @@ export const AllUsers: React.FC<any> = ({ searched, loadUsers }) => {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-1 my-7">
             {searched
-              ? searched.users.map((user: any) => <User key={user.id} newUser={user} />)
-              : data?.users.map((user) => <User key={user.id} newUser={user} />)}
+              ? searched.users.data.map((user: any) => <User key={user.id} newUser={user} />)
+              : data?.users.data.map((user) => <User key={user.id} newUser={user} />)}
           </div>
         )}
+      </div>
+      <div className="">
+        <Paginate page={page} setPages={setPages} totalPages={data?.totalpages} />
       </div>
     </div>
   );
