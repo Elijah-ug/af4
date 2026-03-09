@@ -5,8 +5,8 @@ import { User } from "./User";
 import { Paginate } from "../pagination/Paginate";
 
 export const AllUsers: React.FC<any> = ({ searched, loadUsers }) => {
-  const [page, setPages] = useState<number | any>(1);
-  const { data, isLoading } = useGetAllUsersQuery({ page, limit: 20 });
+  const [page, setPages] = useState<number >(1);
+  const { data, isLoading } = useGetAllUsersQuery({ page, limit: 10 });
   console.log("All users here", data);
   return (
     <div className="lg:px-10">
@@ -27,8 +27,8 @@ export const AllUsers: React.FC<any> = ({ searched, loadUsers }) => {
           </div>
         )}
       </div>
-      <div className="">
-        <Paginate page={page} setPages={setPages} totalPages={data?.totalpages} />
+      <div className="flex items-center justify-center">
+        <Paginate page={page} setPages={setPages} totalPages={(data as number | any)?.totalpages} />
       </div>
     </div>
   );

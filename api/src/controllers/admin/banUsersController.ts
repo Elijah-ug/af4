@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../../config/db";
+import { paginationHelper } from "../../utils/paginator";
 
 export const banUser = async (req: Request, res: Response) => {
   try {
@@ -26,13 +27,18 @@ export const banUser = async (req: Request, res: Response) => {
 export const bannedUsers = async (req: Request, res: Response) => {
   try {
     const admin = req.user.id;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
     // check if admin is the one triggering
     const isAdmin = await prisma.user.findUnique({ where: { id: admin, role: "admin" } });
     if (!isAdmin) {
       return res.status(403).json({ message: "User is authorized" });
     }
-    const users = await prisma.user.findMany({ where: { status: "inactive" } });
-    return res.status(200).json({ message: "Banned Users", users });
+    // const users = await prisma.user.findMany({ where: { status: "inactive" } });
+    const users = await paginationHelper(prisma.user, { page, limit }, { where: { status: "inactive" } });
+    const totalpages = users.meta.totalPages;
+
+    return res.status(200).json({ message: "Banned Users", users, totalpages });
   } catch (error) {
     console.log("Error ==>", error);
     return res.status(500).json({ message: "Internal sever error", error: error });

@@ -1,26 +1,30 @@
 import { prisma } from "../config/db";
+import { hashpwd } from "../utils/utils";
 
-const seed = async () => {
+export const seedAdmin = async () => {
+  const pwd = await hashpwd("password");
+  console.log("pwd hashed==>", pwd);
   await prisma.user.upsert({
     where: { email: "elicomelijah330@gmail.com" },
-    update: {},
+    update: { gender: "M" },
     create: {
       name: "Elicom Elijah",
       username: "AdminElicom",
       email: "elicomelijah330@gmail.com",
-      password: "password",
-      gender: "male",
+      password: pwd,
+      gender: "M",
       dateOfBirth: "2002-10-08",
       role: "admin",
     },
   });
+  console.log("✅ Admin seeded");
 };
-seed()
-  .then(() => console.log("✅ Admin seeded"))
-  .catch((err) => {
-    console.log("❌ Admin failed to be seeded", err);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// seedAdmin()
+//   .then(() => console.log("✅ Admin seeded"))
+//   .catch((err) => {
+//     console.log("❌ Admin failed to be seeded", err);
+//     process.exit(1);
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });

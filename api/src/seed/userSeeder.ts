@@ -1,39 +1,27 @@
 import { prisma } from "../config/db";
+import { hashpwd } from "../utils/utils";
+import { users } from "./users";
 
-const user = [
-  {
-    name: "First TestUser",
-    username: "firsttestuser",
-    email: "firsttestuser@gmail.com",
-    password: "password",
-    gender: "male",
-    dateOfBirth: "2002-10-08",
-    role: "user",
-  },
-];
+export const seedUsers = async () => {
+  // await Promise.all(users.map((usr) => prisma.user.upsert({ where: { email: usr.email }, update: {}, create: usr })));
+  console.log(`Waiting to seed all ${users.length} users`);
+  const pwd = await hashpwd("password");
 
-const seedUsers = async () => {
-    for
-  await prisma.user.upsert({
-    where: { email: "elicomelijah330@gmail.com" },
-    update: {},
-    create: {
-      name: "Elicom Elijah",
-      username: "AdminElicom",
-      email: "elicomelijah330@gmail.com",
-      password: "password",
-      gender: "male",
-      dateOfBirth: "2002-10-08",
-      role: "user",
-    },
-  });
+  for (const user of users) {
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: { password: pwd, gender: user.gender === "M" ? "M" : "F" },
+      create: { ...user, password: pwd },
+    });
+  }
+  console.log("✅ Users seeded");
 };
-seed()
-  .then(() => console.log("✅ Admin seeded"))
-  .catch((err) => {
-    console.log("❌ Admin failed to be seeded", err);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// seedUsers()
+//   .then(() => console.log("✅ all Users seeded"))
+//   .catch((err) => {
+//     console.log("❌ Users failed to be seeded", err);
+//     process.exit(1);
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });

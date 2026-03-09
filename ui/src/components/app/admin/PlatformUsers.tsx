@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useBanUserMutation, useGetAllUsersQuery } from "../../../state/queries/user/userQuery";
 import { Loader, Tooltip } from "@mantine/core";
 import { BadgeX } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Paginate } from "../pagination/Paginate";
 
 export const PlatformUsers: React.FC = () => {
-  const { data, isLoading } = useGetAllUsersQuery();
+  const [loadingUserId, setLoadingUserId] = useState<number | null>(null);
+
+  const [page, setPages] = useState<number>(1);
+
+  const { data, isLoading } = useGetAllUsersQuery({ page, limit: 10 });
   const [banUser, { isLoading: loadBan }] = useBanUserMutation();
-  //   console.log("Users==>", data);
+  console.log("Users==>", data);
 
   const handleBanUser = async (user: number) => {
     try {
+      setLoadingUserId(user);
       const res = await banUser(user);
       console.log("User banned==>", res);
       if (res.data) {
@@ -31,18 +37,20 @@ export const PlatformUsers: React.FC = () => {
           <Loader />
         </div>
       ) : data ? (
-        data.users.map(
+        data.users.data.map(
           (user) =>
             user.status !== "inactive" && (
               <div key={user.id} className="bg-gray-600 py-1 px-2 flex items-center justify-between rounded">
                 <div className="flex gap-4 items-center">
-                  <Link to={`/users/${user.id}`} className="hover:underline">{user.name}</Link>
+                  <Link to={`/users/${user.id}`} className="hover:underline">
+                    {user.name}
+                  </Link>
                   <span>{user.gender}</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-amber-500">{user.status}</span>
                   {/* <Edit className="text-blue-400 cursor-pointer" /> */}
-                  {loadBan ? (
+                  {loadBan && loadingUserId === user.id ? (
                     <Loader />
                   ) : (
                     <Tooltip label="ban user">
@@ -55,6 +63,11 @@ export const PlatformUsers: React.FC = () => {
         )
       ) : (
         <div className="">No Users</div>
+      )}
+      {data && (
+        <div className="flex items-center justify-center pt-6 ">
+          <Paginate page={page} setPages={setPages} totalPages={(data as number | any)?.totalpages} />
+        </div>
       )}
     </div>
   );

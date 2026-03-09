@@ -36,18 +36,15 @@ export const index = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
-    // const users = await prisma.user.findMany({
-    //   where: { role: "user" },
-    //   select: safeUserSelect,
-    // });
+    const usersd = await prisma.user.findMany();
     const users = await paginationHelper(
       prisma.user,
       { page, limit },
-      { select: safeUserSelect, where: { role: "user" }, orderBy: { createdAt: "desc" } },
+      { select: safeUserSelect, where: { role: "user", status: "active" }, orderBy: { createdAt: "desc" } },
     );
     // const users = allUsers.map(({ password, ...safeInfo }) => safeInfo);
     const totalUsers = await prisma.user.count({ where: { role: "user" } });
-    const totalpages=users.meta.totalPages
+    const totalpages = users.meta.totalPages;
 
     // const pwd = users.map((user) => user.password);
     // the following are gonna be worked upon later

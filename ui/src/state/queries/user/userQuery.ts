@@ -24,8 +24,8 @@ export const fetchUserQueries = createApi({
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getAllUsers: builder.query<UserResponse, {page:number, limit:number}>({
-      query: ({page=1, limit=10}) => ({
+    getAllUsers: builder.query<UserResponse, { page: number; limit: number }>({
+      query: ({ page = 1, limit = 10 }) => ({
         url: `/?page=${page}&limit=${limit}`,
         method: "GET",
       }),
@@ -176,9 +176,9 @@ export const fetchUserQueries = createApi({
       invalidatesTags: ["User"],
     }),
 
-    bannedUsers: builder.query<UserResponse, void>({
-      query: () => ({
-        url: "/banned",
+    bannedUsers: builder.query<UserResponse, { page: number; limit: number }>({
+      query: ({ page, limit }) => ({
+        url: `/banned?page=${page}&limit=${limit}`,
         method: "GET",
       }),
       providesTags: ["User"],

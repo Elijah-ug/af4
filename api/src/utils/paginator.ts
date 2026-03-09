@@ -1,5 +1,3 @@
-import { Prisma } from "@prisma/client";
-
 interface PaginationOptions {
   page: number;
   limit: number;
