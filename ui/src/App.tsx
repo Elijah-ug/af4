@@ -80,7 +80,7 @@ export const App: React.FC = () => {
                   {/* single components */}
                   {user && user.newUser.role === "admin" && (
                     <Route path="dashboard" element={<AdminDashboard />}>
-                      <Route path="trends" element={<Trends />} />
+                      <Route path="" element={<Trends />} />
                       <Route path="admin-settings" element={<AdminSettings />} />
                       <Route path="banned-users" element={<BannedUsers />} />
                       <Route path="mails" element={<Mails />} />

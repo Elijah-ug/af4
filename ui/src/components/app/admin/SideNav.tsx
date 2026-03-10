@@ -6,7 +6,7 @@ export const SideNav: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | any>(null);
 
   const items = [
-    { to: "trends", icon: House, txt: "Trends" },
+    { to: "", icon: House, txt: "Trends" },
     { to: "platform-users", icon: Users, txt: "Users" },
     { to: "mails", icon: Mail, txt: "Messages" },
     { to: "banned-users", icon: AlertCircle, txt: "Restricted" },

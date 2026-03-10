@@ -30,12 +30,12 @@ export const BannedUsers: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-1 text-red-300">
+    <div className="flex flex-col gap-1 ">
       {isLoading ? (
         <Loader />
-      ) : data ? (
+      ) : data && (data?.users.data.length as any) > 0 ? (
         data.users.data.map((user) => (
-          <div key={user.id} className="bg-gray-600 py-1 px-2 flex items-center justify-between rounded">
+          <div key={user.id} className="bg-gray-600 text-red-300 py-1 px-2 flex items-center justify-between rounded">
             <div className="flex gap-4 items-center">
               <Link to={`/users/${user.id}`} className="line-through hover:underline">
                 {user.name}
@@ -56,7 +56,7 @@ export const BannedUsers: React.FC = () => {
           </div>
         ))
       ) : (
-        <div className="">No banned User</div>
+        <div className="text-center pt-12 text-lg font-bold">No banned User!</div>
       )}
       {data && (
         <div className="flex items-center justify-center pt-6 ">

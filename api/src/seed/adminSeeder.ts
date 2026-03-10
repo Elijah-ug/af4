@@ -6,10 +6,10 @@ export const seedAdmin = async () => {
   console.log("pwd hashed==>", pwd);
   await prisma.user.upsert({
     where: { email: "elicomelijah330@gmail.com" },
-    update: { gender: "M" },
+    update: { gender: "M", username: "@AdminElicom" },
     create: {
       name: "Elicom Elijah",
-      username: "AdminElicom",
+      username: "@AdminElicom",
       email: "elicomelijah330@gmail.com",
       password: pwd,
       gender: "M",

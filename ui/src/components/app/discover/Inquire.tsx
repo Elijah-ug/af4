@@ -3,14 +3,12 @@ import { TextInput, Button, Card, Loader } from "@mantine/core";
 import { toast } from "react-toastify";
 import { useInquireMutation } from "../../../state/queries/user/inquiries";
 import { getErrorMessage } from "../../../utils/global";
-import { useGetLoggedinUserQuery } from "../../../state/queries/user/userQuery";
 type Inquiry = {
   subject: string;
   message: string;
 };
 export const Inquire: React.FC = () => {
   const [inquire, { isLoading, error }] = useInquireMutation();
-  const { data } = useGetLoggedinUserQuery();
   // console.log("data==>", data);
   const [userData, setUserData] = useState<Inquiry>({
     subject: "",
@@ -25,6 +23,7 @@ export const Inquire: React.FC = () => {
       const payload = await inquire(userData);
       console.log("payload==>", payload);
       if (payload.data) {
+        setUserData({ subject: "", message: "" });
         return toast.success(payload.data.message as string);
       }
       return payload;

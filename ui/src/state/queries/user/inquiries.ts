@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { InquiryRequest } from "../../../types/inquiry";
+import type { InquiryRequest, InquiryResult } from "../../../types/inquiry";
 
 export const inquiryQueries = createApi({
   reducerPath: "UsersInquiries",
@@ -18,7 +18,7 @@ export const inquiryQueries = createApi({
   tagTypes: ["Inquiries"],
   endpoints: (builder) => ({
     // endpoints here
-    getInquiries: builder.query<any, void>({
+    getInquiries: builder.query<InquiryResult, void>({
       query: () => ({
         url: "/",
         method: "GET",
@@ -28,12 +28,19 @@ export const inquiryQueries = createApi({
 
     inquire: builder.mutation<InquiryRequest, any>({
       query: (body) => ({
-        url: "/",
+        url: "/send",
         method: "POST",
         body,
       }),
       invalidatesTags: ["Inquiries"],
     }),
+    destroyInquiry: builder.mutation<InquiryRequest, number>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Inquiries"],
+    }),
   }),
 });
-export const { useGetInquiriesQuery, useInquireMutation } = inquiryQueries;
+export const { useGetInquiriesQuery, useInquireMutation, useDestroyInquiryMutation } = inquiryQueries;

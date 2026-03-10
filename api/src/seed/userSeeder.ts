@@ -1,5 +1,5 @@
 import { prisma } from "../config/db";
-import { hashpwd } from "../utils/utils";
+import { formatUserName, hashpwd } from "../utils/utils";
 import { users } from "./users";
 
 export const seedUsers = async () => {
@@ -10,8 +10,8 @@ export const seedUsers = async () => {
   for (const user of users) {
     await prisma.user.upsert({
       where: { email: user.email },
-      update: { password: pwd, gender: user.gender === "M" ? "M" : "F" },
-      create: { ...user, password: pwd },
+      update: { password: pwd, gender: user.gender === "M" ? "M" : "F", username: formatUserName(user.username) },
+      create: { ...user, password: pwd, username: formatUserName(user.username) },
     });
   }
   console.log("✅ Users seeded");
